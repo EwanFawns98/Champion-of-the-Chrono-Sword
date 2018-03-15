@@ -9,7 +9,6 @@ import javax.imageio.ImageIO;
 public class Champion {
     
     private int health;
-    private boolean hasSwordRift;
     private Vector position;
     private Vector displacement;
     private BufferedImage sprite;
@@ -24,7 +23,6 @@ public class Champion {
         staticY = newLevelHeight/2;
         displacement = new Vector(0, 0);
         health = 5;
-        hasSwordRift = false;
         orbs = 0;
         
         try{
