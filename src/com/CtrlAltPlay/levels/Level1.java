@@ -89,12 +89,12 @@ public class Level1 extends JPanel implements ActionListener{
     
     private void checkCollisions()
     {
-        
+        player.checkCollision(orbs);
     }
     
     private void checkWinCondition()
     {
-
+        
     }
     
     private void updateMove()

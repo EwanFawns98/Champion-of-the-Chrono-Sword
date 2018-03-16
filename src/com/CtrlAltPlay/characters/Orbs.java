@@ -33,6 +33,29 @@ public class Orbs {
         isVisible = true;
     }
     
+    public int getSpriteWidth()
+    {
+        return spriteWidth;
+    }
+    
+    public int getSpriteHeight()
+    {
+        return spriteHeight;
+    }
+    
+    public Vector getPosition()
+    {
+        return position;
+    }
+    
+    public boolean getIsVisible(){
+        return isVisible;
+    }
+    
+    public void setIsVisible(boolean newIsVisible){
+        isVisible = newIsVisible;
+    }
+    
     public Rectangle getBounds()
     {
         Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
@@ -41,6 +64,10 @@ public class Orbs {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
+        if(isVisible == true)
+        {
+            g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
+        }
+        
     }
 }

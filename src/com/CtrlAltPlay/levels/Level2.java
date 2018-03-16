@@ -2,6 +2,7 @@
 package com.CtrlAltPlay.levels;
 
 import com.CtrlAltPlay.characters.Champion;
+import com.CtrlAltPlay.characters.Orbs;
 import com.CtrlAltPlay.game.Game;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -22,20 +23,31 @@ public class Level2 extends JPanel implements ActionListener{
     private Game game;
     private BufferedImage background;
     private Timer timer;
+    private Orbs[] orbs;
     Champion player;
+    Background scrollingBackground1;
+    
     public Level2(Game theGame){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         init();
     }
     
-    private void init(){
+    private void init()
+    {
         
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
+        
+        orbs = new Orbs[1];
+        
+        orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
+        
+        scrollingBackground1 = new Background(background, player.getX());
+        
         setFocusable(true);
         setDoubleBuffered(true);
         addKeyListener(new TAdapter());
@@ -44,17 +56,20 @@ public class Level2 extends JPanel implements ActionListener{
     }
     
     @Override
-    public void paintComponent(Graphics g){
+    public void paintComponent(Graphics g)
+    {
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
-        g2d.drawImage(background, 0, 0, null);
+        scrollingBackground1.draw(g2d);
+        orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         player.draw(g2d);
         g.dispose();
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent ae) 
+    {
         checkCollisions();
         updateMove();
         checkWinCondition();
@@ -62,23 +77,30 @@ public class Level2 extends JPanel implements ActionListener{
     }
     
     
-    public void startTimer(){
+    public void startTimer()
+    {
         timer.start();
     }
     
-    public void stopTimer(){
+    public void stopTimer()
+    {
         timer.stop();
     }
     
-    private void checkCollisions(){
+    private void checkCollisions()
+    {
+        player.checkCollision(orbs);
     }
     
-    private void checkWinCondition(){
-
+    private void checkWinCondition()
+    {
+        
     }
     
-    private void updateMove(){
-
+    private void updateMove()
+    {
+        player.doMove();
+        scrollingBackground1.updateBackground(player.getX());
     }
     
     private class TAdapter extends KeyAdapter{

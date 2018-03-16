@@ -2,7 +2,9 @@
 package com.CtrlAltPlay.characters;
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.animation.Animation;
+import com.CtrlAltPlay.characters.Orbs;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -12,6 +14,8 @@ public class Champion {
     private Vector position;
     private Vector displacement;
     private BufferedImage sprite;
+    private int spriteWidth;
+    private int spriteHeight;
     private int staticX;
     private int staticY;
     private int orbs;
@@ -30,7 +34,20 @@ public class Champion {
         }catch(Exception ex){
             System.out.println("Error loading player sprite");
         }
+        
+        spriteWidth = sprite.getWidth();
+        spriteHeight = sprite.getHeight();
 
+    }
+    
+    public int getSpriteWidth()
+    {
+        return spriteWidth;
+    }
+    
+    public int getSpriteHeight()
+    {
+        return spriteHeight;
     }
     
     public void setX(int newX)
@@ -100,5 +117,26 @@ public class Champion {
     {
         // used to draw the character on screen
         g2d.drawImage(sprite, staticX, staticY, null);
+    }
+    
+    public Rectangle getBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        return playerRect;
+    }
+    
+    public void checkCollision(Orbs[] o)
+    {
+        for(int i = 0; i < o.length; i++){
+            if(o[i].getBounds().intersects(getBounds()) && o[i].getIsVisible() == true)
+            {
+                o[i].setIsVisible(false);
+                if(orbs != 5)
+                {
+                    orbs += 1;
+                }
+                
+            }
+        }
     }
 }
