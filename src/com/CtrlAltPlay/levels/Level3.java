@@ -72,7 +72,7 @@ public class Level3 extends JPanel implements ActionListener{
     {
         checkCollisions();
         updateMove();
-        checkWinCondition();
+        //checkWinCondition();
         repaint();
     }
     
@@ -94,7 +94,7 @@ public class Level3 extends JPanel implements ActionListener{
     
     private void checkWinCondition()
     {
-        
+        game.startLevel3();
     }
     
     private void updateMove()

@@ -6,6 +6,7 @@ import com.CtrlAltPlay.characters.Orbs;
 import com.CtrlAltPlay.game.Game;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -24,8 +25,9 @@ public class Level1 extends JPanel implements ActionListener{
     private BufferedImage background;
     private Timer timer;
     private Orbs[] orbs;
-    Champion player;
-    Background scrollingBackground1;
+    private Champion player;
+    private Background scrollingBackground1;
+    private Rectangle ground;
     
     public Level1(Game theGame){
         game = theGame;
@@ -45,7 +47,7 @@ public class Level1 extends JPanel implements ActionListener{
         orbs = new Orbs[1];
         
         orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
-        
+        ground = new Rectangle(0, 890, 1920, 190);
         scrollingBackground1 = new Background(background, player.getX());
         
         setFocusable(true);
@@ -63,6 +65,7 @@ public class Level1 extends JPanel implements ActionListener{
         Graphics2D g2d = (Graphics2D) g;
         scrollingBackground1.draw(g2d);
         orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        g2d.fillRect((0 - (player.getX() - Game.WINDOW_WIDTH/2)), 890, 1920, 190); 
         player.draw(g2d);
         g.dispose();
     }
@@ -72,7 +75,7 @@ public class Level1 extends JPanel implements ActionListener{
     {
         checkCollisions();
         updateMove();
-        checkWinCondition();
+        //checkWinCondition();
         repaint();
     }
     
@@ -90,11 +93,18 @@ public class Level1 extends JPanel implements ActionListener{
     private void checkCollisions()
     {
         player.checkCollision(orbs);
+        if(player.getBounds().intersects(ground))
+        {
+            player.setIsFalling(false);
+        }else
+        {
+            player.setIsFalling(true);
+        }
     }
     
     private void checkWinCondition()
     {
-        
+        game.startLevel2();
     }
     
     private void updateMove()
@@ -104,12 +114,18 @@ public class Level1 extends JPanel implements ActionListener{
     }
     
     private class TAdapter extends KeyAdapter{
+        
+        private boolean isPressingW = false;
+        
         @Override
         public void keyPressed(KeyEvent e){
             int direction = 0;
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
-                    direction = 1;
+                    if(isPressingW == false && player.getIsFalling() == false){
+                        direction = 1;
+                    }
+                    isPressingW = true;
                     break;
                     
                 case KeyEvent.VK_A: // move Left
@@ -127,6 +143,7 @@ public class Level1 extends JPanel implements ActionListener{
         public void keyReleased(KeyEvent e){
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
+                    isPressingW = false;
                     break;
                     
                 case KeyEvent.VK_A: // move Left

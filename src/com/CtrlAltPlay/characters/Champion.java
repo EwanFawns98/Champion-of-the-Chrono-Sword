@@ -17,17 +17,20 @@ public class Champion {
     private int spriteWidth;
     private int spriteHeight;
     private int staticX;
-    private int staticY;
     private int orbs;
+    private boolean isFalling;
+    private boolean isJumping;
     
     public Champion(int newLevelWidth, int newLevelHeight)
     {
         position = new Vector(newLevelWidth/2, newLevelHeight/2);
         staticX = newLevelWidth/2;
-        staticY = newLevelHeight/2;
         displacement = new Vector(0, 0);
         health = 5;
         orbs = 0;
+        
+        isFalling = false;
+        isJumping = false;
         
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/Sprite-0002.png"));
@@ -38,6 +41,16 @@ public class Champion {
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
 
+    }
+    
+    public void setIsFalling(boolean newIsFalling)
+    {
+        isFalling = newIsFalling;
+    }
+    
+    public boolean getIsFalling()
+    {
+        return isFalling;
     }
     
     public int getSpriteWidth()
@@ -89,6 +102,13 @@ public class Champion {
     }
     
     public void doMove(){
+        if(isFalling == true){
+            fall();
+
+        }else if(isJumping == false && isFalling == false){
+           this.stopY();
+        }
+        
         position.add(displacement);
     }
     
@@ -97,7 +117,8 @@ public class Champion {
         switch(direction)
         {
             case 1: // jumping
-                
+                isJumping = true;
+                jump();
                 break;
                 
             case 2: // move left
@@ -116,7 +137,27 @@ public class Champion {
     public void draw(Graphics2D g2d)
     {
         // used to draw the character on screen
-        g2d.drawImage(sprite, staticX, staticY, null);
+        g2d.drawImage(sprite, staticX, position.getY(), null);
+    }
+    
+    public void attack()
+    {
+        
+    }
+    
+    public void jump()
+    {
+        displacement.setY(-25);
+    }
+    
+    public void fall(){
+        isJumping = false;
+        displacement.addY(1);
+        
+        if(displacement.getY() > 5)
+        {
+            displacement.setY(5);
+        }
     }
     
     public Rectangle getBounds()

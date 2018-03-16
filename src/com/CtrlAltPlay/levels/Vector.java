@@ -38,6 +38,16 @@ public class Vector {
         y = v.getY();
     }
     
+    public void addX(int newX)
+    {
+        x += newX;
+    }
+    
+    public void addY(int newY)
+    {
+        y += newY;
+    }
+    
     public void setX(int x){
         this.x = x;
     }

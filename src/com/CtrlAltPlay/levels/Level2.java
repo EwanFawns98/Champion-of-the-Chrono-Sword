@@ -72,7 +72,7 @@ public class Level2 extends JPanel implements ActionListener{
     {
         checkCollisions();
         updateMove();
-        checkWinCondition();
+        //checkWinCondition();
         repaint();
     }
     
