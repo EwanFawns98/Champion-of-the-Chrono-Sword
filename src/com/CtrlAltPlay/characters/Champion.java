@@ -122,11 +122,11 @@ public class Champion {
                 break;
                 
             case 2: // move left
-                displacement.setX(-3);
+                displacement.setX(-5);
                 break;
                 
             case 3: // move right
-                displacement.setX(3);
+                displacement.setX(5);
                 break;
                 
             default:
@@ -154,9 +154,9 @@ public class Champion {
         isJumping = false;
         displacement.addY(1);
         
-        if(displacement.getY() > 5)
+        if(displacement.getY() > 7)
         {
-            displacement.setY(5);
+            displacement.setY(7);
         }
     }
     
@@ -176,6 +176,18 @@ public class Champion {
                 {
                     orbs += 1;
                 }
+                
+            }
+        }
+    }
+    
+    public void checkCollsision(Caveman[] c)
+    {
+        for(int i = 0; i < c.length; i++){
+            if(c[i].getBounds().intersects(getBounds()) && c[i].getIsVisible() == true)
+            {
+                c[i].setIsVisible(false);
+                
                 
             }
         }

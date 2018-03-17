@@ -1,9 +1,12 @@
 
 package com.CtrlAltPlay.levels;
 
+import com.CtrlAltPlay.characters.Caveman;
 import com.CtrlAltPlay.characters.Champion;
+import com.CtrlAltPlay.characters.Chieftain;
 import com.CtrlAltPlay.characters.Orbs;
 import com.CtrlAltPlay.game.Game;
+import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -26,12 +29,19 @@ public class Level1 extends JPanel implements ActionListener{
     private Timer timer;
     private Orbs[] orbs;
     private Champion player;
+    private Caveman[] cavemen;
+    private Chieftain chieftain;
     private Background scrollingBackground1;
     private Rectangle ground;
+    
     
     public Level1(Game theGame){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+        orbs = new Orbs[1];
+        orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
+        cavemen = new Caveman[1];
+        cavemen[0] = new Caveman(1700, 764);
         init();
     }
     
@@ -44,9 +54,7 @@ public class Level1 extends JPanel implements ActionListener{
             System.out.println("Error loading background image");
         }
         
-        orbs = new Orbs[1];
         
-        orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
         ground = new Rectangle(0, 890, 1920, 190);
         scrollingBackground1 = new Background(background, player.getX());
         
@@ -55,6 +63,8 @@ public class Level1 extends JPanel implements ActionListener{
         addKeyListener(new TAdapter());
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
+        
+        Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
     
     @Override
@@ -64,8 +74,9 @@ public class Level1 extends JPanel implements ActionListener{
         
         Graphics2D g2d = (Graphics2D) g;
         scrollingBackground1.draw(g2d);
+        g2d.fillRect((0 - (player.getX() - Game.WINDOW_WIDTH/2)), 890, 1920, 190);
         orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
-        g2d.fillRect((0 - (player.getX() - Game.WINDOW_WIDTH/2)), 890, 1920, 190); 
+        cavemen[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         player.draw(g2d);
         g.dispose();
     }
@@ -76,6 +87,7 @@ public class Level1 extends JPanel implements ActionListener{
         checkCollisions();
         updateMove();
         //checkWinCondition();
+        System.out.println(player.getY());
         repaint();
     }
     
@@ -93,6 +105,9 @@ public class Level1 extends JPanel implements ActionListener{
     private void checkCollisions()
     {
         player.checkCollision(orbs);
+        
+        player.checkCollsision(cavemen);
+        
         if(player.getBounds().intersects(ground))
         {
             player.setIsFalling(false);

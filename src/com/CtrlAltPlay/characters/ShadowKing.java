@@ -19,10 +19,10 @@ public class ShadowKing {
         
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Chieftain.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/ShadowKing.png"));
         }catch(Exception ex)
         {
-            System.out.println("Error loading Chieftain image");
+            System.out.println("Error loading ShadowKing image");
         }
         
         spriteWidth = sprite.getWidth();
