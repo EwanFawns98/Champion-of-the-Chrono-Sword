@@ -18,6 +18,13 @@ public class Champion {
     private int spriteHeight;
     private int staticX;
     private int orbs;
+    private int invulnerableTimer;
+    private boolean isFacingR;
+    private boolean isFacingL;
+    private boolean isMovingR;
+    private boolean isMovingL;
+    private boolean hasTakenDamage; // Used to stop the player from moving in a certain direction after they take damage
+    private boolean isInvulnerable;
     private boolean isFalling;
     private boolean isJumping;
     
@@ -27,11 +34,17 @@ public class Champion {
         staticX = newLevelWidth/2;
         displacement = new Vector(0, 0);
         health = 5;
+        invulnerableTimer = 0;
         orbs = 0;
         
         isFalling = false;
         isJumping = false;
-        
+        isInvulnerable = false;
+        isMovingL = false;
+        isMovingR = false;
+        isFacingL = false;
+        isFacingR = true;
+        hasTakenDamage = false;
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/Sprite-0002.png"));
         }catch(Exception ex){
@@ -43,6 +56,14 @@ public class Champion {
 
     }
     
+    public void setHasTakenDamge(boolean newHasTakenDamage){
+        hasTakenDamage = newHasTakenDamage;
+    }
+    
+    public boolean getHasTakenDamge(){
+        return hasTakenDamage;
+    }
+    
     public void setIsFalling(boolean newIsFalling)
     {
         isFalling = newIsFalling;
@@ -51,6 +72,21 @@ public class Champion {
     public boolean getIsFalling()
     {
         return isFalling;
+    }
+    
+    public boolean getIsInvulnerable()
+    {
+        return isInvulnerable;
+    }
+    
+    public void setIsInvulnerable(boolean newIsInvulnerable)
+    {
+        isInvulnerable = newIsInvulnerable;
+    }
+    
+    public int getHealth()
+    {
+        return health;
     }
     
     public int getSpriteWidth()
@@ -99,6 +135,8 @@ public class Champion {
     
     public void stopX(){
         displacement.setX(0);
+        isMovingL = false;
+        isMovingR = false;
     }
     
     public void doMove(){
@@ -109,6 +147,16 @@ public class Champion {
            this.stopY();
         }
         
+        if(isInvulnerable == true)
+        {
+            invulnerableTimer += 1;
+            if(invulnerableTimer == 100)
+            {
+                isInvulnerable = false;
+                invulnerableTimer = 0;
+            }
+        }
+        
         position.add(displacement);
     }
     
@@ -117,15 +165,24 @@ public class Champion {
         switch(direction)
         {
             case 1: // jumping
-                isJumping = true;
                 jump();
                 break;
                 
             case 2: // move left
+                isMovingL = true;
+                isMovingR = false;
+                isFacingL = true;
+                isFacingR = false;
+                
                 displacement.setX(-5);
                 break;
                 
             case 3: // move right
+                isMovingL = false;
+                isMovingR = true;
+                isFacingL = false;
+                isFacingR = true;
+                
                 displacement.setX(5);
                 break;
                 
@@ -147,7 +204,27 @@ public class Champion {
     
     public void jump()
     {
+        isJumping = true;
         displacement.setY(-25);
+    }
+    
+    public void takeDamage(int damage)
+    {
+        if(isInvulnerable == false)
+        {
+            isJumping = true;
+            displacement.setY(-15);
+            if(isFacingR == true)
+            {
+                displacement.setX(-5);
+            }else if(isFacingL == true)
+            {
+                displacement.setX(5);
+            }
+            health -= damage;
+            isInvulnerable = true;
+            hasTakenDamage = true;
+        }
     }
     
     public void fall(){
@@ -186,9 +263,7 @@ public class Champion {
         for(int i = 0; i < c.length; i++){
             if(c[i].getBounds().intersects(getBounds()) && c[i].getIsVisible() == true)
             {
-                c[i].setIsVisible(false);
-                
-                
+                takeDamage(1);
             }
         }
     }

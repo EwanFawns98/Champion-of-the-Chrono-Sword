@@ -87,7 +87,6 @@ public class Level1 extends JPanel implements ActionListener{
         checkCollisions();
         updateMove();
         //checkWinCondition();
-        System.out.println(player.getY());
         repaint();
     }
     
@@ -105,16 +104,20 @@ public class Level1 extends JPanel implements ActionListener{
     private void checkCollisions()
     {
         player.checkCollision(orbs);
-        
-        player.checkCollsision(cavemen);
-        
         if(player.getBounds().intersects(ground))
         {
             player.setIsFalling(false);
+            if(player.getHasTakenDamge() == true){
+                player.stopX();
+                player.setHasTakenDamge(false);
+            }
         }else
         {
             player.setIsFalling(true);
         }
+        player.checkCollsision(cavemen);
+        
+        
     }
     
     private void checkWinCondition()
