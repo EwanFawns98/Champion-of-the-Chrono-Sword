@@ -55,7 +55,7 @@ public class Level1 extends JPanel implements ActionListener{
         }
         
         
-        ground = new Rectangle(0, 890, 1920, 190);
+        ground = new Rectangle(0, 890, 17280, 190);
         scrollingBackground1 = new Background(background, player.getX());
         
         setFocusable(true);
@@ -74,7 +74,7 @@ public class Level1 extends JPanel implements ActionListener{
         
         Graphics2D g2d = (Graphics2D) g;
         scrollingBackground1.draw(g2d);
-        g2d.fillRect((0 - (player.getX() - Game.WINDOW_WIDTH/2)), 890, 1920, 190);
+        g2d.fillRect((0 - (player.getX() - Game.WINDOW_WIDTH/2)), 890, 17280, 190);
         orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         cavemen[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         player.draw(g2d);
