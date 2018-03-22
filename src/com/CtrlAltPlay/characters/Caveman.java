@@ -23,7 +23,7 @@ public class Caveman {
         displacement = new Vector(0, 0);
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Sprite-0002.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Chieftain image");
@@ -62,7 +62,7 @@ public class Caveman {
     
     public Rectangle getBounds()
     {
-        Rectangle bossRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        Rectangle bossRect = new Rectangle(position.getX() + 25, position.getY() + 20, spriteWidth - 60, spriteHeight - 35);
         return bossRect;
     }
     

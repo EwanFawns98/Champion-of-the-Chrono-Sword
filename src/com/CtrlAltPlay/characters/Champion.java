@@ -46,7 +46,7 @@ public class Champion {
         isFacingR = true;
         hasTakenDamage = false;
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Sprite-0002.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
         }catch(Exception ex){
             System.out.println("Error loading player sprite");
         }
@@ -134,9 +134,12 @@ public class Champion {
     }
     
     public void stopX(){
-        displacement.setX(0);
-        isMovingL = false;
-        isMovingR = false;
+        if(hasTakenDamage == false)
+        {
+            displacement.setX(0);
+            isMovingL = false;
+            isMovingR = false;
+        }
     }
     
     public void doMove(){
@@ -169,21 +172,27 @@ public class Champion {
                 break;
                 
             case 2: // move left
-                isMovingL = true;
-                isMovingR = false;
-                isFacingL = true;
-                isFacingR = false;
+                if(hasTakenDamage == false)
+                {
+                    isMovingL = true;
+                    isMovingR = false;
+                    isFacingL = true;
+                    isFacingR = false;
                 
-                displacement.setX(-5);
+                    displacement.setX(-5);
+                }
                 break;
                 
             case 3: // move right
-                isMovingL = false;
-                isMovingR = true;
-                isFacingL = false;
-                isFacingR = true;
+                if(hasTakenDamage == false)
+                {
+                    isMovingL = false;
+                    isMovingR = true;
+                    isFacingL = false;
+                    isFacingR = true;
                 
-                displacement.setX(5);
+                    displacement.setX(5);
+                }
                 break;
                 
             default:
@@ -239,7 +248,7 @@ public class Champion {
     
     public Rectangle getBounds()
     {
-        Rectangle playerRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        Rectangle playerRect = new Rectangle(position.getX() + 25, position.getY() + 20, spriteWidth - 60, spriteHeight - 30);
         return playerRect;
     }
     

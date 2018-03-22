@@ -41,7 +41,7 @@ public class Level1 extends JPanel implements ActionListener{
         orbs = new Orbs[1];
         orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
         cavemen = new Caveman[1];
-        cavemen[0] = new Caveman(1700, 764);
+        cavemen[0] = new Caveman(1700, 778);
         init();
     }
     
@@ -108,8 +108,8 @@ public class Level1 extends JPanel implements ActionListener{
         {
             player.setIsFalling(false);
             if(player.getHasTakenDamge() == true){
-                player.stopX();
                 player.setHasTakenDamge(false);
+                player.stopX();
             }
         }else
         {
