@@ -64,7 +64,6 @@ public class Level1 extends JPanel implements ActionListener{
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
         
-        Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
     
     @Override
@@ -165,11 +164,17 @@ public class Level1 extends JPanel implements ActionListener{
                     break;
                     
                 case KeyEvent.VK_A: // move Left
-                    player.stopX();
+                    if(player.getIsMovingR() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
                     
                 case KeyEvent.VK_D: // Move Right
-                    player.stopX();
+                    if(player.getIsMovingL() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
             }
         }

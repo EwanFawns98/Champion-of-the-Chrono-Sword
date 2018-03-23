@@ -56,6 +56,16 @@ public class Champion {
 
     }
     
+    public boolean getIsMovingR()
+    {
+        return isMovingR;
+    }
+    
+    public boolean getIsMovingL()
+    {
+        return isMovingL;
+    }
+    
     public void setHasTakenDamge(boolean newHasTakenDamage){
         hasTakenDamage = newHasTakenDamage;
     }

@@ -4,6 +4,7 @@ package com.CtrlAltPlay.game;
 import com.CtrlAltPlay.levels.Level1;
 import com.CtrlAltPlay.levels.Level2;
 import com.CtrlAltPlay.levels.Level3;
+import com.CtrlAltPlay.screens.MainMenu;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -16,10 +17,11 @@ public class Game {
     private Level1 level1;
     private Level2 level2;
     private Level3 level3;
+    private MainMenu mainMenu;
     
     public static void main(String[] args) {
         Game game = new Game();
-        game.startGame();
+        game.startMainMenu();
     }
     
     public Game(){
@@ -39,7 +41,10 @@ public class Game {
         window.getContentPane().setLayout(new CardLayout());
     }
     
-    private void initScreens(){
+    private void initScreens()
+    {
+        mainMenu = new MainMenu(this);
+        mainMenu.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         level1 = new Level1(this);
         level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         level2 = new Level2(this);
@@ -47,11 +52,22 @@ public class Game {
         level3 = new Level3(this);
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         
-        
         window.getContentPane().add(level1);
+        window.getContentPane().add(mainMenu);
     }
     
-    public void startGame(){
+    public void startMainMenu()
+    {
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        mainMenu.requestFocus();
+        mainMenu.startTimer();
+        window.setVisible(true);
+    }
+    
+    public void startGame()
+    {
+        mainMenu.stopTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         level1.requestFocus();
@@ -59,7 +75,8 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void startLevel2(){
+    public void startLevel2()
+    {
         level1.stopTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
@@ -68,7 +85,8 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void startLevel3(){
+    public void startLevel3()
+    {
         level2.stopTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
