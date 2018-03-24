@@ -68,30 +68,30 @@ public class Game {
     public void startGame()
     {
         mainMenu.stopTimer();
+        level1.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         level1.requestFocus();
-        level1.startTimer();
         window.setVisible(true);
     }
     
     public void startLevel2()
     {
         level1.stopTimer();
+        level2.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         level2.requestFocus();
-        level2.startTimer();
         window.setVisible(true);
     }
     
     public void startLevel3()
     {
         level2.stopTimer();
+        level3.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         level3.requestFocus();
-        level3.startTimer();
         window.setVisible(true);
     }
     

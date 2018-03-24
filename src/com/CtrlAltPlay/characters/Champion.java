@@ -2,7 +2,7 @@
 package com.CtrlAltPlay.characters;
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.animation.Animation;
-import com.CtrlAltPlay.characters.Orbs;
+import com.CtrlAltPlay.objects.Orbs;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

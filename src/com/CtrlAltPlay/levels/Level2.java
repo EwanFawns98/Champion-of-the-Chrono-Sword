@@ -2,7 +2,7 @@
 package com.CtrlAltPlay.levels;
 
 import com.CtrlAltPlay.characters.Champion;
-import com.CtrlAltPlay.characters.Orbs;
+import com.CtrlAltPlay.objects.Orbs;
 import com.CtrlAltPlay.game.Game;
 import java.awt.Graphics;
 import java.awt.Graphics2D;

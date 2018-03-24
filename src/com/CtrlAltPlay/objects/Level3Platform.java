@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.CtrlAltPlay.characters;
+package com.CtrlAltPlay.objects;
 
 import com.CtrlAltPlay.levels.Vector;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-public class Orbs {
+public class Level3Platform {
     
     private Vector position;
     private BufferedImage sprite;
@@ -18,7 +18,7 @@ public class Orbs {
     private int spriteHeight;
     private boolean isVisible;
     
-    public Orbs(int x, int y)
+    public Level3Platform(int x, int y)
     {
         position = new Vector(x, y);
         try{
@@ -58,7 +58,7 @@ public class Orbs {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 200, 200);
         return orbRect;
     }
     
@@ -66,7 +66,7 @@ public class Orbs {
     {
         if(isVisible == true)
         {
-            g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
+            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 200, 200);
         }
         
     }

@@ -4,9 +4,11 @@ package com.CtrlAltPlay.levels;
 import com.CtrlAltPlay.characters.Caveman;
 import com.CtrlAltPlay.characters.Champion;
 import com.CtrlAltPlay.characters.Chieftain;
-import com.CtrlAltPlay.characters.Orbs;
+import com.CtrlAltPlay.objects.Orbs;
+import com.CtrlAltPlay.objects.HealthPickup;
+import com.CtrlAltPlay.objects.Level1LargePlatform;
+import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import com.CtrlAltPlay.game.Game;
-import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -33,6 +35,9 @@ public class Level1 extends JPanel implements ActionListener{
     private Chieftain chieftain;
     private Background scrollingBackground1;
     private Rectangle ground;
+    private Level1LargePlatform[] largePlatforms;
+    private Level1SmallPlatform[] smallPlatforms;
+    private HealthPickup[] health;
     
     
     public Level1(Game theGame){
@@ -42,6 +47,8 @@ public class Level1 extends JPanel implements ActionListener{
         orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
         cavemen = new Caveman[1];
         cavemen[0] = new Caveman(1700, 778);
+        largePlatforms = new Level1LargePlatform[5];
+        health = new HealthPickup[2];
         init();
     }
     

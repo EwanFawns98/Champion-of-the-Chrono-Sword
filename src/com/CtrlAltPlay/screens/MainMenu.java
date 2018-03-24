@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -28,7 +27,7 @@ public class MainMenu extends JPanel implements ActionListener{
     
     public MainMenu(Game theGame){
         game = theGame;
-        player = new Champion(250, 130);
+        player = new Champion(260, 130);
         init();
     }
     
@@ -45,7 +44,7 @@ public class MainMenu extends JPanel implements ActionListener{
         setDoubleBuffered(true);
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
-        //Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
+        Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
     
     @Override
@@ -56,11 +55,18 @@ public class MainMenu extends JPanel implements ActionListener{
         Graphics2D g2d = (Graphics2D) g;
         
         g2d.setFont(font);
-        g2d.setColor(Color.BLACK);
+        
         g2d.drawImage(background, 0, 0, null);
+        g2d.setColor(Color.BLACK);
         g2d.fillRect(0, 200, 500, 100);
-        g2d.setColor(Color.red);
+        g2d.fillRect(0, 400, 500, 100);
+        g2d.fillRect(0, 600, 500, 100);
+        g2d.fillRect(0, 800, 500, 100);
+        g2d.setColor(Color.WHITE);
         g2d.drawString("Start Game", 150, 265);
+        g2d.drawString("Controls", 180, 465);
+        g2d.drawString("Tutorial", 180, 665);
+        g2d.drawString("Options", 180, 865);
         g2d.scale(5, 5);
         player.draw(g2d);
         g.dispose();
@@ -97,7 +103,7 @@ public class MainMenu extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1:
-                    if(e.getXOnScreen() <= 500 && e.getXOnScreen() >= 0 && e.getYOnScreen() >= 200 && e.getYOnScreen() <= 300)
+                    if(e.getX() <= 500 && e.getX() >= 0 && e.getY() >= 200 && e.getY() <= 300)
                     {
                         game.startGame();
                     }
