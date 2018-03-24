@@ -2,6 +2,8 @@
 package com.CtrlAltPlay.characters;
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.animation.Animation;
+import com.CtrlAltPlay.objects.Ground;
+import com.CtrlAltPlay.objects.Level1LargePlatform;
 import com.CtrlAltPlay.objects.Orbs;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -285,5 +287,45 @@ public class Champion {
                 takeDamage(1);
             }
         }
+    }
+    
+    public boolean checkCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++){
+            if(getBounds().intersects(l[i].getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                    setHasTakenDamge(false);
+                    stopX();
+                }
+                return true;
+            }else
+            {
+                isFalling = true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkCollision(Ground g)
+    {
+            if(getBounds().intersects(g.getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                setHasTakenDamge(false);
+                stopX();
+                }
+                return true;
+            }else
+            {
+                setIsFalling(true);
+                return false;
+            }
     }
 }

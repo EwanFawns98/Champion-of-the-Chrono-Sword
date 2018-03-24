@@ -58,7 +58,7 @@ public class Level1LargePlatform {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 500, 200);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 300, 100);
         return orbRect;
     }
     
@@ -66,7 +66,7 @@ public class Level1LargePlatform {
     {
         if(isVisible == true)
         {
-            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 500, 200);
+            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 300, 100);
         }
         
     }

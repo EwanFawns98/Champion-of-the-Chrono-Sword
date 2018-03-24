@@ -58,7 +58,7 @@ public class Level2SmallPlatform {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 200, 200);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 100, 100);
         return orbRect;
     }
     
@@ -66,7 +66,7 @@ public class Level2SmallPlatform {
     {
         if(isVisible == true)
         {
-            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 200, 200);
+            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 100, 100);
         }
         
     }

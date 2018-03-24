@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-public class Level2LargePlatform {
+public class Ground {
     
     private Vector position;
     private BufferedImage sprite;
@@ -18,7 +18,7 @@ public class Level2LargePlatform {
     private int spriteHeight;
     private boolean isVisible;
     
-    public Level2LargePlatform(int x, int y)
+    public Ground(int x, int y)
     {
         position = new Vector(x, y);
         try{
@@ -58,16 +58,12 @@ public class Level2LargePlatform {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 300, 100);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 17280, 190);
         return orbRect;
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        if(isVisible == true)
-        {
-            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 300, 100);
-        }
-        
+            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 17280, 190);
     }
 }
