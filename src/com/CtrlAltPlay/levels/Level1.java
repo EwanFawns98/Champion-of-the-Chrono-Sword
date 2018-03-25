@@ -46,6 +46,7 @@ public class Level1 extends JPanel implements ActionListener{
         orbs = new Orbs[5];
         cavemen = new Caveman[22];
         largePlatforms = new Level1LargePlatform[5];
+        smallPlatforms = new Level1SmallPlatform[21];
         health = new HealthPickup[2];
         init();
     }
@@ -67,11 +68,12 @@ public class Level1 extends JPanel implements ActionListener{
         cavemen[2] = new Caveman(4192, 778);
         cavemen[3] = new Caveman(4672, 778);
         cavemen[4] = new Caveman(5152, 778);
-        cavemen[5] = new Caveman(2880, 778);
-        cavemen[6] = new Caveman(2880, 778);
-        cavemen[7] = new Caveman(2880, 778);
-        cavemen[8] = new Caveman(2880, 778);
-        cavemen[9] = new Caveman(2880, 778);
+        cavemen[5] = new Caveman(6592, 778);
+        cavemen[6] = new Caveman(7830, 778);
+        cavemen[7] = new Caveman(9040, 778);
+        cavemen[8] = new Caveman(9852, 778);
+        cavemen[9] = new Caveman(11392, 778);
+        
         cavemen[10] = new Caveman(2880, 778);
         cavemen[11] = new Caveman(2880, 778);
         cavemen[12] = new Caveman(2880, 778);
@@ -87,15 +89,38 @@ public class Level1 extends JPanel implements ActionListener{
         
         orbs[0] = new Orbs(2380, 550);
         orbs[1] = new Orbs(3954, 50);
-        orbs[2] = new Orbs(3954, 50);
-        orbs[3] = new Orbs(3954, 50);
-        orbs[4] = new Orbs(3954, 50);
+        orbs[2] = new Orbs(5696, 800);
+        orbs[3] = new Orbs(7170, 540);
+        orbs[4] = new Orbs(7640, 800);
         
         largePlatforms[0] = new Level1LargePlatform(2254, 650);
         largePlatforms[1] = new Level1LargePlatform(2654, 520);
         largePlatforms[2] = new Level1LargePlatform(3054, 390);
         largePlatforms[3] = new Level1LargePlatform(3454, 260);
         largePlatforms[4] = new Level1LargePlatform(3854, 130);
+        
+        smallPlatforms[0] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[1] = new Level1SmallPlatform(7530, 790);
+        smallPlatforms[2] = new Level1SmallPlatform(7630, 690);
+        smallPlatforms[3] = new Level1SmallPlatform(7730, 690);
+        smallPlatforms[4] = new Level1SmallPlatform(8740, 790);
+        smallPlatforms[5] = new Level1SmallPlatform(8840, 690);
+        smallPlatforms[6] = new Level1SmallPlatform(8940, 590);
+        smallPlatforms[7] = new Level1SmallPlatform(9040, 490);
+        smallPlatforms[8] = new Level1SmallPlatform(9190, 490);
+        smallPlatforms[9] = new Level1SmallPlatform(9340, 490);
+        smallPlatforms[10] = new Level1SmallPlatform(9490, 490);
+        
+        smallPlatforms[11] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[12] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[13] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[14] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[15] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[16] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[17] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[18] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[19] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[20] = new Level1SmallPlatform(7150, 650);
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -120,7 +145,7 @@ public class Level1 extends JPanel implements ActionListener{
             orbs[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < cavemen.length; i++)
         {
             cavemen[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
@@ -128,6 +153,11 @@ public class Level1 extends JPanel implements ActionListener{
         for(int i = 0; i < largePlatforms.length; i++)
         {
             largePlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            smallPlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
         player.draw(g2d);
@@ -161,7 +191,10 @@ public class Level1 extends JPanel implements ActionListener{
         
         if(player.checkCollision(ground) == false)
         {
-            player.checkCollision(largePlatforms);
+            if(player.checkCollision(largePlatforms) == false)
+            {
+                player.checkCollision(smallPlatforms);
+            }
         }
         
         
@@ -185,7 +218,8 @@ public class Level1 extends JPanel implements ActionListener{
 
     private void checkIsOnScreen() {
         
-        for(int i = 0; i < largePlatforms.length; i++){
+        for(int i = 0; i < largePlatforms.length; i++)
+        {
             if(largePlatforms[i].getPosition().getX() <= player.getX() + 960 && largePlatforms[i].getPosition().getX() + 300 >= player.getX() - 960){
                 largePlatforms[i].setIsVisible(true);
             }else{
@@ -193,7 +227,8 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
-        for(int i = 0; i < cavemen.length; i++){
+        for(int i = 0; i < cavemen.length; i++)
+        {
             if(cavemen[i].getPosition().getX() <= player.getX() + 960 && cavemen[i].getPosition().getX() + cavemen[i].getSpriteWidth() >= player.getX() - 960){
                 cavemen[i].setIsVisible(true);
             }else{
@@ -201,13 +236,25 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
-        for(int i = 0; i < orbs.length; i++){
+        for(int i = 0; i < orbs.length; i++)
+        {
             if(orbs[i].getPosition().getX() <= player.getX() + 960 && orbs[i].getPosition().getX() + orbs[i].getSpriteWidth() >= player.getX() - 960){
                 orbs[i].setIsVisible(true);
             }else{
                 orbs[i].setIsVisible(false);
             }
         }
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            if(smallPlatforms[i].getPosition().getX() <= player.getX() + 960 && smallPlatforms[i].getPosition().getX() + 100 >= player.getX() - 960){
+                smallPlatforms[i].setIsVisible(true);
+            }else{
+                smallPlatforms[i].setIsVisible(false);
+            }
+        }
+        
+        
         
     }
     
@@ -268,7 +315,8 @@ public class Level1 extends JPanel implements ActionListener{
                 case MouseEvent.BUTTON1: // attacking for left mouse click
                     break;
                     
-                case MouseEvent.BUTTON2: // ability for right mouse click
+                case MouseEvent.BUTTON3: // ability for right mouse click
+                    player.cavemenSwordRift(cavemen);
                     break;
             }
         }

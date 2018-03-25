@@ -16,6 +16,7 @@ public class Caveman {
     private int spriteWidth;
     private int spriteHeight;
     boolean isVisible;
+    boolean isAlive;
     
     public Caveman(int newX, int newY){
         
@@ -32,6 +33,7 @@ public class Caveman {
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
         
+        isAlive = true;
         isVisible = true;
     }
     
@@ -43,6 +45,16 @@ public class Caveman {
     public void setIsVisible(boolean newIsVisible)
     {
         isVisible = newIsVisible;
+    }
+    
+    public boolean getIsAlive()
+    {
+        return isAlive;
+    }
+    
+    public void setIsAlive(boolean newIsAlive)
+    {
+        isAlive = newIsAlive;
     }
     
     public int getSpriteWidth()
@@ -68,7 +80,7 @@ public class Caveman {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        if(isVisible == true)
+        if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }

@@ -4,6 +4,7 @@ import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.animation.Animation;
 import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.Level1LargePlatform;
+import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import com.CtrlAltPlay.objects.Orbs;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -267,7 +268,7 @@ public class Champion {
     public void checkCollision(Orbs[] o)
     {
         for(int i = 0; i < o.length; i++){
-            if(o[i].getBounds().intersects(getBounds()) && o[i].getIsVisible() == true)
+            if(o[i].getBounds().intersects(getBounds()) && o[i].getIsCollected() == false)
             {
                 o[i].setIsCollected(true);
                 if(orbs != 5)
@@ -282,7 +283,7 @@ public class Champion {
     public void checkCollsision(Caveman[] c)
     {
         for(int i = 0; i < c.length; i++){
-            if(c[i].getBounds().intersects(getBounds()) && c[i].getIsVisible() == true)
+            if(c[i].getBounds().intersects(getBounds()) && c[i].getIsAlive() == true)
             {
                 takeDamage(1);
             }
@@ -293,6 +294,27 @@ public class Champion {
     {
         for(int i = 0; i < l.length; i++){
             if(getBounds().intersects(l[i].getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                    setHasTakenDamge(false);
+                    stopX();
+                }
+                return true;
+            }else
+            {
+                isFalling = true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++){
+            if(getBounds().intersects(s[i].getBounds()))
             {
                 isFalling = false;
                 
@@ -327,5 +349,28 @@ public class Champion {
                 setIsFalling(true);
                 return false;
             }
+    }
+    
+    public void cavemenSwordRift(Caveman[] c)
+    {
+        for(int i = 0; i < c.length; i++)
+        {
+            if(c[i].getPosition().getX() <= position.getX() + 960 && c[i].getPosition().getX() + c[i].getSpriteWidth() >= position.getX() - 960)
+            {
+                if(orbs == 5)
+                {
+                    c[i].setIsAlive(false);
+                }
+            }
+        }
+        if(orbs == 5)
+        {
+            orbs = 0;
+        }
+    }
+    
+    public void egyptSwordRift()
+    {
+        
     }
 }
