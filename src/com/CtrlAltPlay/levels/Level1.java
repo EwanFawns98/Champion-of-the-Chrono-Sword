@@ -86,10 +86,10 @@ public class Level1 extends JPanel implements ActionListener{
         cavemen[21] = new Caveman(2880, 778);
         
         orbs[0] = new Orbs(2380, 550);
-        orbs[1] = new Orbs(3550, 132);
-        orbs[2] = new Orbs(2380, 550);
-        orbs[3] = new Orbs(3550, 132);
-        orbs[4] = new Orbs(2380, 550);
+        orbs[1] = new Orbs(3954, 50);
+        orbs[2] = new Orbs(3954, 50);
+        orbs[3] = new Orbs(3954, 50);
+        orbs[4] = new Orbs(3954, 50);
         
         largePlatforms[0] = new Level1LargePlatform(2254, 650);
         largePlatforms[1] = new Level1LargePlatform(2654, 520);
@@ -137,6 +137,7 @@ public class Level1 extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        checkIsOnScreen();
         checkCollisions();
         updateMove();
         //checkWinCondition();
@@ -167,6 +168,8 @@ public class Level1 extends JPanel implements ActionListener{
         player.checkCollsision(cavemen);
         
         
+        
+        
     }
     
     private void checkWinCondition()
@@ -178,6 +181,34 @@ public class Level1 extends JPanel implements ActionListener{
     {
         player.doMove();
         scrollingBackground1.updateBackground(player.getX());
+    }
+
+    private void checkIsOnScreen() {
+        
+        for(int i = 0; i < largePlatforms.length; i++){
+            if(largePlatforms[i].getPosition().getX() <= player.getX() + 960 && largePlatforms[i].getPosition().getX() + 300 >= player.getX() - 960){
+                largePlatforms[i].setIsVisible(true);
+            }else{
+                largePlatforms[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < cavemen.length; i++){
+            if(cavemen[i].getPosition().getX() <= player.getX() + 960 && cavemen[i].getPosition().getX() + cavemen[i].getSpriteWidth() >= player.getX() - 960){
+                cavemen[i].setIsVisible(true);
+            }else{
+                cavemen[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < orbs.length; i++){
+            if(orbs[i].getPosition().getX() <= player.getX() + 960 && orbs[i].getPosition().getX() + orbs[i].getSpriteWidth() >= player.getX() - 960){
+                orbs[i].setIsVisible(true);
+            }else{
+                orbs[i].setIsVisible(false);
+            }
+        }
+        
     }
     
     private class TAdapter extends KeyAdapter{

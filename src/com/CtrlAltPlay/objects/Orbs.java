@@ -16,6 +16,7 @@ public class Orbs {
     private BufferedImage sprite;
     private int spriteWidth;
     private int spriteHeight;
+    private boolean isCollected;
     private boolean isVisible;
     
     public Orbs(int x, int y)
@@ -30,6 +31,7 @@ public class Orbs {
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
         
+        isCollected = false;
         isVisible = true;
     }
     
@@ -41,6 +43,14 @@ public class Orbs {
     public int getSpriteHeight()
     {
         return spriteHeight;
+    }
+    
+    public boolean getIsCollected(){
+        return isCollected;
+    }
+    
+    public void setIsCollected(boolean newIsCollected){
+        isCollected = newIsCollected;
     }
     
     public Vector getPosition()
@@ -64,7 +74,7 @@ public class Orbs {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        if(isVisible == true)
+        if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }

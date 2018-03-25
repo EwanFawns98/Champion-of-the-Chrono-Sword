@@ -269,7 +269,7 @@ public class Champion {
         for(int i = 0; i < o.length; i++){
             if(o[i].getBounds().intersects(getBounds()) && o[i].getIsVisible() == true)
             {
-                o[i].setIsVisible(false);
+                o[i].setIsCollected(true);
                 if(orbs != 5)
                 {
                     orbs += 1;
