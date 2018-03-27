@@ -3,6 +3,7 @@ package com.CtrlAltPlay.characters;
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.animation.Animation;
 import com.CtrlAltPlay.objects.Ground;
+import com.CtrlAltPlay.objects.HealthPickup;
 import com.CtrlAltPlay.objects.Level1LargePlatform;
 import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import com.CtrlAltPlay.objects.Orbs;
@@ -232,7 +233,7 @@ public class Champion {
     
     public void takeDamage(int damage)
     {
-        if(isInvulnerable == false)
+        if(isInvulnerable == false && health != 0)
         {
             isJumping = true;
             displacement.setY(-15);
@@ -372,5 +373,20 @@ public class Champion {
     public void egyptSwordRift()
     {
         
+    }
+    
+    public void checkCollision(HealthPickup[] h)
+    {
+        for(int i = 0; i < h.length; i++){
+            if(h[i].getBounds().intersects(getBounds()) && h[i].getIsCollected() == false)
+            {
+                h[i].setIsCollected(true);
+                if(health != 5)
+                {
+                    health += 1;
+                }
+                
+            }
+        }
     }
 }

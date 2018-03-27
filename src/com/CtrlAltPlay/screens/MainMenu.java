@@ -44,7 +44,7 @@ public class MainMenu extends JPanel implements ActionListener{
         setDoubleBuffered(true);
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
-        Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
+        //Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
     
     @Override

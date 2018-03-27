@@ -12,7 +12,6 @@ import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.objects.Ground;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -44,7 +43,7 @@ public class Level1 extends JPanel implements ActionListener{
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         orbs = new Orbs[5];
-        cavemen = new Caveman[22];
+        cavemen = new Caveman[23];
         largePlatforms = new Level1LargePlatform[5];
         smallPlatforms = new Level1SmallPlatform[21];
         health = new HealthPickup[2];
@@ -53,7 +52,6 @@ public class Level1 extends JPanel implements ActionListener{
     
     private void init()
     {
-        
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
@@ -73,19 +71,19 @@ public class Level1 extends JPanel implements ActionListener{
         cavemen[7] = new Caveman(9040, 778);
         cavemen[8] = new Caveman(9852, 778);
         cavemen[9] = new Caveman(11392, 778);
-        
-        cavemen[10] = new Caveman(2880, 778);
-        cavemen[11] = new Caveman(2880, 778);
-        cavemen[12] = new Caveman(2880, 778);
+        cavemen[10] = new Caveman(11936, 778);
+        cavemen[11] = new Caveman(12416, 778);
+        cavemen[12] = new Caveman(12896, 778);
         cavemen[13] = new Caveman(2880, 778);
         cavemen[14] = new Caveman(2880, 778);
         cavemen[15] = new Caveman(2880, 778);
-        cavemen[16] = new Caveman(2880, 778);
-        cavemen[17] = new Caveman(2880, 778);
-        cavemen[18] = new Caveman(2880, 778);
-        cavemen[19] = new Caveman(2880, 778);
-        cavemen[20] = new Caveman(2880, 778);
-        cavemen[21] = new Caveman(2880, 778);
+        cavemen[16] = new Caveman(13312, 778);
+        cavemen[17] = new Caveman(7150, 522);
+        cavemen[18] = new Caveman(13870, 122);
+        cavemen[19] = new Caveman(14350, 122);
+        cavemen[20] = new Caveman(14830, 122);
+        cavemen[21] = new Caveman(15310, 122);
+        cavemen[22] = new Caveman(12286, 322);
         
         orbs[0] = new Orbs(2380, 550);
         orbs[1] = new Orbs(3954, 50);
@@ -110,24 +108,25 @@ public class Level1 extends JPanel implements ActionListener{
         smallPlatforms[8] = new Level1SmallPlatform(9190, 490);
         smallPlatforms[9] = new Level1SmallPlatform(9340, 490);
         smallPlatforms[10] = new Level1SmallPlatform(9490, 490);
+        smallPlatforms[11] = new Level1SmallPlatform(11936, 650);
+        smallPlatforms[12] = new Level1SmallPlatform(12286, 650);
+        smallPlatforms[13] = new Level1SmallPlatform(12636, 650);
+        smallPlatforms[14] = new Level1SmallPlatform(11936, 250);
+        smallPlatforms[15] = new Level1SmallPlatform(12286, 450);
+        smallPlatforms[16] = new Level1SmallPlatform(12636, 250);
+        smallPlatforms[17] = new Level1SmallPlatform(13870, 250);
+        smallPlatforms[18] = new Level1SmallPlatform(14350, 250);
+        smallPlatforms[19] = new Level1SmallPlatform(14830, 250);
+        smallPlatforms[20] = new Level1SmallPlatform(15310, 250);
         
-        smallPlatforms[11] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[12] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[13] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[14] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[15] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[16] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[17] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[18] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[19] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[20] = new Level1SmallPlatform(7150, 650);
+        health[0] = new HealthPickup(8850,800);
+        health[1] = new HealthPickup(11950, 140);
         
         setFocusable(true);
         setDoubleBuffered(true);
         addKeyListener(new TAdapter());
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
-        
     }
     
     @Override
@@ -160,6 +159,11 @@ public class Level1 extends JPanel implements ActionListener{
             smallPlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
+        for(int i = 0; i < health.length; i++)
+        {
+            health[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
         player.draw(g2d);
         g.dispose();
     }
@@ -173,7 +177,6 @@ public class Level1 extends JPanel implements ActionListener{
         //checkWinCondition();
         repaint();
     }
-    
     
     public void startTimer()
     {
@@ -199,10 +202,7 @@ public class Level1 extends JPanel implements ActionListener{
         
         
         player.checkCollsision(cavemen);
-        
-        
-        
-        
+        player.checkCollision(health);
     }
     
     private void checkWinCondition()
@@ -254,7 +254,14 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
-        
+        for(int i = 0; i < health.length; i++)
+        {
+            if(health[i].getPosition().getX() <= player.getX() + 960 && health[i].getPosition().getX() + 100 >= player.getX() - 960){
+                health[i].setIsVisible(true);
+            }else{
+                health[i].setIsVisible(false);
+            }
+        }
         
     }
     
