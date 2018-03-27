@@ -266,6 +266,24 @@ public class Champion {
         return playerRect;
     }
     
+    public Rectangle getLeftBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX() + 15, position.getY() + 20, 10, spriteHeight - 40);
+        return playerRect;
+    }
+    
+    public Rectangle getRightBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX() + 25 + spriteWidth - 60, position.getY() + 20, 10, spriteHeight - 40);
+        return playerRect;
+    }
+    
+    public Rectangle getHeadBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX() + 25, position.getY() - 5, spriteWidth - 60, 20);
+        return playerRect;
+    }
+    
     public void checkCollision(Orbs[] o)
     {
         for(int i = 0; i < o.length; i++){
@@ -389,4 +407,108 @@ public class Champion {
             }
         }
     }
+    
+    public boolean checkRightCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkRightCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkHeadCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkHeadCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
 }

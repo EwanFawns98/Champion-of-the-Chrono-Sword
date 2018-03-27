@@ -164,7 +164,10 @@ public class Level1 extends JPanel implements ActionListener{
             health[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
+        
         player.draw(g2d);
+        
+        
         g.dispose();
     }
     
@@ -192,6 +195,9 @@ public class Level1 extends JPanel implements ActionListener{
     {
         player.checkCollision(orbs);
         
+        player.checkHeadCollision(largePlatforms);
+        player.checkHeadCollision(smallPlatforms);
+        
         if(player.checkCollision(ground) == false)
         {
             if(player.checkCollision(largePlatforms) == false)
@@ -200,6 +206,10 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
+        player.checkRightCollision(largePlatforms);
+        player.checkRightCollision(smallPlatforms);
+        player.checkLeftCollision(largePlatforms);
+        player.checkLeftCollision(smallPlatforms);
         
         player.checkCollsision(cavemen);
         player.checkCollision(health);
