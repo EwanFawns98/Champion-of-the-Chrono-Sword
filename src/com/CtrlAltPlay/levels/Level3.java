@@ -2,8 +2,10 @@
 package com.CtrlAltPlay.levels;
 
 import com.CtrlAltPlay.characters.Champion;
-import com.CtrlAltPlay.objects.Orbs;
+import com.CtrlAltPlay.objects.HealthPickup;
 import com.CtrlAltPlay.game.Game;
+import com.CtrlAltPlay.objects.Ground;
+import com.CtrlAltPlay.objects.Level3Platform;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -23,30 +25,40 @@ public class Level3 extends JPanel implements ActionListener{
     private Game game;
     private BufferedImage background;
     private Timer timer;
-    private Orbs[] orbs;
-    Champion player;
-    Background scrollingBackground1;
+    private Champion player;
+    private Background scrollingBackground1;
+    private Level3Platform[] smallPlatforms;
+    private HealthPickup[] health;
+    private Ground ground;
     
     public Level3(Game theGame){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+        smallPlatforms = new Level3Platform[5];
+        health = new HealthPickup[2];
         init();
     }
     
     private void init()
     {
-        
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
         
-        orbs = new Orbs[1];
-        
-        orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
-        
+        ground = new Ground(0, 890);
         scrollingBackground1 = new Background(background, player.getX());
+        
+        
+        smallPlatforms[0] = new Level3Platform(7150, 650);
+        smallPlatforms[1] = new Level3Platform(7530, 790);
+        smallPlatforms[2] = new Level3Platform(7630, 690);
+        smallPlatforms[3] = new Level3Platform(7730, 690);
+        smallPlatforms[4] = new Level3Platform(7730, 690);
+        
+        health[0] = new HealthPickup(8850,800);
+        health[1] = new HealthPickup(11950, 140);
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -61,21 +73,37 @@ public class Level3 extends JPanel implements ActionListener{
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
+        g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
         scrollingBackground1.draw(g2d);
-        orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        ground.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            smallPlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < health.length; i++)
+        {
+            health[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
         player.draw(g2d);
+        
+        
         g.dispose();
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        checkIsOnScreen();
         checkCollisions();
         updateMove();
         //checkWinCondition();
         repaint();
     }
-    
     
     public void startTimer()
     {
@@ -89,12 +117,23 @@ public class Level3 extends JPanel implements ActionListener{
     
     private void checkCollisions()
     {
-        player.checkCollision(orbs);
+        
+        player.checkHeadCollision(smallPlatforms);
+        
+        if(player.checkCollision(ground) == false)
+        {
+                player.checkCollision(smallPlatforms);
+        }
+        
+        player.checkRightCollision(smallPlatforms);
+        player.checkLeftCollision(smallPlatforms);
+        
+        player.checkCollision(health);
     }
     
     private void checkWinCondition()
     {
-        game.startLevel3();
+        game.startLevel2();
     }
     
     private void updateMove()
@@ -102,14 +141,47 @@ public class Level3 extends JPanel implements ActionListener{
         player.doMove();
         scrollingBackground1.updateBackground(player.getX());
     }
+
+    private void checkIsOnScreen() {
+        
+
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            if(smallPlatforms[i].getPosition().getX() <= player.getX() + 960 && smallPlatforms[i].getPosition().getX() + 100 >= player.getX() - 960){
+                smallPlatforms[i].setIsVisible(true);
+            }else
+            {
+                smallPlatforms[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < health.length; i++)
+        {
+            if(health[i].getPosition().getX() <= player.getX() + 960 && health[i].getPosition().getX() + 100 >= player.getX() - 960){
+                health[i].setIsVisible(true);
+            }else
+            {
+                health[i].setIsVisible(false);
+            }
+        }
+        
+        
+    }
     
     private class TAdapter extends KeyAdapter{
+        
+        private boolean isPressingW = false;
+        
         @Override
         public void keyPressed(KeyEvent e){
             int direction = 0;
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
-                    direction = 1;
+                    if(isPressingW == false && player.getIsFalling() == false){
+                        direction = 1;
+                    }
+                    isPressingW = true;
                     break;
                     
                 case KeyEvent.VK_A: // move Left
@@ -127,14 +199,21 @@ public class Level3 extends JPanel implements ActionListener{
         public void keyReleased(KeyEvent e){
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
+                    isPressingW = false;
                     break;
                     
                 case KeyEvent.VK_A: // move Left
-                    player.stopX();
+                    if(player.getIsMovingR() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
                     
                 case KeyEvent.VK_D: // Move Right
-                    player.stopX();
+                    if(player.getIsMovingL() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
             }
         }
@@ -147,7 +226,7 @@ public class Level3 extends JPanel implements ActionListener{
                 case MouseEvent.BUTTON1: // attacking for left mouse click
                     break;
                     
-                case MouseEvent.BUTTON2: // ability for right mouse click
+                case MouseEvent.BUTTON3: // ability for right mouse click
                     break;
             }
         }

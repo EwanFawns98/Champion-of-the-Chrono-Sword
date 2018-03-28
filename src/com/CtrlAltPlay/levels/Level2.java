@@ -1,9 +1,16 @@
 
 package com.CtrlAltPlay.levels;
 
+import com.CtrlAltPlay.characters.Caveman;
 import com.CtrlAltPlay.characters.Champion;
+import com.CtrlAltPlay.characters.Chieftain;
 import com.CtrlAltPlay.objects.Orbs;
+import com.CtrlAltPlay.objects.HealthPickup;
+import com.CtrlAltPlay.objects.Level1LargePlatform;
+import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import com.CtrlAltPlay.game.Game;
+import com.CtrlAltPlay.objects.Ground;
+import com.CtrlAltPlay.objects.Portal;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -24,29 +31,99 @@ public class Level2 extends JPanel implements ActionListener{
     private BufferedImage background;
     private Timer timer;
     private Orbs[] orbs;
-    Champion player;
-    Background scrollingBackground1;
+    private Champion player;
+    private Caveman[] cavemen;
+    private Chieftain chieftain;
+    private Background scrollingBackground1;
+    private Level1LargePlatform[] largePlatforms;
+    private Level1SmallPlatform[] smallPlatforms;
+    private HealthPickup[] health;
+    private Ground ground;
+    private Portal portal;
     
     public Level2(Game theGame){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+        orbs = new Orbs[5];
+        cavemen = new Caveman[23];
+        largePlatforms = new Level1LargePlatform[5];
+        smallPlatforms = new Level1SmallPlatform[21];
+        health = new HealthPickup[2];
+        portal = new Portal(17152, 762);
         init();
     }
     
     private void init()
     {
-        
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
         
-        orbs = new Orbs[1];
-        
-        orbs[0] = new Orbs(Game.WINDOW_WIDTH, (Game.WINDOW_HEIGHT/2));
-        
+        ground = new Ground(0, 890);
         scrollingBackground1 = new Background(background, player.getX());
+        
+        cavemen[0] = new Caveman(2880, 778);
+        cavemen[1] = new Caveman(3450, 132);
+        cavemen[2] = new Caveman(4192, 778);
+        cavemen[3] = new Caveman(4672, 778);
+        cavemen[4] = new Caveman(5152, 778);
+        cavemen[5] = new Caveman(6592, 778);
+        cavemen[6] = new Caveman(7830, 778);
+        cavemen[7] = new Caveman(9040, 778);
+        cavemen[8] = new Caveman(9852, 778);
+        cavemen[9] = new Caveman(11392, 778);
+        cavemen[10] = new Caveman(11936, 778);
+        cavemen[11] = new Caveman(12416, 778);
+        cavemen[12] = new Caveman(12896, 778);
+        cavemen[13] = new Caveman(2880, 778);
+        cavemen[14] = new Caveman(2880, 778);
+        cavemen[15] = new Caveman(2880, 778);
+        cavemen[16] = new Caveman(13312, 778);
+        cavemen[17] = new Caveman(7150, 522);
+        cavemen[18] = new Caveman(13870, 122);
+        cavemen[19] = new Caveman(14350, 122);
+        cavemen[20] = new Caveman(14830, 122);
+        cavemen[21] = new Caveman(15310, 122);
+        cavemen[22] = new Caveman(12286, 322);
+        
+        orbs[0] = new Orbs(2380, 550);
+        orbs[1] = new Orbs(3954, 50);
+        orbs[2] = new Orbs(5696, 800);
+        orbs[3] = new Orbs(7170, 540);
+        orbs[4] = new Orbs(7640, 800);
+        
+        largePlatforms[0] = new Level1LargePlatform(2254, 650);
+        largePlatforms[1] = new Level1LargePlatform(2654, 520);
+        largePlatforms[2] = new Level1LargePlatform(3054, 390);
+        largePlatforms[3] = new Level1LargePlatform(3454, 260);
+        largePlatforms[4] = new Level1LargePlatform(3854, 130);
+        
+        smallPlatforms[0] = new Level1SmallPlatform(7150, 650);
+        smallPlatforms[1] = new Level1SmallPlatform(7530, 790);
+        smallPlatforms[2] = new Level1SmallPlatform(7630, 690);
+        smallPlatforms[3] = new Level1SmallPlatform(7730, 690);
+        smallPlatforms[4] = new Level1SmallPlatform(8740, 790);
+        smallPlatforms[5] = new Level1SmallPlatform(8840, 690);
+        smallPlatforms[6] = new Level1SmallPlatform(8940, 590);
+        smallPlatforms[7] = new Level1SmallPlatform(9040, 490);
+        smallPlatforms[8] = new Level1SmallPlatform(9190, 490);
+        smallPlatforms[9] = new Level1SmallPlatform(9340, 490);
+        smallPlatforms[10] = new Level1SmallPlatform(9490, 490);
+        smallPlatforms[11] = new Level1SmallPlatform(11936, 650);
+        smallPlatforms[12] = new Level1SmallPlatform(12286, 650);
+        smallPlatforms[13] = new Level1SmallPlatform(12636, 650);
+        smallPlatforms[14] = new Level1SmallPlatform(11936, 250);
+        smallPlatforms[15] = new Level1SmallPlatform(12286, 450);
+        smallPlatforms[16] = new Level1SmallPlatform(12636, 250);
+        smallPlatforms[17] = new Level1SmallPlatform(13870, 250);
+        smallPlatforms[18] = new Level1SmallPlatform(14350, 250);
+        smallPlatforms[19] = new Level1SmallPlatform(14830, 250);
+        smallPlatforms[20] = new Level1SmallPlatform(15310, 250);
+        
+        health[0] = new HealthPickup(8850,800);
+        health[1] = new HealthPickup(11950, 140);
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -61,21 +138,53 @@ public class Level2 extends JPanel implements ActionListener{
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
+        g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
         scrollingBackground1.draw(g2d);
-        orbs[0].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        ground.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        for(int i = 0; i < orbs.length; i++)
+        {
+            orbs[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            cavemen[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < largePlatforms.length; i++)
+        {
+            largePlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            smallPlatforms[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        for(int i = 0; i < health.length; i++)
+        {
+            health[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
+        portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
         player.draw(g2d);
+        
+        
         g.dispose();
     }
     
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        checkIsOnScreen();
         checkCollisions();
         updateMove();
         //checkWinCondition();
         repaint();
     }
-    
     
     public void startTimer()
     {
@@ -90,11 +199,30 @@ public class Level2 extends JPanel implements ActionListener{
     private void checkCollisions()
     {
         player.checkCollision(orbs);
+        
+        player.checkHeadCollision(largePlatforms);
+        player.checkHeadCollision(smallPlatforms);
+        
+        if(player.checkCollision(ground) == false)
+        {
+            if(player.checkCollision(largePlatforms) == false)
+            {
+                player.checkCollision(smallPlatforms);
+            }
+        }
+        
+        player.checkRightCollision(largePlatforms);
+        player.checkRightCollision(smallPlatforms);
+        player.checkLeftCollision(largePlatforms);
+        player.checkLeftCollision(smallPlatforms);
+        
+        player.checkCollsision(cavemen);
+        player.checkCollision(health);
     }
     
     private void checkWinCondition()
     {
-        
+        game.startLevel2();
     }
     
     private void updateMove()
@@ -102,14 +230,82 @@ public class Level2 extends JPanel implements ActionListener{
         player.doMove();
         scrollingBackground1.updateBackground(player.getX());
     }
+
+    private void checkIsOnScreen() {
+        
+        for(int i = 0; i < largePlatforms.length; i++)
+        {
+            if(largePlatforms[i].getPosition().getX() <= player.getX() + 960 && largePlatforms[i].getPosition().getX() + 300 >= player.getX() - 960){
+                largePlatforms[i].setIsVisible(true);
+            }else
+            {
+                largePlatforms[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            if(cavemen[i].getPosition().getX() <= player.getX() + 960 && cavemen[i].getPosition().getX() + cavemen[i].getSpriteWidth() >= player.getX() - 960){
+                cavemen[i].setIsVisible(true);
+            }else
+            {
+                cavemen[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < orbs.length; i++)
+        {
+            if(orbs[i].getPosition().getX() <= player.getX() + 960 && orbs[i].getPosition().getX() + orbs[i].getSpriteWidth() >= player.getX() - 960){
+                orbs[i].setIsVisible(true);
+            }else
+            {
+                orbs[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < smallPlatforms.length; i++)
+        {
+            if(smallPlatforms[i].getPosition().getX() <= player.getX() + 960 && smallPlatforms[i].getPosition().getX() + 100 >= player.getX() - 960){
+                smallPlatforms[i].setIsVisible(true);
+            }else
+            {
+                smallPlatforms[i].setIsVisible(false);
+            }
+        }
+        
+        for(int i = 0; i < health.length; i++)
+        {
+            if(health[i].getPosition().getX() <= player.getX() + 960 && health[i].getPosition().getX() + 100 >= player.getX() - 960){
+                health[i].setIsVisible(true);
+            }else
+            {
+                health[i].setIsVisible(false);
+            }
+        }
+        
+        if(portal.getPosition().getX() <= player.getX() + 960 && portal.getPosition().getX() + 100 >= player.getX() - 960)
+        {
+            portal.setIsVisible(true);
+        }else
+        {
+            portal.setIsVisible(false);
+        }
+        
+    }
     
     private class TAdapter extends KeyAdapter{
+        
+        private boolean isPressingW = false;
+        
         @Override
         public void keyPressed(KeyEvent e){
             int direction = 0;
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
-                    direction = 1;
+                    if(isPressingW == false && player.getIsFalling() == false){
+                        direction = 1;
+                    }
+                    isPressingW = true;
                     break;
                     
                 case KeyEvent.VK_A: // move Left
@@ -127,14 +323,21 @@ public class Level2 extends JPanel implements ActionListener{
         public void keyReleased(KeyEvent e){
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
+                    isPressingW = false;
                     break;
                     
                 case KeyEvent.VK_A: // move Left
-                    player.stopX();
+                    if(player.getIsMovingR() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
                     
                 case KeyEvent.VK_D: // Move Right
-                    player.stopX();
+                    if(player.getIsMovingL() == false)
+                    {
+                       player.stopX(); 
+                    }
                     break;
             }
         }
@@ -147,7 +350,8 @@ public class Level2 extends JPanel implements ActionListener{
                 case MouseEvent.BUTTON1: // attacking for left mouse click
                     break;
                     
-                case MouseEvent.BUTTON2: // ability for right mouse click
+                case MouseEvent.BUTTON3: // ability for right mouse click
+                    player.cavemenSwordRift(cavemen);
                     break;
             }
         }

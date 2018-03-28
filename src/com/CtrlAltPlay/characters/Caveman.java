@@ -15,13 +15,18 @@ public class Caveman {
     private BufferedImage sprite;
     private int spriteWidth;
     private int spriteHeight;
-    boolean isVisible;
-    boolean isAlive;
+    private int currentMoveTime;
+    private int moveTime; // the ammount of time the enemy moves in a certain direction
+    private boolean moveRight; // determines whether the enemy is moving right or left
+    private boolean isVisible;
+    private boolean isAlive;
     
     public Caveman(int newX, int newY){
         
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
+        moveTime = 0;
+        currentMoveTime = 0;
         
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
@@ -35,6 +40,28 @@ public class Caveman {
         
         isAlive = true;
         isVisible = true;
+        moveRight = false;
+    }
+    
+    public Caveman(int newX, int newY, int newMoveTime, boolean newMoveRight){
+        
+        position = new Vector(newX, newY);
+        displacement = new Vector(0, 0);
+        moveTime = newMoveTime;
+        
+        try{
+            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+        }catch(Exception ex)
+        {
+            System.out.println("Error loading Chieftain image");
+        }
+        
+        spriteWidth = sprite.getWidth();
+        spriteHeight = sprite.getHeight();
+        
+        moveRight = newMoveRight;
+        isAlive = true;
+        isVisible = true;
     }
     
     public boolean getIsVisible()
@@ -45,6 +72,27 @@ public class Caveman {
     public void setIsVisible(boolean newIsVisible)
     {
         isVisible = newIsVisible;
+    }
+    
+    public boolean getMoveRight()
+    {
+        return moveRight;
+    }
+    
+    public void setMoveRight(boolean newMoveRight)
+    {
+        moveRight = newMoveRight;
+    }
+    
+    public void toggleMoveRight()
+    {
+        if(moveRight == true)
+        {
+            moveRight = false;
+        }else
+        {
+            moveRight = true;
+        }
     }
     
     public boolean getIsAlive()
@@ -92,5 +140,30 @@ public class Caveman {
         
     }
     
+    public void doMove()
+    {
+        if(isVisible == true && isAlive == true && moveTime != 0)
+        {
+        move();
+        position.add(displacement);
+        }
+    }
+    
+    public void move()
+    {
+        if(currentMoveTime == moveTime){
+            currentMoveTime = 0;
+            toggleMoveRight();
+        }
+        
+        if(moveRight == true)
+        {
+            displacement.setX(2);
+        }else
+        {
+            displacement.setX(-2);
+        }
+        currentMoveTime += 1;
+    }
 
 }

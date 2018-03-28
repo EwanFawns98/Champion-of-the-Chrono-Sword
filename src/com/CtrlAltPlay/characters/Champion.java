@@ -6,7 +6,10 @@ import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.HealthPickup;
 import com.CtrlAltPlay.objects.Level1LargePlatform;
 import com.CtrlAltPlay.objects.Level1SmallPlatform;
+import com.CtrlAltPlay.objects.Level3Platform;
 import com.CtrlAltPlay.objects.Orbs;
+import com.CtrlAltPlay.objects.Portal;
+import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -247,6 +250,7 @@ public class Champion {
             health -= damage;
             isInvulnerable = true;
             hasTakenDamage = true;
+            Sounds.play(getClass().getResourceAsStream("/Sounds/Taking damage.wav"), false);
         }
     }
     
@@ -351,6 +355,27 @@ public class Champion {
         return false;
     }
     
+    public boolean checkCollision(Level3Platform[] s)
+    {
+        for(int i = 0; i < s.length; i++){
+            if(getBounds().intersects(s[i].getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                    setHasTakenDamge(false);
+                    stopX();
+                }
+                return true;
+            }else
+            {
+                isFalling = true;
+            }
+        }
+        return false;
+    }
+    
     public boolean checkCollision(Ground g)
     {
             if(getBounds().intersects(g.getBounds()))
@@ -370,29 +395,6 @@ public class Champion {
             }
     }
     
-    public void cavemenSwordRift(Caveman[] c)
-    {
-        for(int i = 0; i < c.length; i++)
-        {
-            if(c[i].getPosition().getX() <= position.getX() + 960 && c[i].getPosition().getX() + c[i].getSpriteWidth() >= position.getX() - 960)
-            {
-                if(orbs == 5)
-                {
-                    c[i].setIsAlive(false);
-                }
-            }
-        }
-        if(orbs == 5)
-        {
-            orbs = 0;
-        }
-    }
-    
-    public void egyptSwordRift()
-    {
-        
-    }
-    
     public void checkCollision(HealthPickup[] h)
     {
         for(int i = 0; i < h.length; i++){
@@ -406,6 +408,15 @@ public class Champion {
                 
             }
         }
+    }
+    
+    public boolean checkCollision(Portal p)
+    {
+        if(p.getBounds().intersects(getBounds()))
+        {
+            return true;
+        }
+        return false;
     }
     
     public boolean checkRightCollision(Level1SmallPlatform[] s)
@@ -427,6 +438,26 @@ public class Champion {
         return false;
     }
     
+    public boolean checkRightCollision(Level3Platform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
     public boolean checkRightCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++)
@@ -447,6 +478,25 @@ public class Champion {
     }
     
     public boolean checkLeftCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level3Platform[] s)
     {
         for(int i = 0; i < s.length; i++)
         {
@@ -497,6 +547,19 @@ public class Champion {
         return false;
     }
     
+    public boolean checkHeadCollision(Level3Platform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean checkHeadCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++)
@@ -511,4 +574,27 @@ public class Champion {
     }
     
     
+    
+    public void cavemenSwordRift(Caveman[] c)
+    {
+        for(int i = 0; i < c.length; i++)
+        {
+            if(c[i].getPosition().getX() <= position.getX() + 960 && c[i].getPosition().getX() + c[i].getSpriteWidth() >= position.getX() - 960)
+            {
+                if(orbs == 5)
+                {
+                    c[i].setIsAlive(false);
+                }
+            }
+        }
+        if(orbs == 5)
+        {
+            orbs = 0;
+        }
+    }
+    
+    public void egyptSwordRift()
+    {
+        
+    }
 }
