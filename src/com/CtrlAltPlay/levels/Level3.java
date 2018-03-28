@@ -131,11 +131,6 @@ public class Level3 extends JPanel implements ActionListener{
         player.checkCollision(health);
     }
     
-    private void checkWinCondition()
-    {
-        game.startLevel2();
-    }
-    
     private void updateMove()
     {
         player.doMove();

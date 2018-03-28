@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 
-public class Caveman {
+public class Mummy {
     
     Vector position;
     Vector displacement;
@@ -25,7 +25,7 @@ public class Caveman {
     private boolean isAlive;
     private boolean isFalling;
     
-    public Caveman(int newX, int newY){
+    public Mummy(int newX, int newY){
         
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
@@ -48,7 +48,7 @@ public class Caveman {
         isFalling = false;
     }
     
-    public Caveman(int newX, int newY, int newMoveTime, boolean newMoveRight){
+    public Mummy(int newX, int newY, int newMoveTime, boolean newMoveRight){
         
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);

@@ -181,7 +181,6 @@ public class Level1 extends JPanel implements ActionListener{
         checkIsOnScreen();
         checkCollisions();
         updateMove();
-        //checkWinCondition();
         repaint();
     }
     
@@ -210,6 +209,17 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            if(cavemen[i].checkCollision(ground) == false)
+        {
+            if(cavemen[i].checkCollision(largePlatforms) == false)
+            {
+                cavemen[i].checkCollision(smallPlatforms);
+            }
+        }
+        }
+        
         player.checkRightCollision(largePlatforms);
         player.checkRightCollision(smallPlatforms);
         player.checkLeftCollision(largePlatforms);
@@ -217,11 +227,11 @@ public class Level1 extends JPanel implements ActionListener{
         
         player.checkCollsision(cavemen);
         player.checkCollision(health);
-    }
-    
-    private void checkWinCondition()
-    {
-        game.startLevel2();
+        
+        if(player.checkCollision(portal) == true)
+        {
+            game.startLevel2();
+        }
     }
     
     private void updateMove()

@@ -54,12 +54,12 @@ public class Game {
         level3 = new Level3(this);
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         
-        window.getContentPane().add(level1);
-        window.getContentPane().add(mainMenu);
+                
     }
     
     public void startMainMenu()
     {
+        window.getContentPane().add(mainMenu);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         mainMenu.requestFocus();
@@ -69,6 +69,7 @@ public class Game {
     
     public void startGame()
     {
+        window.getContentPane().add(level1);
         mainMenu.stopTimer();
         level1.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -79,6 +80,7 @@ public class Game {
     
     public void startLevel2()
     {
+        window.getContentPane().add(level2);
         level1.stopTimer();
         level2.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -89,6 +91,7 @@ public class Game {
     
     public void startLevel3()
     {
+        window.getContentPane().add(level3);
         level2.stopTimer();
         level3.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();

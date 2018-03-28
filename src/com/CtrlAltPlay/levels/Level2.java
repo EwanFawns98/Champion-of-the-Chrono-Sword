@@ -45,7 +45,7 @@ public class Level2 extends JPanel implements ActionListener{
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         orbs = new Orbs[5];
-        cavemen = new Caveman[23];
+        cavemen = new Caveman[22];
         largePlatforms = new Level1LargePlatform[5];
         smallPlatforms = new Level1SmallPlatform[21];
         health = new HealthPickup[2];
@@ -64,29 +64,28 @@ public class Level2 extends JPanel implements ActionListener{
         ground = new Ground(0, 890);
         scrollingBackground1 = new Background(background, player.getX());
         
-        cavemen[0] = new Caveman(2880, 778);
-        cavemen[1] = new Caveman(3450, 132);
-        cavemen[2] = new Caveman(4192, 778);
-        cavemen[3] = new Caveman(4672, 778);
-        cavemen[4] = new Caveman(5152, 778);
-        cavemen[5] = new Caveman(6592, 778);
-        cavemen[6] = new Caveman(7830, 778);
-        cavemen[7] = new Caveman(9040, 778);
-        cavemen[8] = new Caveman(9852, 778);
-        cavemen[9] = new Caveman(11392, 778);
-        cavemen[10] = new Caveman(11936, 778);
-        cavemen[11] = new Caveman(12416, 778);
-        cavemen[12] = new Caveman(12896, 778);
-        cavemen[13] = new Caveman(2880, 778);
-        cavemen[14] = new Caveman(2880, 778);
-        cavemen[15] = new Caveman(2880, 778);
-        cavemen[16] = new Caveman(13312, 778);
-        cavemen[17] = new Caveman(7150, 522);
-        cavemen[18] = new Caveman(13870, 122);
-        cavemen[19] = new Caveman(14350, 122);
-        cavemen[20] = new Caveman(14830, 122);
-        cavemen[21] = new Caveman(15310, 122);
-        cavemen[22] = new Caveman(12286, 322);
+        cavemen[0] = new Caveman(2880, 778, 100, false);
+        cavemen[1] = new Caveman(3450, 132, 100, true);
+        cavemen[2] = new Caveman(4192, 778, 100, true);
+        cavemen[3] = new Caveman(4672, 778, 100, true);
+        cavemen[4] = new Caveman(5152, 778, 100, false);
+        cavemen[5] = new Caveman(6592, 778, 100, true);
+        cavemen[6] = new Caveman(7830, 778, 100, true);
+        cavemen[7] = new Caveman(9040, 778, 150, true);
+        cavemen[8] = new Caveman(9852, 778, 200, false);
+        cavemen[9] = new Caveman(11392, 778, 100, true);
+        cavemen[10] = new Caveman(11936, 778, 100, true);
+        cavemen[11] = new Caveman(12416, 778, 100, true);
+        cavemen[12] = new Caveman(12896, 778, 100, true);
+        cavemen[13] = new Caveman(11936, 522, 100, false);
+        cavemen[14] = new Caveman(12636, 522, 100, false);
+        cavemen[15] = new Caveman(13312, 778, 100, true);
+        cavemen[16] = new Caveman(7150, 522);
+        cavemen[17] = new Caveman(13870, 122, 200, false);
+        cavemen[18] = new Caveman(14350, 122, 200, false);
+        cavemen[19] = new Caveman(14830, 122, 200, false);
+        cavemen[20] = new Caveman(15310, 122, 200, false);
+        cavemen[21] = new Caveman(12286, 322);
         
         orbs[0] = new Orbs(2380, 550);
         orbs[1] = new Orbs(3954, 50);
@@ -182,7 +181,6 @@ public class Level2 extends JPanel implements ActionListener{
         checkIsOnScreen();
         checkCollisions();
         updateMove();
-        //checkWinCondition();
         repaint();
     }
     
@@ -211,6 +209,17 @@ public class Level2 extends JPanel implements ActionListener{
             }
         }
         
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            if(cavemen[i].checkCollision(ground) == false)
+        {
+            if(cavemen[i].checkCollision(largePlatforms) == false)
+            {
+                cavemen[i].checkCollision(smallPlatforms);
+            }
+        }
+        }
+        
         player.checkRightCollision(largePlatforms);
         player.checkRightCollision(smallPlatforms);
         player.checkLeftCollision(largePlatforms);
@@ -218,16 +227,21 @@ public class Level2 extends JPanel implements ActionListener{
         
         player.checkCollsision(cavemen);
         player.checkCollision(health);
+        
+        if(player.checkCollision(portal) == true)
+        {
+            game.startLevel3();
+        }
     }
     
-    private void checkWinCondition()
-    {
-        game.startLevel2();
-    }
     
     private void updateMove()
     {
         player.doMove();
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            cavemen[i].doMove();
+        }
         scrollingBackground1.updateBackground(player.getX());
     }
 
