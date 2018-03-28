@@ -228,4 +228,13 @@ public class Caveman {
             }
     }
     
+    public boolean checkAttackCollision(Champion c)
+    {
+        if(c.getLeftAttackBounds().intersects(getBounds()) && c.getIsAttackingL() == true || c.getRightAttackBounds().intersects(getBounds()) && c.getIsAttackingR() == true)
+        {
+            isAlive = false;
+        }
+        return false;
+    }
+    
 }

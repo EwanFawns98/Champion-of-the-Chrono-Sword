@@ -10,6 +10,7 @@ import com.CtrlAltPlay.objects.Level1LargePlatform;
 import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.objects.Ground;
+import com.CtrlAltPlay.objects.Level1Wall;
 import com.CtrlAltPlay.objects.Portal;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -38,18 +39,20 @@ public class Level1 extends JPanel implements ActionListener{
     private Level1LargePlatform[] largePlatforms;
     private Level1SmallPlatform[] smallPlatforms;
     private HealthPickup[] health;
+    private Level1Wall[] wall;
     private Ground ground;
     private Portal portal;
     
     public Level1(Game theGame){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
-        orbs = new Orbs[5];
+        orbs = new Orbs[6];
         cavemen = new Caveman[22];
         largePlatforms = new Level1LargePlatform[5];
         smallPlatforms = new Level1SmallPlatform[21];
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
+        wall = new Level1Wall[2];
         init();
     }
     
@@ -92,6 +95,7 @@ public class Level1 extends JPanel implements ActionListener{
         orbs[2] = new Orbs(5696, 800);
         orbs[3] = new Orbs(7170, 540);
         orbs[4] = new Orbs(7640, 800);
+        orbs[5] = new Orbs(12636, 140);
         
         largePlatforms[0] = new Level1LargePlatform(2254, 650);
         largePlatforms[1] = new Level1LargePlatform(2654, 520);
@@ -123,6 +127,10 @@ public class Level1 extends JPanel implements ActionListener{
         
         health[0] = new HealthPickup(8850,800);
         health[1] = new HealthPickup(11950, 140);
+        
+        wall[0] = new Level1Wall(-100, 0);
+        wall[1] = new Level1Wall(17280, 0);
+        
         
         setFocusable(true);
         setDoubleBuffered(true);
@@ -167,7 +175,15 @@ public class Level1 extends JPanel implements ActionListener{
             health[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
+        for(int i = 0; i < wall.length; i++)
+        {
+            wall[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        }
+        
         portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        //g2d.fillRect(player.getX() -25, player.getY() + 20, 50, player.getSpriteHeight() - 40);
+        //g2d.fillRect(player.getX() + 25 + player.getSpriteHeight() - 60, player.getY() + 20, 50, player.getSpriteHeight() - 40);
         
         player.draw(g2d);
         
@@ -201,6 +217,17 @@ public class Level1 extends JPanel implements ActionListener{
         player.checkHeadCollision(largePlatforms);
         player.checkHeadCollision(smallPlatforms);
         
+        player.checkRightCollision(largePlatforms);
+        player.checkRightCollision(smallPlatforms);
+        player.checkRightCollision(wall);
+        
+        player.checkLeftCollision(largePlatforms);
+        player.checkLeftCollision(smallPlatforms);
+        player.checkLeftCollision(wall);
+        
+        
+        player.checkCollision(health);
+        
         if(player.checkCollision(ground) == false)
         {
             if(player.checkCollision(largePlatforms) == false)
@@ -208,6 +235,8 @@ public class Level1 extends JPanel implements ActionListener{
                 player.checkCollision(smallPlatforms);
             }
         }
+        
+        player.checkCollsision(cavemen);
         
         for(int i = 0; i < cavemen.length; i++)
         {
@@ -220,13 +249,10 @@ public class Level1 extends JPanel implements ActionListener{
         }
         }
         
-        player.checkRightCollision(largePlatforms);
-        player.checkRightCollision(smallPlatforms);
-        player.checkLeftCollision(largePlatforms);
-        player.checkLeftCollision(smallPlatforms);
-        
-        player.checkCollsision(cavemen);
-        player.checkCollision(health);
+        for(int i = 0; i < cavemen.length; i++)
+        {
+            cavemen[i].checkAttackCollision(player);
+        }
         
         if(player.checkCollision(portal) == true)
         {
@@ -296,6 +322,17 @@ public class Level1 extends JPanel implements ActionListener{
             }
         }
         
+        for(int i = 0; i < wall.length; i++)
+        {
+            if(wall[i].getPosition().getX() <= player.getX() + 960 && wall[i].getPosition().getX() + 100 >= player.getX() - 960)
+        {
+            wall[i].setIsVisible(true);
+        }else
+        {
+            wall[i].setIsVisible(false);
+        }
+        }
+        
         if(portal.getPosition().getX() <= player.getX() + 960 && portal.getPosition().getX() + 100 >= player.getX() - 960)
         {
             portal.setIsVisible(true);
@@ -361,10 +398,12 @@ public class Level1 extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1: // attacking for left mouse click
+                    player.attack();
                     break;
                     
                 case MouseEvent.BUTTON3: // ability for right mouse click
                     player.cavemenSwordRift(cavemen);
+                    player.resetOrbs();
                     break;
             }
         }

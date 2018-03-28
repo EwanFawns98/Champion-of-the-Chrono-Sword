@@ -6,7 +6,12 @@ import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.HealthPickup;
 import com.CtrlAltPlay.objects.Level1LargePlatform;
 import com.CtrlAltPlay.objects.Level1SmallPlatform;
+import com.CtrlAltPlay.objects.Level1Wall;
+import com.CtrlAltPlay.objects.Level2LargePlatform;
+import com.CtrlAltPlay.objects.Level2SmallPlatform;
+import com.CtrlAltPlay.objects.Level2Wall;
 import com.CtrlAltPlay.objects.Level3Platform;
+import com.CtrlAltPlay.objects.Level3Wall;
 import com.CtrlAltPlay.objects.Orbs;
 import com.CtrlAltPlay.objects.Portal;
 import com.CtrlAltPlay.sounds.Sounds;
@@ -26,6 +31,7 @@ public class Champion {
     private int staticX;
     private int orbs;
     private int invulnerableTimer;
+    private int attackTimer;
     private boolean isFacingR;
     private boolean isFacingL;
     private boolean isMovingR;
@@ -34,6 +40,8 @@ public class Champion {
     private boolean isInvulnerable;
     private boolean isFalling;
     private boolean isJumping;
+    private boolean isAttackingL;
+    private boolean isAttackingR;
     
     public Champion(int newLevelWidth, int newLevelHeight)
     {
@@ -42,6 +50,7 @@ public class Champion {
         displacement = new Vector(0, 0);
         health = 5;
         invulnerableTimer = 0;
+        attackTimer = 0;
         orbs = 0;
         
         isFalling = false;
@@ -52,6 +61,9 @@ public class Champion {
         isFacingL = false;
         isFacingR = true;
         hasTakenDamage = false;
+        isAttackingL = false;
+        isAttackingR = false;
+        
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
         }catch(Exception ex){
@@ -79,6 +91,26 @@ public class Champion {
     
     public boolean getHasTakenDamge(){
         return hasTakenDamage;
+    }
+    
+    public void setIsAttackingL(boolean newIsAttacking)
+    {
+        isAttackingL = newIsAttacking;
+    }
+    
+    public boolean getIsAttackingL()
+    {
+        return isAttackingL;
+    }
+    
+    public void setIsAttackingR(boolean newIsAttacking)
+    {
+        isAttackingR = newIsAttacking;
+    }
+    
+    public boolean getIsAttackingR()
+    {
+        return isAttackingR;
     }
     
     public void setIsFalling(boolean newIsFalling)
@@ -177,6 +209,18 @@ public class Champion {
             }
         }
         
+        if(isAttackingL == true || isAttackingR == true)
+        {
+            attackTimer += 1;
+            if(attackTimer == 30)
+            {
+                isAttackingL = false;
+                isAttackingR = false;
+                attackTimer = 0;
+            }
+            
+        }
+        
         position.add(displacement);
     }
     
@@ -225,7 +269,20 @@ public class Champion {
     
     public void attack()
     {
-        
+        if(isAttackingL == false && isAttackingR == false)
+        {
+            if(isFacingL == true)
+            {
+                isAttackingL = true;
+            }
+            
+            if(isFacingR == true)
+            {
+                isAttackingR = true;
+            }
+            
+            Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
+        }
     }
     
     public void jump()
@@ -282,6 +339,18 @@ public class Champion {
         return playerRect;
     }
     
+    public Rectangle getLeftAttackBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX() - 25, position.getY() + 20, 50, spriteHeight - 40);
+        return playerRect;
+    }
+    
+    public Rectangle getRightAttackBounds()
+    {
+        Rectangle playerRect = new Rectangle(position.getX() + 25 + spriteWidth - 60, position.getY() + 20, 50, spriteHeight - 40);
+        return playerRect;
+    }
+    
     public Rectangle getHeadBounds()
     {
         Rectangle playerRect = new Rectangle(position.getX() + 25, position.getY() - 5, spriteWidth - 60, 20);
@@ -313,6 +382,16 @@ public class Champion {
         }
     }
     
+    public void checkCollsision(Mummy[] m)
+    {
+        for(int i = 0; i < m.length; i++){
+            if(m[i].getBounds().intersects(getBounds()) && m[i].getIsAlive() == true)
+            {
+                takeDamage(1);
+            }
+        }
+    }
+    
     public boolean checkCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++){
@@ -335,6 +414,48 @@ public class Champion {
     }
     
     public boolean checkCollision(Level1SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++){
+            if(getBounds().intersects(s[i].getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                    setHasTakenDamge(false);
+                    stopX();
+                }
+                return true;
+            }else
+            {
+                isFalling = true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkCollision(Level2LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++){
+            if(getBounds().intersects(l[i].getBounds()))
+            {
+                isFalling = false;
+                
+                if(getHasTakenDamge() == true)
+                {
+                    setHasTakenDamge(false);
+                    stopX();
+                }
+                return true;
+            }else
+            {
+                isFalling = true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkCollision(Level2SmallPlatform[] s)
     {
         for(int i = 0; i < s.length; i++){
             if(getBounds().intersects(s[i].getBounds()))
@@ -438,6 +559,63 @@ public class Champion {
         return false;
     }
     
+    public boolean checkRightCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkRightCollision(Level2SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkRightCollision(Level2LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean checkRightCollision(Level3Platform[] s)
     {
         for(int i = 0; i < s.length; i++)
@@ -457,12 +635,49 @@ public class Champion {
         return false;
     }
     
-    
-    public boolean checkRightCollision(Level1LargePlatform[] l)
+    public boolean checkRightCollision(Level1Wall[] w)
     {
-        for(int i = 0; i < l.length; i++)
+        for(int i = 0; i < w.length; i++)
         {
-            if(l[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            if(w[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkRightCollision(Level2Wall[] w)
+    {
+        for(int i = 0; i < w.length; i++)
+        {
+            if(w[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkRightCollision(Level3Wall[] w)
+    {
+        for(int i = 0; i < w.length; i++)
+        {
+            if(w[i].getBounds().intersects(getRightBounds()) && displacement.getX() > 0)
             {
                 if(hasTakenDamage == false)
                 {
@@ -496,6 +711,67 @@ public class Champion {
         return false;
     }
     
+    
+    
+    public boolean checkLeftCollision(Level1LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level2SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
+    
+    public boolean checkLeftCollision(Level2LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public boolean checkLeftCollision(Level3Platform[] s)
     {
         for(int i = 0; i < s.length; i++)
@@ -515,11 +791,49 @@ public class Champion {
         return false;
     }
     
-    public boolean checkLeftCollision(Level1LargePlatform[] l)
+    public boolean checkLeftCollision(Level1Wall[] w)
     {
-        for(int i = 0; i < l.length; i++)
+        for(int i = 0; i < w.length; i++)
         {
-            if(l[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            if(w[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level2Wall[] w)
+    {
+        for(int i = 0; i < w.length; i++)
+        {
+            if(w[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
+            {
+                if(hasTakenDamage == false)
+                {
+                    stopX();
+                }else
+                {
+                    displacement.setX(displacement.getX() * -1);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkLeftCollision(Level3Wall[] w)
+    {
+        for(int i = 0; i < w.length; i++)
+        {
+            if(w[i].getBounds().intersects(getLeftBounds()) && displacement.getX() < 0)
             {
                 if(hasTakenDamage == false)
                 {
@@ -547,19 +861,6 @@ public class Champion {
         return false;
     }
     
-    public boolean checkHeadCollision(Level3Platform[] s)
-    {
-        for(int i = 0; i < s.length; i++)
-        {
-            if(s[i].getBounds().intersects(getHeadBounds()))
-            {
-                displacement.setY(1);
-                return true;
-            }
-        }
-        return false;
-    }
-    
     public boolean checkHeadCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++)
@@ -573,7 +874,44 @@ public class Champion {
         return false;
     }
     
+    public boolean checkHeadCollision(Level2SmallPlatform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
     
+    public boolean checkHeadCollision(Level2LargePlatform[] l)
+    {
+        for(int i = 0; i < l.length; i++)
+        {
+            if(l[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public boolean checkHeadCollision(Level3Platform[] s)
+    {
+        for(int i = 0; i < s.length; i++)
+        {
+            if(s[i].getBounds().intersects(getHeadBounds()))
+            {
+                displacement.setY(1);
+                return true;
+            }
+        }
+        return false;
+    }
     
     public void cavemenSwordRift(Caveman[] c)
     {
@@ -587,14 +925,29 @@ public class Champion {
                 }
             }
         }
+        
+    }
+    
+    public void mummySwordRift(Mummy[] m)
+    {
+        for(int i = 0; i < m.length; i++)
+        {
+            if(m[i].getPosition().getX() <= position.getX() + 960 && m[i].getPosition().getX() + m[i].getSpriteWidth() >= position.getX() - 960)
+            {
+                if(orbs == 5)
+                {
+                    m[i].setIsAlive(false);
+                }
+            }
+        }
+        
+    }
+    
+    public void resetOrbs()
+    {
         if(orbs == 5)
         {
             orbs = 0;
         }
-    }
-    
-    public void egyptSwordRift()
-    {
-        
     }
 }

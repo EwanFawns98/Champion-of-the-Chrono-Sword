@@ -3,8 +3,8 @@ package com.CtrlAltPlay.characters;
 
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.objects.Ground;
-import com.CtrlAltPlay.objects.Level1LargePlatform;
-import com.CtrlAltPlay.objects.Level1SmallPlatform;
+import com.CtrlAltPlay.objects.Level2LargePlatform;
+import com.CtrlAltPlay.objects.Level2SmallPlatform;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -185,7 +185,7 @@ public class Mummy {
         currentMoveTime += 1;
     }
 
-    public boolean checkCollision(Level1LargePlatform[] l)
+    public boolean checkCollision(Level2LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++){
             if(getBounds().intersects(l[i].getBounds()))
@@ -200,7 +200,7 @@ public class Mummy {
         return false;
     }
     
-    public boolean checkCollision(Level1SmallPlatform[] s)
+    public boolean checkCollision(Level2SmallPlatform[] s)
     {
         for(int i = 0; i < s.length; i++){
             if(getBounds().intersects(s[i].getBounds()))
@@ -226,6 +226,15 @@ public class Mummy {
                 isFalling = true;
                 return false;
             }
+    }
+    
+    public boolean checkAttackCollision(Champion c)
+    {
+        if(c.getLeftAttackBounds().intersects(getBounds()) && c.getIsAttackingL() == true || c.getRightAttackBounds().intersects(getBounds()) && c.getIsAttackingR() == true)
+        {
+            isAlive = false;
+        }
+        return false;
     }
     
 }
