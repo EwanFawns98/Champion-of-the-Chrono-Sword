@@ -58,7 +58,7 @@ public class Level1LargePlatform {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 300, 100);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 300, 94);
         return orbRect;
     }
     

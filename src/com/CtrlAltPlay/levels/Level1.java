@@ -42,6 +42,7 @@ public class Level1 extends JPanel implements ActionListener{
     private Level1Wall[] wall;
     private Ground ground;
     private Portal portal;
+    private HUD hud;
     
     public Level1(Game theGame){
         game = theGame;
@@ -53,6 +54,7 @@ public class Level1 extends JPanel implements ActionListener{
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
         wall = new Level1Wall[2];
+        hud = new HUD(player.getHealth());
         init();
     }
     
@@ -186,7 +188,7 @@ public class Level1 extends JPanel implements ActionListener{
         //g2d.fillRect(player.getX() + 25 + player.getSpriteHeight() - 60, player.getY() + 20, 50, player.getSpriteHeight() - 40);
         
         player.draw(g2d);
-        
+        hud.draw(g2d);
         
         g.dispose();
     }
@@ -268,6 +270,7 @@ public class Level1 extends JPanel implements ActionListener{
             cavemen[i].doMove();
         }
         scrollingBackground1.updateBackground(player.getX());
+        hud.updateHud(player.getHealth());
     }
 
     private void checkIsOnScreen() {
