@@ -23,7 +23,7 @@ public class HealthPickup {
     {
         position = new Vector(x, y);
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Orb placeholder.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/shield.png"));
         }catch(Exception ex){
             System.out.println("Error loading orb sprite");
         }

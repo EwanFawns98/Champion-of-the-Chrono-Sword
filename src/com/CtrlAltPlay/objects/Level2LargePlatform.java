@@ -22,7 +22,7 @@ public class Level2LargePlatform {
     {
         position = new Vector(x, y);
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Orb placeholder.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/large_platform2.png"));
         }catch(Exception ex){
             System.out.println("Error loading orb sprite");
         }
@@ -66,7 +66,7 @@ public class Level2LargePlatform {
     {
         if(isVisible == true)
         {
-            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 300, 100);
+            g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }
         
     }

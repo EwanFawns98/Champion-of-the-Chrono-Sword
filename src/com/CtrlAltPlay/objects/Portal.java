@@ -23,7 +23,7 @@ public class Portal {
     {
         position = new Vector(x, y);
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/sprite placeholder.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/portal.png"));
         }catch(Exception ex){
             System.out.println("Error loading orb sprite");
         }

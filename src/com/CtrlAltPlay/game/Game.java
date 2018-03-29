@@ -11,8 +11,8 @@ import javax.swing.JFrame;
 public class Game {
     
     JFrame window;
-    public static int WINDOW_WIDTH = 1920;
-    public static int WINDOW_HEIGHT = 1080;
+    public static final int WINDOW_WIDTH = 1920;
+    public static final int WINDOW_HEIGHT = 1080;
     public static double xScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
     public static double yScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
     public static final String TITLE = "Champion Of the Chrono Sword";

@@ -23,7 +23,7 @@ public class Orbs {
     {
         position = new Vector(x, y);
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/orb placeholder.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/orb.png"));
         }catch(Exception ex){
             System.out.println("Error loading orb sprite");
         }
