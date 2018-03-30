@@ -138,6 +138,16 @@ public class Champion {
         return health;
     }
     
+    public void setOrbs(int newOrbs)
+    {
+        orbs = newOrbs;
+    }
+    
+    public int getOrbs()
+    {
+        return orbs;
+    }
+    
     public int getSpriteWidth()
     {
         return spriteWidth;

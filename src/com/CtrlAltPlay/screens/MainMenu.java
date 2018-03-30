@@ -53,7 +53,7 @@ public class MainMenu extends JPanel implements ActionListener{
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        
+        g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
         g2d.setFont(font);
         
         g2d.drawImage(background, 0, 0, null);
@@ -103,9 +103,13 @@ public class MainMenu extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1:
-                    if(e.getX() <= 500 && e.getX() >= 0 && e.getY() >= 200 && e.getY() <= 300)
+                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
                         game.startGame();
+                    }
+                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
+                    {
+                        game.Options();
                     }
                     break;
                     

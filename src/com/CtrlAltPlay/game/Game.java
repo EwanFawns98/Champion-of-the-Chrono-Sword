@@ -5,6 +5,7 @@ import com.CtrlAltPlay.levels.Level1;
 import com.CtrlAltPlay.levels.Level2;
 import com.CtrlAltPlay.levels.Level3;
 import com.CtrlAltPlay.screens.MainMenu;
+import com.CtrlAltPlay.screens.Options;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -13,13 +14,14 @@ public class Game {
     JFrame window;
     public static final int WINDOW_WIDTH = 1920;
     public static final int WINDOW_HEIGHT = 1080;
-    public static double xScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
-    public static double yScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double xScaleFactor = 0.7083333; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double yScaleFactor = 0.71111; // Used for passing a value into the levels to scale them down for different resolutions
     public static final String TITLE = "Champion Of the Chrono Sword";
     private Level1 level1;
     private Level2 level2;
     private Level3 level3;
     private MainMenu mainMenu;
+    private Options options;
     
     public static void main(String[] args) {
         Game game = new Game();
@@ -47,6 +49,8 @@ public class Game {
     {
         mainMenu = new MainMenu(this);
         mainMenu.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        options = new Options(this);
+        options.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         level1 = new Level1(this);
         level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         level2 = new Level2(this);
@@ -55,6 +59,17 @@ public class Game {
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         
                 
+    }
+    
+    public void Options()
+    {
+        window.getContentPane().add(options);
+        mainMenu.stopTimer();
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        options.requestFocus();
+        options.startTimer();
+        window.setVisible(true);
     }
     
     public void startMainMenu()
@@ -66,6 +81,8 @@ public class Game {
         mainMenu.startTimer();
         window.setVisible(true);
     }
+    
+    
     
     public void startGame()
     {

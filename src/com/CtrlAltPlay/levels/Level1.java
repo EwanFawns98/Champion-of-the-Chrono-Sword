@@ -54,7 +54,7 @@ public class Level1 extends JPanel implements ActionListener{
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
         wall = new Level1Wall[2];
-        hud = new HUD(player.getHealth());
+        hud = new HUD(player.getHealth(), player.getOrbs());
         init();
     }
     
@@ -270,7 +270,7 @@ public class Level1 extends JPanel implements ActionListener{
             cavemen[i].doMove();
         }
         scrollingBackground1.updateBackground(player.getX());
-        hud.updateHud(player.getHealth());
+        hud.updateHud(player.getHealth(), player.getOrbs());
     }
 
     private void checkIsOnScreen() {
