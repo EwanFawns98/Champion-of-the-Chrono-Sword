@@ -10,6 +10,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -25,6 +27,12 @@ public class Options extends JPanel implements ActionListener{
     private Timer timer;
     private boolean onResolution;
     private int sound;
+    private boolean isOnAttack;
+    private boolean isOnSwordRift;
+    private boolean isOnGoLeft;
+    private boolean isOnGoRight;
+    private boolean isOnJump;
+    
     
     public Options(Game theGame){
         game = theGame;
@@ -36,7 +44,11 @@ public class Options extends JPanel implements ActionListener{
     {
         sound = 5;
         onResolution = false;
-        
+        isOnAttack = false;
+        isOnSwordRift = false;
+        isOnGoLeft = false;
+        isOnGoRight = false;
+        isOnJump = false;
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
@@ -46,6 +58,7 @@ public class Options extends JPanel implements ActionListener{
         setFocusable(true);
         setDoubleBuffered(true);
         addMouseListener(new MAdapter());
+        addKeyListener(new TAdapter());
         timer = new Timer(10, this);
         //Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
@@ -110,7 +123,34 @@ public class Options extends JPanel implements ActionListener{
     
     
     
-
+private class TAdapter extends KeyAdapter{
+        
+        private boolean isPressingW = false;
+        
+        @Override
+        public void keyPressed(KeyEvent e)
+        {
+            if(isOnAttack == true)
+            {
+                Game.attack = e.getKeyCode();
+            }
+            
+            if(isOnSwordRift == true)
+            {
+                Game.swordRift = e.getKeyCode();
+            }
+            
+            if(isOnGoLeft == true)
+            {
+                Game.goLeft = e.getKeyCode();
+            }
+            
+            if(isOnGoRight == true)
+            {
+                Game.goRight = e.getKeyCode();
+            }
+        }
+}
     
     private class MAdapter extends MouseAdapter{
         @Override
@@ -131,6 +171,7 @@ public class Options extends JPanel implements ActionListener{
                         onResolution = false;
                         Game.xScaleFactor = 1;
                         Game.yScaleFactor = 1;
+                        game.initScreens();
                     }
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (350 * Game.yScaleFactor) && e.getY() <= (400 * Game.yScaleFactor) && onResolution == true)
@@ -138,6 +179,7 @@ public class Options extends JPanel implements ActionListener{
                         onResolution = false;
                         Game.xScaleFactor = 0.70833333;
                         Game.yScaleFactor = 0.711111;
+                        game.initScreens();
                     }
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (410 * Game.yScaleFactor) && e.getY() <= (460 * Game.yScaleFactor) && onResolution == true)
@@ -145,6 +187,7 @@ public class Options extends JPanel implements ActionListener{
                         onResolution = false;
                         Game.xScaleFactor = 0.666666666;
                         Game.yScaleFactor = 0.9481481481;
+                        game.initScreens();
                     }
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (470 * Game.yScaleFactor) && e.getY() <= (520 * Game.yScaleFactor) && onResolution == true)
@@ -152,6 +195,7 @@ public class Options extends JPanel implements ActionListener{
                         onResolution = false;
                         Game.xScaleFactor = 0.666666666;
                         Game.yScaleFactor = 0.8888888;
+                        game.initScreens();
                     }
                     break;
                     

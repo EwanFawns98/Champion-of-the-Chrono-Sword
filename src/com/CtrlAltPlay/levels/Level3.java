@@ -42,7 +42,7 @@ public class Level3 extends JPanel implements ActionListener{
     private void init()
     {
         try{
-            background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
+            background = ImageIO.read(getClass().getResource("/Images/background_3.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }

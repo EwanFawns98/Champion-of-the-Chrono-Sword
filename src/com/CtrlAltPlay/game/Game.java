@@ -9,13 +9,19 @@ import com.CtrlAltPlay.screens.Options;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import java.awt.event.KeyEvent;
 public class Game {
     
     JFrame window;
     public static final int WINDOW_WIDTH = 1920;
     public static final int WINDOW_HEIGHT = 1080;
-    public static double xScaleFactor = 0.7083333; // Used for passing a value into the levels to scale them down for different resolutions
-    public static double yScaleFactor = 0.71111; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double xScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double yScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
+    public static int attack;
+    public static int swordRift;
+    public static int goLeft;
+    public static int goRight;
+    public static int jump;
     public static final String TITLE = "Champion Of the Chrono Sword";
     private Level1 level1;
     private Level2 level2;
@@ -30,6 +36,7 @@ public class Game {
     
     public Game(){
         initPanel();
+        initControls();
         initScreens();
     }
     
@@ -45,7 +52,15 @@ public class Game {
         window.getContentPane().setLayout(new CardLayout());
     }
     
-    private void initScreens()
+    private void initControls(){
+        attack = KeyEvent.VK_W;
+        swordRift = 3;
+        goLeft = 0x41;
+        goRight = 0x44;
+        jump = 0x57;
+    }
+    
+    public void initScreens()
     {
         mainMenu = new MainMenu(this);
         mainMenu.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));

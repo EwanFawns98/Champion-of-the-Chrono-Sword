@@ -61,7 +61,7 @@ public class Level1 extends JPanel implements ActionListener{
     private void init()
     {
         try{
-            background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
+            background = ImageIO.read(getClass().getResource("/Images/background_1.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
@@ -150,7 +150,6 @@ public class Level1 extends JPanel implements ActionListener{
         g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
         scrollingBackground1.draw(g2d);
         
-        ground.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
         for(int i = 0; i < orbs.length; i++)
         {

@@ -25,7 +25,10 @@ public class Champion {
     private int health;
     private Vector position;
     private Vector displacement;
+    private BufferedImage spriteSheet;
     private BufferedImage sprite;
+    private Animation idleR;
+    private Animation idleL;
     private int spriteWidth;
     private int spriteHeight;
     private int staticX;
@@ -65,14 +68,24 @@ public class Champion {
         isAttackingR = false;
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+            spriteSheet = ImageIO.read(getClass().getResource("/Images/Champion Idle.png"));
         }catch(Exception ex){
             System.out.println("Error loading player sprite");
         }
         
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        sprite = spriteSheet.getSubimage(0, 0, 128, 128);
+        
+        spriteWidth = 128;
+        spriteHeight = 128;
+        
+        initAnimations();
 
+    }
+    
+    private void initAnimations()
+    {
+        idleR = new Animation(30, 4, spriteSheet, 1, 1, spriteWidth, spriteHeight);
+        idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight);
     }
     
     public boolean getIsMovingR()
@@ -228,8 +241,21 @@ public class Champion {
                 isAttackingR = false;
                 attackTimer = 0;
             }
-            
         }
+        
+        
+        if(isMovingR == false && isMovingL == false && isFacingR == true)
+        {
+            idleR.run();
+            sprite = idleR.getCurrentSprite();
+        }else if(isMovingR == false && isMovingL == false && isFacingL == true)
+        {
+            idleL.runBackwards();
+            sprite = idleL.getCurrentSprite();
+        }else{
+            sprite = spriteSheet.getSubimage(0, 0, 128, 128);
+        }
+        
         
         position.add(displacement);
     }

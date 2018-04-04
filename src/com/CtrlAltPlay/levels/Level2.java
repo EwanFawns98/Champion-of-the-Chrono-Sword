@@ -47,9 +47,9 @@ public class Level2 extends JPanel implements ActionListener{
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         orbs = new Orbs[5];
-        mummy = new Mummy[22];
-        largePlatforms = new Level2LargePlatform[5];
-        smallPlatforms = new Level2SmallPlatform[21];
+        mummy = new Mummy[28];
+        largePlatforms = new Level2LargePlatform[3];
+        smallPlatforms = new Level2SmallPlatform[19];
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
         wall = new Level2Wall[2];
@@ -59,7 +59,7 @@ public class Level2 extends JPanel implements ActionListener{
     private void init()
     {
         try{
-            background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
+            background = ImageIO.read(getClass().getResource("/Images/background_2.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
@@ -67,28 +67,34 @@ public class Level2 extends JPanel implements ActionListener{
         ground = new Ground(0, 890);
         scrollingBackground1 = new Background(background, player.getX());
         
-        mummy[0] = new Mummy(2880, 778, 100, false);
-        mummy[1] = new Mummy(3450, 132, 100, true);
-        mummy[2] = new Mummy(4192, 778, 100, true);
-        mummy[3] = new Mummy(4672, 778, 100, true);
-        mummy[4] = new Mummy(5152, 778, 100, false);
-        mummy[5] = new Mummy(6592, 778, 100, true);
-        mummy[6] = new Mummy(7830, 778, 100, true);
-        mummy[7] = new Mummy(9040, 778, 150, true);
-        mummy[8] = new Mummy(9852, 778, 200, false);
-        mummy[9] = new Mummy(11392, 778, 100, true);
-        mummy[10] = new Mummy(11936, 778, 100, true);
-        mummy[11] = new Mummy(12416, 778, 100, true);
-        mummy[12] = new Mummy(12896, 778, 100, true);
-        mummy[13] = new Mummy(11936, 522, 100, false);
-        mummy[14] = new Mummy(12636, 522, 100, false);
-        mummy[15] = new Mummy(13312, 778, 100, true);
-        mummy[16] = new Mummy(7150, 522);
-        mummy[17] = new Mummy(13870, 122, 200, false);
-        mummy[18] = new Mummy(14350, 122, 200, false);
-        mummy[19] = new Mummy(14830, 122, 200, false);
-        mummy[20] = new Mummy(15310, 122, 200, false);
-        mummy[21] = new Mummy(12286, 322);
+        mummy[0] = new Mummy(2220, 778, 100, false);
+        mummy[1] = new Mummy(2580, 122, 100, false);
+        mummy[2] = new Mummy(2680, 122, 150, true);
+        mummy[3] = new Mummy(2780, 122, 100, true);
+        mummy[4] = new Mummy(3360, 778, 100, false);
+        mummy[5] = new Mummy(4040, 778, 100, false);
+        mummy[6] = new Mummy(4800, 778, 100, false);
+        mummy[7] = new Mummy(5360, 778, 100, false);
+        mummy[8] = new Mummy(5360, 22, 100, true);
+        mummy[9] = new Mummy(6570, 562, 75, true);
+        mummy[10] = new Mummy(6770, 778, 100, false);
+        mummy[11] = new Mummy(7000, 778, 100, false);
+        mummy[12] = new Mummy(7400, 778, 100, false);
+        mummy[13] = new Mummy(8190, 322, 100, false);
+        mummy[14] = new Mummy(8790, 322, 100, false);
+        mummy[15] = new Mummy(9390, 322, 100, false);
+        mummy[16] = new Mummy(9920, 778, 100, false);
+        mummy[17] = new Mummy(10240, 778, 200, false);
+        mummy[18] = new Mummy(10560, 778, 200, false);
+        mummy[19] = new Mummy(10880, 778, 200, false);
+        mummy[20] = new Mummy(11200, 778, 200, false);
+        mummy[21] = new Mummy(11520, 778, 100, false);
+        mummy[22] = new Mummy(11840, 778, 100, false);
+        mummy[23] = new Mummy(12480, 322, 100, false);
+        mummy[24] = new Mummy(13140, 562, 75, true);
+        mummy[25] = new Mummy(14000, 778, 100, false);
+        mummy[26] = new Mummy(14300, 778, 100, false);
+        mummy[27] = new Mummy(15000, 778, 100, false);
         
         orbs[0] = new Orbs(2380, 550);
         orbs[1] = new Orbs(3954, 50);
@@ -96,33 +102,29 @@ public class Level2 extends JPanel implements ActionListener{
         orbs[3] = new Orbs(7170, 540);
         orbs[4] = new Orbs(7640, 800);
         
-        largePlatforms[0] = new Level2LargePlatform(2254, 650);
-        largePlatforms[1] = new Level2LargePlatform(2654, 520);
-        largePlatforms[2] = new Level2LargePlatform(3054, 390);
-        largePlatforms[3] = new Level2LargePlatform(3454, 260);
-        largePlatforms[4] = new Level2LargePlatform(3854, 130);
+        largePlatforms[0] = new Level2LargePlatform(2580, 250);
+        largePlatforms[1] = new Level2LargePlatform(5360, 150);
+        largePlatforms[2] = new Level2LargePlatform(6570, 690);
         
-        smallPlatforms[0] = new Level2SmallPlatform(7150, 650);
-        smallPlatforms[1] = new Level2SmallPlatform(7530, 790);
-        smallPlatforms[2] = new Level2SmallPlatform(7630, 690);
-        smallPlatforms[3] = new Level2SmallPlatform(7730, 690);
-        smallPlatforms[4] = new Level2SmallPlatform(8740, 790);
-        smallPlatforms[5] = new Level2SmallPlatform(8840, 690);
-        smallPlatforms[6] = new Level2SmallPlatform(8940, 590);
-        smallPlatforms[7] = new Level2SmallPlatform(9040, 490);
-        smallPlatforms[8] = new Level2SmallPlatform(9190, 490);
-        smallPlatforms[9] = new Level2SmallPlatform(9340, 490);
-        smallPlatforms[10] = new Level2SmallPlatform(9490, 490);
-        smallPlatforms[11] = new Level2SmallPlatform(11936, 650);
-        smallPlatforms[12] = new Level2SmallPlatform(12286, 650);
-        smallPlatforms[13] = new Level2SmallPlatform(12636, 650);
-        smallPlatforms[14] = new Level2SmallPlatform(11936, 250);
-        smallPlatforms[15] = new Level2SmallPlatform(12286, 450);
-        smallPlatforms[16] = new Level2SmallPlatform(12636, 250);
-        smallPlatforms[17] = new Level2SmallPlatform(13870, 250);
-        smallPlatforms[18] = new Level2SmallPlatform(14350, 250);
-        smallPlatforms[19] = new Level2SmallPlatform(14830, 250);
-        smallPlatforms[20] = new Level2SmallPlatform(15310, 250);
+        smallPlatforms[0] = new Level2SmallPlatform(3840, 150);
+        smallPlatforms[1] = new Level2SmallPlatform(3940, 400);
+        smallPlatforms[2] = new Level2SmallPlatform(4040, 650);
+        smallPlatforms[3] = new Level2SmallPlatform(5160, 650);
+        smallPlatforms[4] = new Level2SmallPlatform(5260, 400);
+        smallPlatforms[5] = new Level2SmallPlatform(6470, 790);
+        smallPlatforms[6] = new Level2SmallPlatform(7890, 650);
+        smallPlatforms[7] = new Level2SmallPlatform(8190, 450);
+        smallPlatforms[8] = new Level2SmallPlatform(8490, 650);
+        smallPlatforms[9] = new Level2SmallPlatform(8790, 450);
+        smallPlatforms[10] = new Level2SmallPlatform(9090, 650);
+        smallPlatforms[11] = new Level2SmallPlatform(9390, 450);
+        smallPlatforms[12] = new Level2SmallPlatform(12480, 450);
+        smallPlatforms[13] = new Level2SmallPlatform(13040, 790);
+        smallPlatforms[14] = new Level2SmallPlatform(13140, 690);
+        smallPlatforms[15] = new Level2SmallPlatform(13240, 690);
+        smallPlatforms[16] = new Level2SmallPlatform(14400, 450);
+        smallPlatforms[17] = new Level2SmallPlatform(14600, 650);
+        smallPlatforms[18] = new Level2SmallPlatform(200, 650);
         
         health[0] = new HealthPickup(8850,800);
         health[1] = new HealthPickup(11950, 140);
