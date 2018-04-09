@@ -1,6 +1,7 @@
 
 package com.CtrlAltPlay.characters;
 
+import com.CtrlAltPlay.animation.Animation;
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.Level2LargePlatform;
@@ -16,6 +17,9 @@ public class Mummy {
     Vector position;
     Vector displacement;
     private BufferedImage sprite;
+    private BufferedImage spriteSheet;
+    private Animation walkL;
+    private Animation walkR;
     private int spriteWidth;
     private int spriteHeight;
     private int currentMoveTime;
@@ -33,19 +37,23 @@ public class Mummy {
         currentMoveTime = 0;
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+            spriteSheet = ImageIO.read(getClass().getResource("/Images/Mummy Walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Chieftain image");
         }
         
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        sprite = spriteSheet.getSubimage(0, 0, 128, 128);
+        
+        spriteWidth = 128;
+        spriteHeight = 128;
         
         isAlive = true;
         isVisible = true;
         moveRight = false;
         isFalling = false;
+        
+        initAnimation();
     }
     
     public Mummy(int newX, int newY, int newMoveTime, boolean newMoveRight){
@@ -55,19 +63,29 @@ public class Mummy {
         moveTime = newMoveTime;
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+            spriteSheet = ImageIO.read(getClass().getResource("/Images/Mummy Walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Chieftain image");
         }
         
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        sprite = spriteSheet.getSubimage(0, 0, 128, 128);
+        
+        spriteWidth = 128;
+        spriteHeight = 128;
         
         moveRight = newMoveRight;
         isAlive = true;
         isVisible = true;
         isFalling = false;
+        
+        initAnimation();
+    }
+    
+    private void initAnimation()
+    {
+        walkL = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight);
+        walkR = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight);
     }
     
     public boolean getIsVisible()
@@ -178,9 +196,13 @@ public class Mummy {
         if(moveRight == true)
         {
             displacement.setX(2);
+            walkR.runBackwards();
+            sprite = walkR.getCurrentSprite();
         }else
         {
             displacement.setX(-2);
+            walkL.run();
+            sprite = walkL.getCurrentSprite();
         }
         currentMoveTime += 1;
     }

@@ -15,8 +15,8 @@ public class Game {
     JFrame window;
     public static final int WINDOW_WIDTH = 1920;
     public static final int WINDOW_HEIGHT = 1080;
-    public static double xScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
-    public static double yScaleFactor = 1; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double xScaleFactor = 0.70833333; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double yScaleFactor = 0.7111111; // Used for passing a value into the levels to scale them down for different resolutions
     public static int attack;
     public static int swordRift;
     public static int goLeft;

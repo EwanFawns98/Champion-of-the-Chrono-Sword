@@ -22,7 +22,7 @@ public class Level1Wall {
     {
         position = new Vector(x, y);
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Orb placeholder.png"));
+            sprite = ImageIO.read(getClass().getResource("/Images/wall_1.png"));
         }catch(Exception ex){
             System.out.println("Error loading orb sprite");
         }
@@ -58,7 +58,7 @@ public class Level1Wall {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), 100, 890);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
         return orbRect;
     }
     
@@ -66,7 +66,7 @@ public class Level1Wall {
     {
         if(isVisible == true)
         {
-            g2d.fillRect((position.getX() - (playerX - screenPosition)), position.getY(), 100, 890);
+            g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }
         
     }

@@ -26,9 +26,12 @@ public class Champion {
     private Vector position;
     private Vector displacement;
     private BufferedImage spriteSheet;
+    private BufferedImage walkingAnim;
     private BufferedImage sprite;
     private Animation idleR;
     private Animation idleL;
+    private Animation walkingR;
+    private Animation walkingL;
     private int spriteWidth;
     private int spriteHeight;
     private int staticX;
@@ -73,6 +76,12 @@ public class Champion {
             System.out.println("Error loading player sprite");
         }
         
+        try{
+            walkingAnim = ImageIO.read(getClass().getResource("/Images/Champion Walking.png"));
+        }catch(Exception ex){
+            System.out.println("Error loading player sprite");
+        }
+        
         sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         
         spriteWidth = 128;
@@ -86,6 +95,8 @@ public class Champion {
     {
         idleR = new Animation(30, 4, spriteSheet, 1, 1, spriteWidth, spriteHeight);
         idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight);
+        walkingR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight);
+        walkingL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight);
     }
     
     public boolean getIsMovingR()
@@ -252,6 +263,12 @@ public class Champion {
         {
             idleL.runBackwards();
             sprite = idleL.getCurrentSprite();
+        }else if(isMovingR == true){
+            walkingR.run();
+            sprite = walkingR.getCurrentSprite();
+        }else if(isMovingL == true){
+            walkingL.run();
+            sprite = walkingL.getCurrentSprite();
         }else{
             sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         }

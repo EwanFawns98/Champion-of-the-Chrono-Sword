@@ -130,7 +130,7 @@ public class Level1 extends JPanel implements ActionListener{
         health[0] = new HealthPickup(8850,800);
         health[1] = new HealthPickup(11950, 140);
         
-        wall[0] = new Level1Wall(-100, 0);
+        wall[0] = new Level1Wall(-392, 0);
         wall[1] = new Level1Wall(17280, 0);
         
         
@@ -326,7 +326,7 @@ public class Level1 extends JPanel implements ActionListener{
         
         for(int i = 0; i < wall.length; i++)
         {
-            if(wall[i].getPosition().getX() <= player.getX() + 960 && wall[i].getPosition().getX() + 100 >= player.getX() - 960)
+            if(wall[i].getPosition().getX() <= player.getX() + 960 && wall[i].getPosition().getX() + 392 >= player.getX() - 960)
         {
             wall[i].setIsVisible(true);
         }else

@@ -42,6 +42,7 @@ public class Level2 extends JPanel implements ActionListener{
     private Level2Wall[] wall;
     private Ground ground;
     private Portal portal;
+    private HUD hud;
     
     public Level2(Game theGame){
         game = theGame;
@@ -53,6 +54,7 @@ public class Level2 extends JPanel implements ActionListener{
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
         wall = new Level2Wall[2];
+        hud = new HUD(player.getHealth(), player.getOrbs());
         init();
     }
     
@@ -129,7 +131,7 @@ public class Level2 extends JPanel implements ActionListener{
         health[0] = new HealthPickup(8850,800);
         health[1] = new HealthPickup(11950, 140);
         
-        wall[0] = new Level2Wall(-100, 0);
+        wall[0] = new Level2Wall(-392, 0);
         wall[1] = new Level2Wall(17280, 0);
         
         
@@ -149,7 +151,6 @@ public class Level2 extends JPanel implements ActionListener{
         g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
         scrollingBackground1.draw(g2d);
         
-        ground.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
         for(int i = 0; i < orbs.length; i++)
         {
@@ -184,7 +185,7 @@ public class Level2 extends JPanel implements ActionListener{
         portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
         player.draw(g2d);
-        
+        hud.draw(g2d);
         
         g.dispose();
     }
@@ -266,6 +267,7 @@ public class Level2 extends JPanel implements ActionListener{
             mummy[i].doMove();
         }
         scrollingBackground1.updateBackground(player.getX());
+        hud.updateHud(player.getHealth(), player.getOrbs());
     }
 
     private void checkIsOnScreen() {
@@ -322,7 +324,7 @@ public class Level2 extends JPanel implements ActionListener{
         
         for(int i = 0; i < wall.length; i++)
         {
-            if(wall[i].getPosition().getX() <= player.getX() + 960 && wall[i].getPosition().getX() + 100 >= player.getX() - 960)
+            if(wall[i].getPosition().getX() <= player.getX() + 960 && wall[i].getPosition().getX() + 392 >= player.getX() - 960)
         {
             wall[i].setIsVisible(true);
         }else

@@ -9,13 +9,16 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-
+import com.CtrlAltPlay.animation.Animation;
 
 public class Caveman {
     
     Vector position;
     Vector displacement;
+    private BufferedImage spriteSheet;
     private BufferedImage sprite;
+    private Animation walkR;
+    private Animation walkL;
     private int spriteWidth;
     private int spriteHeight;
     private int currentMoveTime;
@@ -33,19 +36,23 @@ public class Caveman {
         currentMoveTime = 0;
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+            spriteSheet = ImageIO.read(getClass().getResource("/Images/Caveman Walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Chieftain image");
         }
         
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        sprite = spriteSheet.getSubimage(0, 0, 128, 128);
+        
+        spriteWidth = 128;
+        spriteHeight = 128;
         
         isAlive = true;
         isVisible = true;
         moveRight = false;
         isFalling = false;
+        
+        initAnimation();
     }
     
     public Caveman(int newX, int newY, int newMoveTime, boolean newMoveRight){
@@ -55,11 +62,13 @@ public class Caveman {
         moveTime = newMoveTime;
         
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+            spriteSheet = ImageIO.read(getClass().getResource("/Images/Caveman Walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Chieftain image");
         }
+        
+        sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
@@ -68,6 +77,14 @@ public class Caveman {
         isAlive = true;
         isVisible = true;
         isFalling = false;
+        
+        initAnimation();
+    }
+    
+    private void initAnimation()
+    {
+        walkR = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight);
+        walkL = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight);
     }
     
     public boolean getIsVisible()
@@ -178,9 +195,13 @@ public class Caveman {
         if(moveRight == true)
         {
             displacement.setX(2);
+            walkR.run();
+            sprite = walkR.getCurrentSprite();
         }else
         {
             displacement.setX(-2);
+            walkL.runBackwards();
+            sprite = walkL.getCurrentSprite();
         }
         currentMoveTime += 1;
     }
