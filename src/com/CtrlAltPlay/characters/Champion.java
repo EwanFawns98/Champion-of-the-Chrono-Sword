@@ -93,10 +93,10 @@ public class Champion {
     
     private void initAnimations()
     {
-        idleR = new Animation(30, 4, spriteSheet, 1, 1, spriteWidth, spriteHeight);
-        idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight);
-        walkingR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight);
-        walkingL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight);
+        idleR = new Animation(30, 4, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
+        idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight, true);
+        walkingR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
+        walkingL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, false);
     }
     
     public boolean getIsMovingR()
@@ -320,6 +320,12 @@ public class Champion {
         g2d.drawImage(sprite, staticX, position.getY(), null);
     }
     
+    public void drawForMenu(Graphics2D g2d)
+    {
+        // used to draw the character on screen
+        g2d.drawImage(sprite, position.getX(), position.getY(), null);
+    }
+    
     public void attack()
     {
         if(isAttackingL == false && isAttackingR == false)
@@ -340,8 +346,12 @@ public class Champion {
     
     public void jump()
     {
-        isJumping = true;
-        displacement.setY(-25);
+        if(isFalling == false)
+        {
+            isJumping = true;
+            displacement.setY(-25);
+            Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
+        }
     }
     
     public void takeDamage(int damage)
@@ -364,7 +374,7 @@ public class Champion {
         }
     }
     
-    public void fall(){
+    private void fall(){
         isJumping = false;
         displacement.addY(1);
         
@@ -964,6 +974,14 @@ public class Champion {
             }
         }
         return false;
+    }
+    
+    public void useSwordRift()
+    {
+        if(orbs == 5)
+        {
+            Sounds.play(getClass().getResourceAsStream("/Sounds/swordrift.wav"), false);
+        }
     }
     
     public void cavemenSwordRift(Caveman[] c)

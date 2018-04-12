@@ -27,16 +27,10 @@ public class Options extends JPanel implements ActionListener{
     private Timer timer;
     private boolean onResolution;
     private int sound;
-    private boolean isOnAttack;
-    private boolean isOnSwordRift;
-    private boolean isOnGoLeft;
-    private boolean isOnGoRight;
-    private boolean isOnJump;
     
     
     public Options(Game theGame){
         game = theGame;
-        
         init();
     }
     
@@ -44,11 +38,6 @@ public class Options extends JPanel implements ActionListener{
     {
         sound = 5;
         onResolution = false;
-        isOnAttack = false;
-        isOnSwordRift = false;
-        isOnGoLeft = false;
-        isOnGoRight = false;
-        isOnJump = false;
         try{
             background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
         }catch(Exception ex){
@@ -58,7 +47,6 @@ public class Options extends JPanel implements ActionListener{
         setFocusable(true);
         setDoubleBuffered(true);
         addMouseListener(new MAdapter());
-        addKeyListener(new TAdapter());
         timer = new Timer(10, this);
         //Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
@@ -73,32 +61,33 @@ public class Options extends JPanel implements ActionListener{
         g2d.setFont(font);
         
         g2d.drawImage(background, 0, 0, null);
+        
         g2d.setColor(Color.BLACK);
-        g2d.fillRect(50, 200, 500, 400);
-        g2d.fillRect(1300, 200, 500, 800);
+        g2d.fillRect(700, 200, 500, 400);
+        g2d.fillRect(700, 800, 500, 100);
         g2d.fillRect(50, 800, 500, 100);
         
         g2d.setColor(Color.BLUE);
-        g2d.fillRect(100, 230, 400, 50);
+        g2d.fillRect(750, 230, 400, 50);
         
         if(onResolution == true)
         {
-        g2d.fillRect(100, 290, 400, 50);
-        g2d.fillRect(100, 350, 400, 50);
-        g2d.fillRect(100, 410, 400, 50);
-        g2d.fillRect(100, 470, 400, 50);
+        g2d.fillRect(750, 290, 400, 50);
+        g2d.fillRect(750, 350, 400, 50);
+        g2d.fillRect(750, 410, 400, 50);
+        g2d.fillRect(750, 470, 400, 50);
         }
         
         g2d.setColor(Color.WHITE);
-        g2d.drawString("Resolution", 200, 265);
-        g2d.drawString("Sound Options", 180, 865);
-        
+        g2d.drawString("Resolution", 850, 265);
+        g2d.drawString("Sound Options", 830, 865);
+        g2d.drawString("Return to main menu", 120, 865);
         if(onResolution == true)
         {
-            g2d.drawString("1920x1080", 200, 325);
-            g2d.drawString("1360x768", 200, 385);
-            g2d.drawString("1280x1024", 200, 445);
-            g2d.drawString("1280x960", 200, 505);
+            g2d.drawString("1920x1080", 850, 325);
+            g2d.drawString("1360x768", 850, 385);
+            g2d.drawString("1280x1024", 850, 445);
+            g2d.drawString("1280x960", 850, 505);
         }
         
         g.dispose();
@@ -121,43 +110,14 @@ public class Options extends JPanel implements ActionListener{
         timer.stop();
     }
     
-    
-    
-private class TAdapter extends KeyAdapter{
-        
-        private boolean isPressingW = false;
-        
+    private class MAdapter extends MouseAdapter
+    {
         @Override
-        public void keyPressed(KeyEvent e)
+        public void mousePressed(MouseEvent e)
         {
-            if(isOnAttack == true)
-            {
-                Game.attack = e.getKeyCode();
-            }
-            
-            if(isOnSwordRift == true)
-            {
-                Game.swordRift = e.getKeyCode();
-            }
-            
-            if(isOnGoLeft == true)
-            {
-                Game.goLeft = e.getKeyCode();
-            }
-            
-            if(isOnGoRight == true)
-            {
-                Game.goRight = e.getKeyCode();
-            }
-        }
-}
-    
-    private class MAdapter extends MouseAdapter{
-        @Override
-        public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1:
-                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (230 * Game.yScaleFactor) && e.getY() <= (270 * Game.yScaleFactor))
+                    if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (230 * Game.yScaleFactor) && e.getY() <= (270 * Game.yScaleFactor))
                     {
                         if(onResolution == false){
                             onResolution = true;
@@ -166,7 +126,7 @@ private class TAdapter extends KeyAdapter{
                         }
                     }
                     
-                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (290 * Game.yScaleFactor) && e.getY() <= (340 * Game.yScaleFactor) && onResolution == true)
+                    if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (290 * Game.yScaleFactor) && e.getY() <= (340 * Game.yScaleFactor) && onResolution == true)
                     {
                         onResolution = false;
                         Game.xScaleFactor = 1;
@@ -174,7 +134,7 @@ private class TAdapter extends KeyAdapter{
                         game.initScreens();
                     }
                     
-                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (350 * Game.yScaleFactor) && e.getY() <= (400 * Game.yScaleFactor) && onResolution == true)
+                    if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (350 * Game.yScaleFactor) && e.getY() <= (400 * Game.yScaleFactor) && onResolution == true)
                     {
                         onResolution = false;
                         Game.xScaleFactor = 0.70833333;
@@ -182,7 +142,7 @@ private class TAdapter extends KeyAdapter{
                         game.initScreens();
                     }
                     
-                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (410 * Game.yScaleFactor) && e.getY() <= (460 * Game.yScaleFactor) && onResolution == true)
+                    if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (410 * Game.yScaleFactor) && e.getY() <= (460 * Game.yScaleFactor) && onResolution == true)
                     {
                         onResolution = false;
                         Game.xScaleFactor = 0.666666666;
@@ -190,12 +150,17 @@ private class TAdapter extends KeyAdapter{
                         game.initScreens();
                     }
                     
-                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (100 * Game.xScaleFactor) && e.getY() >= (470 * Game.yScaleFactor) && e.getY() <= (520 * Game.yScaleFactor) && onResolution == true)
+                    if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (470 * Game.yScaleFactor) && e.getY() <= (520 * Game.yScaleFactor) && onResolution == true)
                     {
                         onResolution = false;
                         Game.xScaleFactor = 0.666666666;
                         Game.yScaleFactor = 0.8888888;
                         game.initScreens();
+                    }
+                    
+                    if(e.getX() <= (550 * Game.xScaleFactor) && e.getX() >= (50 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
+                    {
+                        game.startMainMenu();
                     }
                     break;
                     

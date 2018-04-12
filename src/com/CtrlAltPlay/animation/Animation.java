@@ -16,7 +16,8 @@ public class Animation {
     private BufferedImage spriteSheet; // the sprite sheet containing all the animations
     private BufferedImage currentSprite; // the frame that the animation is currently on
     
-    public Animation(int newSpeed, int newFrames, BufferedImage newSpriteSheet, int newXPosition, int newYPosition, int newFrameWidth, int newFrameHeight){
+    
+    public Animation(int newSpeed, int newFrames, BufferedImage newSpriteSheet, int newXPosition, int newYPosition, int newFrameWidth, int newFrameHeight, boolean backwards){
         // Constructer which is used to get all the imformation in the animation from the character classes.
         speed = newSpeed;
         frames = newFrames;
@@ -25,18 +26,40 @@ public class Animation {
         startYPosition = newYPosition;
         startXPosition = newXPosition;
         index = 0;
-        count = 0;
+        
+        if(backwards == false)
+        {
+            count = 0;
+        }else
+        {
+            count = frames - 1;
+        }
+        
+        
         try{
             spriteSheet = newSpriteSheet;
         }catch(Exception ex){
             System.out.println("Error passing spriteSheet for animation");
         }
         // used to initialise sprite sheet
-        
-        try{
-            currentSprite = spriteSheet.getSubimage((frameWidth * startXPosition) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
-        }catch(Exception ex){
-            System.out.println("Error loaing first frame for animation");
+        if(backwards == false)
+        {
+            try
+            {
+                currentSprite = spriteSheet.getSubimage((frameWidth * startXPosition) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
+            }catch(Exception ex)
+            {
+                System.out.println("Error loaing first frame for animation");
+            }
+        }else
+        {
+            try
+            {
+                currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + (frames - 1))) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
+            }catch(Exception ex)
+            {
+                System.out.println("Error loaing first frame for animation");
+            }
         }
         // calculation which is used to set the first frame of the animation
     }
@@ -61,28 +84,31 @@ public class Animation {
     
     public void nextFrameBackwards(){
         // used to get the next frame in the animation
+        count--;
+        if (count < 0)
+        {
+            count = frames -1;
+        }
         for(int i = 0; i < frames; i++){
             if(i == count){
                 currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + i)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
             }
         }
-        count--;
-        if (count < 0){
-            count = frames -1;
-        }
+        
     }
     
     public void nextFrame(){
         // used to get the next frame in the animation
+        count++;
+            if(count >= frames){
+                count = 0;
+            }
         for(int i = 0; i < frames; i++){
             if(i == count){
                 currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + i)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
             }
         }
-            count++;
-            if(count >= frames){
-                count = 0;
-            }
+            
         
     }
     

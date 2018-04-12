@@ -84,8 +84,8 @@ public class Mummy {
     
     private void initAnimation()
     {
-        walkL = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight);
-        walkR = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight);
+        walkL = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
+        walkR = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight, true);
     }
     
     public boolean getIsVisible()
@@ -159,7 +159,7 @@ public class Mummy {
         
     }
     
-    public void fall(){
+    private void fall(){
         displacement.addY(1);
         
         if(displacement.getY() > 7)

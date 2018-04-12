@@ -49,6 +49,7 @@ public class Level1 extends JPanel implements ActionListener{
         player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
         orbs = new Orbs[6];
         cavemen = new Caveman[22];
+        chieftain = new Chieftain(17152, 716);
         largePlatforms = new Level1LargePlatform[5];
         smallPlatforms = new Level1SmallPlatform[21];
         health = new HealthPickup[2];
@@ -106,16 +107,16 @@ public class Level1 extends JPanel implements ActionListener{
         largePlatforms[4] = new Level1LargePlatform(3854, 130);
         
         smallPlatforms[0] = new Level1SmallPlatform(7150, 650);
-        smallPlatforms[1] = new Level1SmallPlatform(7530, 790);
-        smallPlatforms[2] = new Level1SmallPlatform(7630, 690);
-        smallPlatforms[3] = new Level1SmallPlatform(7730, 690);
-        smallPlatforms[4] = new Level1SmallPlatform(8740, 790);
-        smallPlatforms[5] = new Level1SmallPlatform(8840, 690);
-        smallPlatforms[6] = new Level1SmallPlatform(8940, 590);
-        smallPlatforms[7] = new Level1SmallPlatform(9040, 490);
-        smallPlatforms[8] = new Level1SmallPlatform(9190, 490);
-        smallPlatforms[9] = new Level1SmallPlatform(9340, 490);
-        smallPlatforms[10] = new Level1SmallPlatform(9490, 490);
+        smallPlatforms[1] = new Level1SmallPlatform(7530, 770);
+        smallPlatforms[2] = new Level1SmallPlatform(7630, 670);
+        smallPlatforms[3] = new Level1SmallPlatform(7730, 670);
+        smallPlatforms[4] = new Level1SmallPlatform(8740, 770);
+        smallPlatforms[5] = new Level1SmallPlatform(8840, 670);
+        smallPlatforms[6] = new Level1SmallPlatform(8940, 570);
+        smallPlatforms[7] = new Level1SmallPlatform(9040, 470);
+        smallPlatforms[8] = new Level1SmallPlatform(9190, 470);
+        smallPlatforms[9] = new Level1SmallPlatform(9340, 470);
+        smallPlatforms[10] = new Level1SmallPlatform(9490, 480);
         smallPlatforms[11] = new Level1SmallPlatform(11936, 650);
         smallPlatforms[12] = new Level1SmallPlatform(12286, 650);
         smallPlatforms[13] = new Level1SmallPlatform(12636, 650);
@@ -183,10 +184,11 @@ public class Level1 extends JPanel implements ActionListener{
         
         portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
-        //g2d.fillRect(player.getX() -25, player.getY() + 20, 50, player.getSpriteHeight() - 40);
-        //g2d.fillRect(player.getX() + 25 + player.getSpriteHeight() - 60, player.getY() + 20, 50, player.getSpriteHeight() - 40);
+        
+        chieftain.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
         player.draw(g2d);
+        
         hud.draw(g2d);
         
         g.dispose();
@@ -255,6 +257,8 @@ public class Level1 extends JPanel implements ActionListener{
             cavemen[i].checkAttackCollision(player);
         }
         
+        chieftain.checkCollision(ground);
+        
         if(player.checkCollision(portal) == true)
         {
             game.startLevel2();
@@ -268,6 +272,9 @@ public class Level1 extends JPanel implements ActionListener{
         {
             cavemen[i].doMove();
         }
+        
+        chieftain.doMove(player.getX());
+        
         scrollingBackground1.updateBackground(player.getX());
         hud.updateHud(player.getHealth(), player.getOrbs());
     }
@@ -343,6 +350,14 @@ public class Level1 extends JPanel implements ActionListener{
             portal.setIsVisible(false);
         }
         
+        if(chieftain.getPosition().getX() <= player.getX() + 960 && chieftain.getPosition().getX() + chieftain.getSpriteWidth() >= player.getX() - 960)
+        {
+            chieftain.setIsVisible(true);
+        }else
+        {
+            chieftain.setIsVisible(false);
+        }
+        
     }
     
     private class TAdapter extends KeyAdapter{
@@ -354,7 +369,7 @@ public class Level1 extends JPanel implements ActionListener{
             int direction = 0;
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
-                    if(isPressingW == false && player.getIsFalling() == false){
+                    if(isPressingW == false){
                         direction = 1;
                     }
                     isPressingW = true;
@@ -404,6 +419,7 @@ public class Level1 extends JPanel implements ActionListener{
                     break;
                     
                 case MouseEvent.BUTTON3: // ability for right mouse click
+                    player.useSwordRift();
                     player.cavemenSwordRift(cavemen);
                     player.resetOrbs();
                     break;

@@ -83,8 +83,8 @@ public class Caveman {
     
     private void initAnimation()
     {
-        walkR = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight);
-        walkL = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight);
+        walkR = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
+        walkL = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight, true);
     }
     
     public boolean getIsVisible()
@@ -158,7 +158,7 @@ public class Caveman {
         
     }
     
-    public void fall(){
+    private void fall(){
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -185,7 +185,7 @@ public class Caveman {
         }
     }
     
-    public void move()
+    private void move()
     {
         if(currentMoveTime == moveTime){
             currentMoveTime = 0;

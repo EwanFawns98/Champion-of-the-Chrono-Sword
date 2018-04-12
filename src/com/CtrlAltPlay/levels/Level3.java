@@ -199,7 +199,7 @@ public class Level3 extends JPanel implements ActionListener{
             int direction = 0;
             switch(e.getKeyCode()){
                 case KeyEvent.VK_W: // Jump
-                    if(isPressingW == false && player.getIsFalling() == false){
+                    if(isPressingW == false){
                         direction = 1;
                     }
                     isPressingW = true;

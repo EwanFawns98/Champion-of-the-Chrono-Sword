@@ -107,9 +107,20 @@ public class MainMenu extends JPanel implements ActionListener{
                     {
                         game.startGame();
                     }
+                    
+                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (400 * Game.yScaleFactor) && e.getY() <= (500 * Game.yScaleFactor))
+                    {
+                        game.controls();
+                    }
+                    
+                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (600 * Game.yScaleFactor) && e.getY() <= (700 * Game.yScaleFactor))
+                    {
+                        game.tutorial();
+                    }
+                    
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
                     {
-                        game.Options();
+                        game.options();
                     }
                     break;
                     
