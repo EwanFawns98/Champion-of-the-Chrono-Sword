@@ -80,4 +80,13 @@ public class Orbs {
         }
         
     }
+    
+    public void drawForMenu(Graphics2D g2d)
+    {
+        if(isVisible == true && isCollected == false)
+        {
+            g2d.drawImage(sprite, position.getX(), position.getY(), null);
+        }
+        
+    }
 }

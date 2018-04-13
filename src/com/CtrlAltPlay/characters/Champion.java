@@ -164,6 +164,11 @@ public class Champion {
         return health;
     }
     
+    public void setHealth(int newHealth)
+    {
+        health = newHealth;
+    }
+    
     public void setOrbs(int newOrbs)
     {
         orbs = newOrbs;
@@ -442,7 +447,7 @@ public class Champion {
                 {
                     orbs += 1;
                 }
-                
+                Sounds.play(getClass().getResourceAsStream("/Sounds/item_pick-up.wav"), false);
             }
         }
     }
@@ -616,7 +621,7 @@ public class Champion {
                 {
                     health += 1;
                 }
-                
+                Sounds.play(getClass().getResourceAsStream("/Sounds/item_pick-up.wav"), false);
             }
         }
     }

@@ -3,9 +3,7 @@ package com.CtrlAltPlay.screens;
 
 import com.CtrlAltPlay.characters.Champion;
 import com.CtrlAltPlay.game.Game;
-import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.objects.Ground;
-import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -81,6 +79,7 @@ public class Controls extends JPanel implements ActionListener{
     public void paintComponent(Graphics g)
     {
         Font font = new Font("Arial", Font.PLAIN, 40);
+        Font fontSmall = new Font("Arial", Font.PLAIN, 25);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
@@ -104,25 +103,29 @@ public class Controls extends JPanel implements ActionListener{
         g2d.drawString("Return to main menu", 100, 1065);
         
         
-        
+        g2d.setFont(fontSmall);
         if(isOnMove == true)
         {
             moveChamp.drawForMenu(g2d);
+            g2d.drawString("Press A or D to move", 1000, 800);
         }
         
         if(isOnJump == true)
         {
             jumpChamp.drawForMenu(g2d);
+            g2d.drawString("Press W to jump", 1000, 800);
         }
         
         if(isOnAttack == true)
         {
             attackChamp.drawForMenu(g2d);
+            g2d.drawString("Press left click to attack", 975, 800);
         }
         
         if(isOnSwordRift == true)
         {
             swordRiftChamp.drawForMenu(g2d);
+            g2d.drawString("Press right click to use sword rift", 950, 800);
         }
         g.dispose();
     }

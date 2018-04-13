@@ -158,6 +158,15 @@ public class Caveman {
         
     }
     
+    public void drawForMenus(Graphics2D g2d)
+    {
+        if(isVisible == true && isAlive == true)
+        {
+            g2d.drawImage(sprite, position.getX(), position.getY(), null);
+        }
+        
+    }
+    
     private void fall(){
         displacement.addY(1);
         

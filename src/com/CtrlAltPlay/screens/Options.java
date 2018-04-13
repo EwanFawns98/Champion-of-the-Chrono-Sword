@@ -28,7 +28,6 @@ public class Options extends JPanel implements ActionListener{
     private boolean onResolution;
     private int sound;
     
-    
     public Options(Game theGame){
         game = theGame;
         init();
@@ -64,11 +63,47 @@ public class Options extends JPanel implements ActionListener{
         
         g2d.setColor(Color.BLACK);
         g2d.fillRect(700, 200, 500, 400);
-        g2d.fillRect(700, 800, 500, 100);
+        g2d.fillRect(700, 800, 500, 200);
         g2d.fillRect(50, 800, 500, 100);
         
-        g2d.setColor(Color.BLUE);
+        g2d.setColor(Color.blue);
         g2d.fillRect(750, 230, 400, 50);
+        
+        if(sound >= 1){
+            g2d.setColor(Color.cyan);
+        }else{
+            g2d.setColor(Color.blue);
+        }
+        g2d.fillRect(715, 900, 75, 75);
+        
+        if(sound >= 2){
+            g2d.setColor(Color.cyan);
+        }else{
+            g2d.setColor(Color.blue);
+        }
+        g2d.fillRect(815, 900, 75, 75);
+        
+        if(sound >= 3){
+            g2d.setColor(Color.cyan);
+        }else{
+            g2d.setColor(Color.blue);
+        }
+        g2d.fillRect(915, 900, 75, 75);
+        
+        if(sound >= 4){
+            g2d.setColor(Color.cyan);
+        }else{
+            g2d.setColor(Color.blue);
+        }
+        g2d.fillRect(1015, 900, 75, 75);
+        
+        if(sound >= 5){
+            g2d.setColor(Color.cyan);
+        }else{
+            g2d.setColor(Color.blue);
+        }
+        
+        g2d.fillRect(1115, 900, 75, 75);
         
         if(onResolution == true)
         {
@@ -161,6 +196,41 @@ public class Options extends JPanel implements ActionListener{
                     if(e.getX() <= (550 * Game.xScaleFactor) && e.getX() >= (50 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
                     {
                         game.startMainMenu();
+                    }
+                    
+                    if(e.getX() <= (790 * Game.xScaleFactor) && e.getX() >= (715 * Game.xScaleFactor) && e.getY() >= (900 * Game.yScaleFactor) && e.getY() <= (975 * Game.yScaleFactor))
+                    {
+                        sound = 1;
+                        Game.gain = -40f;
+                        Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
+                    }
+                    
+                    if(e.getX() <= (890 * Game.xScaleFactor) && e.getX() >= (815 * Game.xScaleFactor) && e.getY() >= (900 * Game.yScaleFactor) && e.getY() <= (975 * Game.yScaleFactor))
+                    {
+                        sound = 2;
+                        Game.gain = -30f;
+                        Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
+                    }
+                    
+                    if(e.getX() <= (990 * Game.xScaleFactor) && e.getX() >= (915 * Game.xScaleFactor) && e.getY() >= (900 * Game.yScaleFactor) && e.getY() <= (975 * Game.yScaleFactor))
+                    {
+                        sound = 3;
+                        Game.gain = -20f;
+                        Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
+                    }
+                    
+                    if(e.getX() <= (1090 * Game.xScaleFactor) && e.getX() >= (1015 * Game.xScaleFactor) && e.getY() >= (900 * Game.yScaleFactor) && e.getY() <= (975 * Game.yScaleFactor))
+                    {
+                        sound = 4;
+                        Game.gain = -10f;
+                        Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
+                    }
+                    
+                    if(e.getX() <= (1190 * Game.xScaleFactor) && e.getX() >= (1115 * Game.xScaleFactor) && e.getY() >= (900 * Game.yScaleFactor) && e.getY() <= (975 * Game.yScaleFactor))
+                    {
+                        sound = 5;
+                        Game.gain = 0;
+                        Sounds.play(getClass().getResourceAsStream("/Sounds/jumping.wav"), false);
                     }
                     break;
                     

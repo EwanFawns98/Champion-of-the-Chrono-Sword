@@ -12,6 +12,7 @@ import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.Level1Wall;
 import com.CtrlAltPlay.objects.Portal;
+import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -141,6 +142,11 @@ public class Level1 extends JPanel implements ActionListener{
         addKeyListener(new TAdapter());
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
+        if(Game.musicIsPlaying == false)
+        {
+            Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
+            Game.musicIsPlaying = true;
+        }
     }
     
     @Override

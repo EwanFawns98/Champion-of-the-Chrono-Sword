@@ -11,9 +11,11 @@ package com.CtrlAltPlay.sounds;
  * and open the template in the editor.
  */
 
+import com.CtrlAltPlay.game.Game;
 import java.io.InputStream;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.Clip;
 public class Sounds{
         public static synchronized void play(InputStream soundResource, boolean isMusic){
@@ -26,6 +28,8 @@ public class Sounds{
                         Clip clip = AudioSystem.getClip();
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundResource);
                         clip.open(ais);
+                        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                        gainControl.setValue(Game.gain);
                         clip.start();
                         
                         if(isMusic == true){

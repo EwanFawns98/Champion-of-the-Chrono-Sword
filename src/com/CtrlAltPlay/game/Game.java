@@ -31,6 +31,8 @@ public class Game {
     private Options options;
     private GameOver gameOver;
     private Death death;
+    public static boolean musicIsPlaying = false;
+    public static float gain = 0;
     
     public static void main(String[] args) {
         Game game = new Game();
