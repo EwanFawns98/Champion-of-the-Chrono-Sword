@@ -27,7 +27,7 @@ public class Tutorial extends JPanel implements ActionListener{
     
     public Tutorial(Game theGame){
         game = theGame;
-        player = new Champion(260, 130);
+        player = new Champion(260, 130, 5, 3, 0);
         init();
     }
     

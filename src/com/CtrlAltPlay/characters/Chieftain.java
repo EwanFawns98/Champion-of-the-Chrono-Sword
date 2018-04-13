@@ -75,8 +75,8 @@ public class Chieftain {
     
     private void initAnimation()
     {
-        walkR = new Animation(6, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        walkL = new Animation(6, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
+        walkR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
+        walkL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
         attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
         attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
     }
@@ -202,14 +202,14 @@ public class Chieftain {
     
     private void move(int playerX)
     {
-            if(position.getX() > playerX + 65 && isAttackingL == false && isAttackingR == false)
+            if(position.getX() > playerX + 70 && isAttackingL == false && isAttackingR == false)
             {
-                displacement.setX(-3);
+                displacement.setX(-8);
                 walkL.runBackwards();
                 sprite = walkL.getCurrentSprite();
             }else if(position.getX() + 115 < playerX && isAttackingL == false && isAttackingR == false)
             {
-                displacement.setX(3);
+                displacement.setX(8);
                 walkR.run();
                 sprite = walkR.getCurrentSprite();
             }else
@@ -240,11 +240,12 @@ public class Chieftain {
         
         if(isAttackingL == true)
         {
-            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 100 && attackTimer <= 143)
+            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
-                attackL.runBackwards();
                 sprite = attackL.getCurrentSprite();
-                if(attackTimer >= 100 && attackTimer <= 143)
+                attackL.runBackwards();
+                
+                if(attackTimer >= 60 && attackTimer <= 103)
                 {
                     showAttackBoxL = true;
                 }
@@ -252,11 +253,12 @@ public class Chieftain {
             
         }else if(isAttackingR == true)
         {
-            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 100 && attackTimer <= 143)
+            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
-                attackR.run();
                 sprite = attackR.getCurrentSprite();
-                if(attackTimer >= 100 && attackTimer <= 143)
+                attackR.run();
+                
+                if(attackTimer >= 60 && attackTimer <= 103)
                 {
                     showAttackBoxR = true;
                 }
@@ -266,7 +268,7 @@ public class Chieftain {
         attackTimer++;
         displacement.setX(0);
         
-        if(attackTimer == 143)
+        if(attackTimer == 103)
         {
             attackTimer = 0;
             isAttackingL = false;

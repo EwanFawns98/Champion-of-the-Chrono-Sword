@@ -34,6 +34,7 @@ public class Champion {
     private Animation walkingL;
     private int spriteWidth;
     private int spriteHeight;
+    private int lives;
     private int staticX;
     private int orbs;
     private int invulnerableTimer;
@@ -49,15 +50,16 @@ public class Champion {
     private boolean isAttackingL;
     private boolean isAttackingR;
     
-    public Champion(int newLevelWidth, int newLevelHeight)
+    public Champion(int newLevelWidth, int newLevelHeight, int newHealth, int newLives, int newOrbs)
     {
         position = new Vector(newLevelWidth/2, newLevelHeight/2);
         staticX = newLevelWidth/2;
         displacement = new Vector(0, 0);
-        health = 5;
+        health = newHealth;
+        lives = newLives;
         invulnerableTimer = 0;
         attackTimer = 0;
-        orbs = 0;
+        orbs = newOrbs;
         
         isFalling = false;
         isJumping = false;
@@ -170,6 +172,16 @@ public class Champion {
     public int getOrbs()
     {
         return orbs;
+    }
+    
+    public void setLives(int newLives)
+    {
+        lives = newLives;
+    }
+    
+    public int getLives()
+    {
+        return lives;
     }
     
     public int getSpriteWidth()

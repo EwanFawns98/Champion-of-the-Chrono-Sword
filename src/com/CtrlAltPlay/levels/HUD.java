@@ -11,13 +11,15 @@ import javax.imageio.ImageIO;
 public class HUD {
     private int health;
     private int orbs;
+    private int lives;
     private BufferedImage shield;
     private BufferedImage orb;
-    public HUD(int newHealth, int newOrb){
+    private BufferedImage championSprite;
+    public HUD(int newHealth, int newOrb, int newLives){
         
         health = newHealth;
         orbs = newOrb;
-        
+        lives = newLives;
         try
         {
             shield = ImageIO.read(getClass().getResource("/Images/shield.png"));
@@ -32,6 +34,14 @@ public class HUD {
         }catch(Exception ex)
         {
             System.out.println("Error loading orb UI");
+        }
+        
+        try
+        {
+            championSprite = ImageIO.read(getClass().getResource("/Images/Champion sprite.png"));
+        }catch(Exception ex)
+        {
+            System.out.println("Error loading champion UI");
         }
     }
     
@@ -54,7 +64,10 @@ public class HUD {
             }
         }
         
-        g2d.drawImage(orb, orb.getWidth() - 50, 130, null);
-        g2d.drawString(String.valueOf(orbs), 80, 180);
+        g2d.drawImage(orb, 14, 130, null);
+        g2d.drawString(String.valueOf(orbs), 100, 180);
+        g2d.drawString(String.valueOf(lives), 100, 280);
+        g2d.scale(0.75, 0.75);
+        g2d.drawImage(championSprite, 0, 275, null);
     }
 }

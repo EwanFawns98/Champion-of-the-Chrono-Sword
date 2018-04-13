@@ -42,10 +42,10 @@ public class Controls extends JPanel implements ActionListener{
     public Controls(Game theGame){
         game = theGame;
         ground = new Ground(0, 653);
-        moveChamp = new Champion(1500, 1080);
-        jumpChamp = new Champion(2000, 1080);
-        attackChamp = new Champion(2000, 1080);
-        swordRiftChamp = new Champion(2000, 1080);
+        moveChamp = new Champion(1500, 1080, 5, 3, 0);
+        jumpChamp = new Champion(2000, 1080, 5, 3, 0);
+        attackChamp = new Champion(2000, 1080, 5, 3, 0);
+        swordRiftChamp = new Champion(2000, 1080, 5, 3, 0);
         
         init();
     }

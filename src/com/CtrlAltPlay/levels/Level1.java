@@ -44,9 +44,10 @@ public class Level1 extends JPanel implements ActionListener{
     private Portal portal;
     private HUD hud;
     
-    public Level1(Game theGame){
+    
+    public Level1(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
-        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, newHealth, newLives, newPlayerOrbs);
         orbs = new Orbs[6];
         cavemen = new Caveman[22];
         chieftain = new Chieftain(17152, 716);
@@ -55,7 +56,7 @@ public class Level1 extends JPanel implements ActionListener{
         health = new HealthPickup[2];
         portal = new Portal(17152, 762);
         wall = new Level1Wall[2];
-        hud = new HUD(player.getHealth(), player.getOrbs());
+        hud = new HUD(player.getHealth(), player.getOrbs(), newLives);
         init();
     }
     
@@ -200,6 +201,7 @@ public class Level1 extends JPanel implements ActionListener{
         checkIsOnScreen();
         checkCollisions();
         updateMove();
+        checkIsDead();
         repaint();
     }
     
@@ -211,6 +213,19 @@ public class Level1 extends JPanel implements ActionListener{
     public void stopTimer()
     {
         timer.stop();
+    }
+    
+    private void checkIsDead()
+    {
+        if(player.getHealth() == 0 && player.getLives() > 0)
+        {
+            timer.stop();
+            game.deathScreen(1, player.getLives());
+        }else if(player.getHealth() == 0 && player.getLives() == 0)
+        {
+            timer.stop();
+            game.gameOverScreen();
+        }
     }
     
     private void checkCollisions()
@@ -267,7 +282,7 @@ public class Level1 extends JPanel implements ActionListener{
         
         if(player.checkCollision(portal) == true)
         {
-            game.startLevel2();
+            game.startLevel2(player.getHealth(), player.getLives(), player.getOrbs());
         }
     }
     

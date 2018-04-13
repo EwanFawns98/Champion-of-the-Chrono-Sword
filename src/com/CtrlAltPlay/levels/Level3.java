@@ -34,12 +34,12 @@ public class Level3 extends JPanel implements ActionListener{
     private Ground ground;
     private HUD hud;
     
-    public Level3(Game theGame){
+    public Level3(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
-        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT);
+        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, newHealth, newLives, newPlayerOrbs);
         smallPlatforms = new Level3Platform[5];
         health = new HealthPickup[2];
-        hud = new HUD(player.getHealth(), player.getOrbs());
+        hud = new HUD(player.getHealth(), player.getOrbs(), newLives);
         wall = new Level3Wall[2];
         init();
     }
@@ -112,7 +112,7 @@ public class Level3 extends JPanel implements ActionListener{
         checkIsOnScreen();
         checkCollisions();
         updateMove();
-        //checkWinCondition();
+        checkIsDead();
         repaint();
     }
     
@@ -124,6 +124,19 @@ public class Level3 extends JPanel implements ActionListener{
     public void stopTimer()
     {
         timer.stop();
+    }
+    
+    private void checkIsDead()
+    {
+        if(player.getHealth() == 0 && player.getLives() > 0)
+        {
+            timer.stop();
+            game.deathScreen(3, player.getLives());
+        }else if(player.getHealth() == 0 && player.getLives() == 0)
+        {
+            timer.stop();
+            game.gameOverScreen();
+        }
     }
     
     private void checkCollisions()

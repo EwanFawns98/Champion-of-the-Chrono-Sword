@@ -5,6 +5,8 @@ import com.CtrlAltPlay.levels.Level1;
 import com.CtrlAltPlay.levels.Level2;
 import com.CtrlAltPlay.levels.Level3;
 import com.CtrlAltPlay.screens.Controls;
+import com.CtrlAltPlay.screens.Death;
+import com.CtrlAltPlay.screens.GameOver;
 import com.CtrlAltPlay.screens.MainMenu;
 import com.CtrlAltPlay.screens.Options;
 import com.CtrlAltPlay.screens.Tutorial;
@@ -27,6 +29,8 @@ public class Game {
     private Controls controls;
     private Tutorial tutorial;
     private Options options;
+    private GameOver gameOver;
+    private Death death;
     
     public static void main(String[] args) {
         Game game = new Game();
@@ -60,14 +64,9 @@ public class Game {
         controls.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         tutorial = new Tutorial(this);
         tutorial.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        level1 = new Level1(this);
-        level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        level2 = new Level2(this);
-        level2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        level3 = new Level3(this);
-        level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         
-                
+        gameOver = new GameOver(this);
+        gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
     }
     
     public void options()
@@ -113,10 +112,31 @@ public class Game {
         window.setVisible(true);
     }
     
-    
-    
-    public void startGame()
+    public void deathScreen(int level, int lives)
     {
+        death = new Death(this, level, lives);
+        death.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(death);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        death.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void gameOverScreen()
+    {
+        window.getContentPane().add(gameOver);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        gameOver.requestFocus();
+        window.setVisible(true);
+    }
+    
+    
+    public void startGame(int health, int lives, int orbs)
+    {
+        level1 = new Level1(this, health, lives, orbs);
+        level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level1);
         mainMenu.stopTimer();
         level1.startTimer();
@@ -126,8 +146,10 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void startLevel2()
+    public void startLevel2(int health, int lives, int orbs)
     {
+        level2 = new Level2(this, health, lives, orbs);
+        level2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level2);
         level1.stopTimer();
         level2.startTimer();
@@ -137,8 +159,10 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void startLevel3()
+    public void startLevel3(int health, int lives, int orbs)
     {
+        level3 = new Level3(this, health, lives, orbs);
+        level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level3);
         level2.stopTimer();
         level3.startTimer();

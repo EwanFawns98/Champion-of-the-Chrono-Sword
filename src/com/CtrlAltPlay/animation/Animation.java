@@ -89,11 +89,7 @@ public class Animation {
         {
             count = frames -1;
         }
-        for(int i = 0; i < frames; i++){
-            if(i == count){
-                currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + i)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
-            }
-        }
+                currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + count)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
         
     }
     
@@ -103,13 +99,7 @@ public class Animation {
             if(count >= frames){
                 count = 0;
             }
-        for(int i = 0; i < frames; i++){
-            if(i == count){
-                currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + i)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
-            }
-        }
-            
-        
+                currentSprite = spriteSheet.getSubimage((frameWidth * (startXPosition + count)) - frameWidth, (frameHeight * startYPosition) - frameHeight, frameWidth, frameHeight);
     }
     
     public BufferedImage getCurrentSprite(){

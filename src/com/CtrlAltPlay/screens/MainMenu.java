@@ -3,7 +3,6 @@ package com.CtrlAltPlay.screens;
 
 import com.CtrlAltPlay.characters.Champion;
 import com.CtrlAltPlay.game.Game;
-import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -27,7 +26,7 @@ public class MainMenu extends JPanel implements ActionListener{
     
     public MainMenu(Game theGame){
         game = theGame;
-        player = new Champion(260, 130);
+        player = new Champion(260, 130, 5, 3, 0);
         init();
     }
     
@@ -105,7 +104,7 @@ public class MainMenu extends JPanel implements ActionListener{
                 case MouseEvent.BUTTON1:
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
-                        game.startGame();
+                        game.startGame(5, 3, 0);
                     }
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (400 * Game.yScaleFactor) && e.getY() <= (500 * Game.yScaleFactor))
