@@ -116,7 +116,7 @@ public class Level1 extends JPanel implements ActionListener{
         smallPlatforms[7] = new Level1SmallPlatform(9040, 470);
         smallPlatforms[8] = new Level1SmallPlatform(9190, 470);
         smallPlatforms[9] = new Level1SmallPlatform(9340, 470);
-        smallPlatforms[10] = new Level1SmallPlatform(9490, 480);
+        smallPlatforms[10] = new Level1SmallPlatform(9490, 470);
         smallPlatforms[11] = new Level1SmallPlatform(11936, 650);
         smallPlatforms[12] = new Level1SmallPlatform(12286, 650);
         smallPlatforms[13] = new Level1SmallPlatform(12636, 650);
@@ -240,6 +240,7 @@ public class Level1 extends JPanel implements ActionListener{
         }
         
         player.checkCollsision(cavemen);
+        player.checkCollision(chieftain);
         
         for(int i = 0; i < cavemen.length; i++)
         {
@@ -258,6 +259,11 @@ public class Level1 extends JPanel implements ActionListener{
         }
         
         chieftain.checkCollision(ground);
+        
+        if(chieftain.checkAttackCollision(player) == true)
+        {
+            portal.setBossIsDefeated(true);
+        }
         
         if(player.checkCollision(portal) == true)
         {

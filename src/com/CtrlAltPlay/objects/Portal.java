@@ -74,7 +74,7 @@ public class Portal {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        if(isVisible == true)
+        if(isVisible == true && bossIsDefeated == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }

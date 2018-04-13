@@ -455,6 +455,21 @@ public class Champion {
         }
     }
     
+    public void checkCollision(Chieftain c)
+    {
+            if(c.getBounds().intersects(getBounds()) && c.getIsAlive() == true)
+            {
+                takeDamage(1);
+            }
+            
+            if(c.getLeftBounds().intersects(getBounds()) && c.getIsAlive() == true && c.getShowAttackBoxL() == true || c.getRightBounds().intersects(getBounds()) && c.getIsAlive() == true && c.getShowAttackBoxR() == true)
+            {
+                takeDamage(1);
+            }
+    }
+    
+    
+    
     public boolean checkCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++){
@@ -596,7 +611,7 @@ public class Champion {
     
     public boolean checkCollision(Portal p)
     {
-        if(p.getBounds().intersects(getBounds()))
+        if(p.getBounds().intersects(getBounds()) && p.getBossIsDefeated() == true)
         {
             return true;
         }
@@ -975,6 +990,7 @@ public class Champion {
         }
         return false;
     }
+    
     
     public void useSwordRift()
     {

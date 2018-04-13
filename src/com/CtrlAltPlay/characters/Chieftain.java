@@ -26,11 +26,14 @@ public class Chieftain {
     private int spriteHeight;
     private int health;
     private int attackTimer;
+    private int invulnerableTimer;
     private boolean isVisible;
     private boolean isAlive;
     private boolean isFalling;
     private boolean isAttackingR;
     private boolean isAttackingL;
+    private boolean showAttackBoxL;
+    private boolean showAttackBoxR;
     
     
     public Chieftain(int newX, int newY){
@@ -38,6 +41,7 @@ public class Chieftain {
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         health = 5;
+        invulnerableTimer = 0;
         try{
             walkingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain walking.png"));
         }catch(Exception ex)
@@ -63,6 +67,8 @@ public class Chieftain {
         isFalling = false;
         isAttackingR = false;
         isAttackingL = false;
+        showAttackBoxL = false;
+        showAttackBoxR = false;
         initAnimation();
     }
     
@@ -113,15 +119,47 @@ public class Chieftain {
     
     public Rectangle getBounds()
     {
-        Rectangle bossRect = new Rectangle(position.getX() + 30, position.getY() + 30, spriteWidth - 60, spriteHeight - 60);
+        Rectangle bossRect = new Rectangle(position.getX() + 30, position.getY() + 30, spriteWidth - 100, spriteHeight - 60);
         return bossRect;
+    }
+    
+    public Rectangle getLeftBounds()
+    {
+        Rectangle leftBounds = new Rectangle(position.getX() , position.getY() + 30, 50, 150);
+        return leftBounds;
+    }
+    
+    public Rectangle getRightBounds()
+    {
+        Rectangle rightBounds = new Rectangle(position.getX() + 140, position.getY() + 30, 50, 150);
+        return rightBounds;
+    }
+    
+    public boolean getShowAttackBoxL()
+    {
+        return showAttackBoxL;
+    }
+    
+    public boolean getShowAttackBoxR()
+    {
+        return showAttackBoxR;
+    }
+    
+    public void setShowAttackBoxL(boolean newShowAttackBoxL)
+    {
+        showAttackBoxL = newShowAttackBoxL;
+    }
+    
+    public void setShowAttackBoxR(boolean newShowAttackBoxR)
+    {
+        showAttackBoxR = newShowAttackBoxR;
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
         if(isVisible == true && isAlive == true)
         {
-            //g2d.fillRect((position.getX() + 95 - (playerX - screenPosition)), position.getY(), 160, 160);
+            
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }
         
@@ -149,6 +187,15 @@ public class Chieftain {
             }
             
             move(playerX);
+            if(invulnerableTimer > 0)
+            {
+                invulnerableTimer++;
+            }
+            
+            if(invulnerableTimer == 50)
+            {
+                invulnerableTimer = 0;
+            }
             position.add(displacement);
         }
     }
@@ -197,6 +244,10 @@ public class Chieftain {
             {
                 attackL.runBackwards();
                 sprite = attackL.getCurrentSprite();
+                if(attackTimer >= 100 && attackTimer <= 143)
+                {
+                    showAttackBoxL = true;
+                }
             }
             
         }else if(isAttackingR == true)
@@ -205,6 +256,10 @@ public class Chieftain {
             {
                 attackR.run();
                 sprite = attackR.getCurrentSprite();
+                if(attackTimer >= 100 && attackTimer <= 143)
+                {
+                    showAttackBoxR = true;
+                }
             }
         }
         
@@ -216,6 +271,8 @@ public class Chieftain {
             attackTimer = 0;
             isAttackingL = false;
             isAttackingR = false;
+            showAttackBoxL = false;
+            showAttackBoxR = false;
         }
     }
     
@@ -234,12 +291,14 @@ public class Chieftain {
     
     public boolean checkAttackCollision(Champion c)
     {
-        if(c.getLeftAttackBounds().intersects(getBounds()) && c.getIsAttackingL() == true || c.getRightAttackBounds().intersects(getBounds()) && c.getIsAttackingR() == true)
+        if(c.getLeftAttackBounds().intersects(getBounds()) && c.getIsAttackingL() == true && invulnerableTimer == 0 || c.getRightAttackBounds().intersects(getBounds()) && c.getIsAttackingR() == true && invulnerableTimer == 0)
         {
+            invulnerableTimer++;
             health -= 1;
             if(health == 0)
             {
                 isAlive = false;
+                return true;
             }
         }
         return false;
