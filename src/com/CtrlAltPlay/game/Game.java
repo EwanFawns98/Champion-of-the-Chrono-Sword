@@ -5,6 +5,10 @@ import com.CtrlAltPlay.levels.Level1;
 import com.CtrlAltPlay.levels.Level2;
 import com.CtrlAltPlay.levels.Level3;
 import com.CtrlAltPlay.screens.Controls;
+import com.CtrlAltPlay.screens.Cutscene1;
+import com.CtrlAltPlay.screens.Cutscene2;
+import com.CtrlAltPlay.screens.Cutscene3;
+import com.CtrlAltPlay.screens.Cutscene4;
 import com.CtrlAltPlay.screens.Death;
 import com.CtrlAltPlay.screens.GameOver;
 import com.CtrlAltPlay.screens.MainMenu;
@@ -31,6 +35,10 @@ public class Game {
     private Options options;
     private GameOver gameOver;
     private Death death;
+    private Cutscene1 cutscene1;
+    private Cutscene2 cutscene2;
+    private Cutscene3 cutscene3;
+    private Cutscene4 cutscene4;
     public static boolean musicIsPlaying = false;
     public static float gain = 0;
     
@@ -66,9 +74,9 @@ public class Game {
         controls.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         tutorial = new Tutorial(this);
         tutorial.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
-        
         gameOver = new GameOver(this);
         gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        
     }
     
     public void options()
@@ -125,6 +133,52 @@ public class Game {
         window.setVisible(true);
     }
     
+    public void cutscene1()
+    {
+        mainMenu.stopTimer();
+        cutscene1 = new Cutscene1(this);
+        gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(cutscene1);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        cutscene1.requestFocus();
+        cutscene1.startTimer();
+        window.setVisible(true);
+    }
+    
+    public void cutscene2(int health, int lives, int orbs)
+    {
+        cutscene2 = new Cutscene2(this, health, lives, orbs);
+        cutscene2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(cutscene2);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        cutscene2.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void cutscene3(int health, int lives, int orbs)
+    {
+        cutscene3 = new Cutscene3(this, health, lives, orbs);
+        cutscene3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(cutscene3);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        cutscene3.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void cutscene4()
+    {
+        cutscene4 = new Cutscene4(this);
+        gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(cutscene4);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        cutscene4.requestFocus();
+        window.setVisible(true);
+    }
+    
     public void gameOverScreen()
     {
         window.getContentPane().add(gameOver);
@@ -140,7 +194,6 @@ public class Game {
         level1 = new Level1(this, health, lives, orbs);
         level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level1);
-        mainMenu.stopTimer();
         level1.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());

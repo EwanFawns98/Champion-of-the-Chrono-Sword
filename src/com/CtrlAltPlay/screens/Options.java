@@ -38,7 +38,7 @@ public class Options extends JPanel implements ActionListener{
         sound = 5;
         onResolution = false;
         try{
-            background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
+            background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }
@@ -105,6 +105,7 @@ public class Options extends JPanel implements ActionListener{
         
         g2d.fillRect(1115, 900, 75, 75);
         
+        g2d.setColor(Color.blue);
         if(onResolution == true)
         {
         g2d.fillRect(750, 290, 400, 50);
@@ -195,6 +196,7 @@ public class Options extends JPanel implements ActionListener{
                     
                     if(e.getX() <= (550 * Game.xScaleFactor) && e.getX() >= (50 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
                     {
+                        timer.stop();
                         game.startMainMenu();
                     }
                     

@@ -58,7 +58,7 @@ public class Tutorial extends JPanel implements ActionListener{
     {
         
         try{
-            background = ImageIO.read(getClass().getResource("/Images/Placeholder background.png"));
+            background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
             System.out.println("Error loading background image");
         }

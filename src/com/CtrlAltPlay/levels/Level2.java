@@ -269,7 +269,7 @@ public class Level2 extends JPanel implements ActionListener{
         
         if(player.checkCollision(portal) == true)
         {
-            game.startLevel3(player.getHealth(), player.getLives(), player.getOrbs());
+            game.cutscene3(player.getHealth(), player.getLives(), player.getOrbs());
         }
     }
     
