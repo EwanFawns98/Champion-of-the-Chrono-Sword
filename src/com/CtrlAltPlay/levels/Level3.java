@@ -2,11 +2,13 @@
 package com.CtrlAltPlay.levels;
 
 import com.CtrlAltPlay.characters.Champion;
+import com.CtrlAltPlay.characters.ShadowKing;
 import com.CtrlAltPlay.objects.HealthPickup;
 import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.objects.Ground;
 import com.CtrlAltPlay.objects.Level3Platform;
 import com.CtrlAltPlay.objects.Level3Wall;
+import com.CtrlAltPlay.objects.ShockWave;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -27,6 +29,8 @@ public class Level3 extends JPanel implements ActionListener{
     private BufferedImage background;
     private Timer timer;
     private Champion player;
+    private ShadowKing shadowKing;
+    private ShockWave shockWave;
     private Background scrollingBackground1;
     private Level3Platform[] smallPlatforms;
     private HealthPickup[] health;
@@ -36,7 +40,9 @@ public class Level3 extends JPanel implements ActionListener{
     
     public Level3(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
-        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, newHealth, newLives, newPlayerOrbs);
+        player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
+        shadowKing = new ShadowKing(1720, 716);
+        shockWave = new ShockWave(-100, -100, false);
         smallPlatforms = new Level3Platform[5];
         health = new HealthPickup[2];
         hud = new HUD(player.getHealth(), player.getOrbs(), newLives);
@@ -52,18 +58,18 @@ public class Level3 extends JPanel implements ActionListener{
             System.out.println("Error loading background image");
         }
         
-        ground = new Ground(0, 890);
+        ground = new Ground(0, 900);
         scrollingBackground1 = new Background(background, player.getX());
         
         
-        smallPlatforms[0] = new Level3Platform(7150, 650);
-        smallPlatforms[1] = new Level3Platform(7530, 790);
-        smallPlatforms[2] = new Level3Platform(7630, 690);
-        smallPlatforms[3] = new Level3Platform(7730, 690);
-        smallPlatforms[4] = new Level3Platform(7730, 690);
+        smallPlatforms[0] = new Level3Platform(300, 650);
+        smallPlatforms[1] = new Level3Platform(600, 450);
+        smallPlatforms[2] = new Level3Platform(900, 650);
+        smallPlatforms[3] = new Level3Platform(1200, 450);
+        smallPlatforms[4] = new Level3Platform(1500, 690);
         
-        health[0] = new HealthPickup(8850,800);
-        health[1] = new HealthPickup(11950, 140);
+        health[0] = new HealthPickup(600, 380);
+        health[1] = new HealthPickup(1200, 380);
         
         wall[0] = new Level3Wall(-392, 0);
         wall[1] = new Level3Wall(1920, 0);
@@ -100,6 +106,8 @@ public class Level3 extends JPanel implements ActionListener{
             wall[i].draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         }
         
+        shadowKing.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        shockWave.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         player.draw(g2d);
         hud.draw(g2d);
         
@@ -156,11 +164,29 @@ public class Level3 extends JPanel implements ActionListener{
         player.checkLeftCollision(smallPlatforms);
         
         player.checkCollision(health);
+        
+        player.checkCollision(shadowKing);
+        
+        shadowKing.checkCollision(ground);
+        
+        if(shadowKing.checkAttackCollision(player) == true)
+        {
+            game.cutscene4();
+        }
     }
     
     private void updateMove()
     {
         player.doMove();
+        shadowKing.doMove(player.getX());
+        if(shadowKing.getThrowing() == true && shadowKing.getIsAttackingR() == true)
+        {
+            shockWave = new ShockWave(shadowKing.getPosition().getX(), 780, true);
+        }else if(shadowKing.getThrowing() == true && shadowKing.getIsAttackingR() == false)
+        {
+            shockWave = new ShockWave(shadowKing.getPosition().getX(), 780, false);
+        }
+        shockWave.doMove();
         scrollingBackground1.updateBackground(player.getX());
         hud.updateHud(player.getHealth(), player.getOrbs());
     }
@@ -258,9 +284,12 @@ public class Level3 extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1: // attacking for left mouse click
+                    player.attack();
                     break;
                     
                 case MouseEvent.BUTTON3: // ability for right mouse click
+                    player.useSwordRift();
+                    player.resetOrbs();
                     break;
             }
         }

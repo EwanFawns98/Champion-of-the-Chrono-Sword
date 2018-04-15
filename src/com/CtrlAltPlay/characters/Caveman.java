@@ -204,13 +204,13 @@ public class Caveman {
         if(moveRight == true)
         {
             displacement.setX(2);
-            walkR.run();
             sprite = walkR.getCurrentSprite();
+            walkR.run();
         }else
         {
             displacement.setX(-2);
-            walkL.runBackwards();
             sprite = walkL.getCurrentSprite();
+            walkL.runBackwards();
         }
         currentMoveTime += 1;
     }

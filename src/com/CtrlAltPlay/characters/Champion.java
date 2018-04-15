@@ -14,6 +14,8 @@ import com.CtrlAltPlay.objects.Level3Platform;
 import com.CtrlAltPlay.objects.Level3Wall;
 import com.CtrlAltPlay.objects.Orbs;
 import com.CtrlAltPlay.objects.Portal;
+import com.CtrlAltPlay.objects.ShockWave;
+import com.CtrlAltPlay.objects.Spear;
 import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -274,18 +276,18 @@ public class Champion {
         
         if(isMovingR == false && isMovingL == false && isFacingR == true)
         {
-            idleR.run();
             sprite = idleR.getCurrentSprite();
+            idleR.run();
         }else if(isMovingR == false && isMovingL == false && isFacingL == true)
         {
-            idleL.runBackwards();
             sprite = idleL.getCurrentSprite();
+            idleL.runBackwards();
         }else if(isMovingR == true){
-            walkingR.run();
             sprite = walkingR.getCurrentSprite();
+            walkingR.run();
         }else if(isMovingL == true){
-            walkingL.run();
             sprite = walkingL.getCurrentSprite();
+            walkingL.run();
         }else{
             sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         }
@@ -472,6 +474,24 @@ public class Champion {
         }
     }
     
+    public void checkCollsision(Spear s)
+    {
+        if(s.getBounds().intersects(getBounds()) && s.getIsCollected() == false)
+        {
+            takeDamage(1);
+            s.setIsCollected(true);
+        }
+    }
+    
+    public void checkCollsision(ShockWave s)
+    {
+        if(s.getBounds().intersects(getBounds()) && s.getIsCollected() == false)
+        {
+            takeDamage(1);
+            s.setIsCollected(true);
+        }
+    }
+    
     public void checkCollision(Chieftain c)
     {
             if(c.getBounds().intersects(getBounds()) && c.getIsAlive() == true)
@@ -485,7 +505,31 @@ public class Champion {
             }
     }
     
+    public void checkCollision(Pharaoh p)
+    {
+            if(p.getBounds().intersects(getBounds()) && p.getIsAlive() == true)
+            {
+                takeDamage(1);
+            }
+            
+            if(p.getLeftBounds().intersects(getBounds()) && p.getIsAlive() == true && p.getShowAttackBoxL() == true || p.getRightBounds().intersects(getBounds()) && p.getIsAlive() == true && p.getShowAttackBoxR() == true)
+            {
+                takeDamage(1);
+            }
+    }
     
+    public void checkCollision(ShadowKing s)
+    {
+            if(s.getBounds().intersects(getBounds()) && s.getIsAlive() == true)
+            {
+                takeDamage(1);
+            }
+            
+            if(s.getLeftBounds().intersects(getBounds()) && s.getIsAlive() == true && s.getShowAttackBoxL() == true || s.getRightBounds().intersects(getBounds()) && s.getIsAlive() == true && s.getShowAttackBoxR() == true)
+            {
+                takeDamage(1);
+            }
+    }
     
     public boolean checkCollision(Level1LargePlatform[] l)
     {

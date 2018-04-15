@@ -3,13 +3,12 @@ package com.CtrlAltPlay.characters;
 
 import com.CtrlAltPlay.levels.Vector;
 import com.CtrlAltPlay.objects.Ground;
-import com.CtrlAltPlay.objects.Level1LargePlatform;
-import com.CtrlAltPlay.objects.Level1SmallPlatform;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.CtrlAltPlay.animation.Animation;
+import com.CtrlAltPlay.sounds.Sounds;
 
 public class Chieftain {
     
@@ -56,7 +55,7 @@ public class Chieftain {
             System.out.println("Error loading Chieftain attacking animation");
         }
         
-        sprite = walkingAnim.getSubimage(0, 0, 128, 128);
+        sprite = walkingAnim.getSubimage(0, 0, 190, 190);
         
         spriteWidth = 190;
         spriteHeight = 190;
@@ -205,13 +204,13 @@ public class Chieftain {
             if(position.getX() > playerX + 70 && isAttackingL == false && isAttackingR == false)
             {
                 displacement.setX(-8);
-                walkL.runBackwards();
                 sprite = walkL.getCurrentSprite();
+                walkL.runBackwards();
             }else if(position.getX() + 115 < playerX && isAttackingL == false && isAttackingR == false)
             {
                 displacement.setX(8);
-                walkR.run();
                 sprite = walkR.getCurrentSprite();
+                walkR.run();
             }else
             {
                 if(isAttackingL == false && isAttackingR == false)
@@ -249,6 +248,11 @@ public class Chieftain {
                 {
                     showAttackBoxL = true;
                 }
+                
+                if(attackTimer == 60)
+                {
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
+                }
             }
             
         }else if(isAttackingR == true)
@@ -261,6 +265,11 @@ public class Chieftain {
                 if(attackTimer >= 60 && attackTimer <= 103)
                 {
                     showAttackBoxR = true;
+                }
+                
+                if(attackTimer == 60)
+                {
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
                 }
             }
         }

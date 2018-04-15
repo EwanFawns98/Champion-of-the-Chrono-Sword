@@ -47,7 +47,7 @@ public class Level1 extends JPanel implements ActionListener{
     
     public Level1(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
-        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, newHealth, newLives, newPlayerOrbs);
+        player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
         orbs = new Orbs[6];
         cavemen = new Caveman[22];
         chieftain = new Chieftain(17152, 716);
@@ -186,7 +186,6 @@ public class Level1 extends JPanel implements ActionListener{
         
         portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
-        
         chieftain.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
         player.draw(g2d);
@@ -296,7 +295,6 @@ public class Level1 extends JPanel implements ActionListener{
         }
         
         chieftain.doMove(player.getX());
-        
         scrollingBackground1.updateBackground(player.getX());
         hud.updateHud(player.getHealth(), player.getOrbs());
     }

@@ -4,7 +4,6 @@ package com.CtrlAltPlay.screens;
 import com.CtrlAltPlay.characters.Champion;
 import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.levels.Background;
-import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;

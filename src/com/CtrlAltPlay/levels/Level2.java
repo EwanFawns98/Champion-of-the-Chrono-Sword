@@ -12,6 +12,7 @@ import com.CtrlAltPlay.objects.Level2LargePlatform;
 import com.CtrlAltPlay.objects.Level2SmallPlatform;
 import com.CtrlAltPlay.objects.Level2Wall;
 import com.CtrlAltPlay.objects.Portal;
+import com.CtrlAltPlay.objects.Spear;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -35,6 +36,7 @@ public class Level2 extends JPanel implements ActionListener{
     private Champion player;
     private Mummy[] mummy;
     private Pharaoh pharaoh;
+    private Spear spear;
     private Background scrollingBackground1;
     private Level2LargePlatform[] largePlatforms;
     private Level2SmallPlatform[] smallPlatforms;
@@ -46,12 +48,14 @@ public class Level2 extends JPanel implements ActionListener{
     
     public Level2(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
-        player = new Champion(Game.WINDOW_WIDTH, Game.WINDOW_HEIGHT, newHealth, newLives, newPlayerOrbs);
+        player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
         orbs = new Orbs[5];
+        spear = new Spear(-100, -100, false);
+        pharaoh = new Pharaoh(17152, 716);
         mummy = new Mummy[28];
         largePlatforms = new Level2LargePlatform[3];
         smallPlatforms = new Level2SmallPlatform[19];
-        health = new HealthPickup[2];
+        health = new HealthPickup[3];
         portal = new Portal(17152, 762);
         wall = new Level2Wall[2];
         hud = new HUD(player.getHealth(), player.getOrbs(), newLives);
@@ -70,7 +74,7 @@ public class Level2 extends JPanel implements ActionListener{
         scrollingBackground1 = new Background(background, player.getX());
         
         mummy[0] = new Mummy(2220, 778, 100, false);
-        mummy[1] = new Mummy(2580, 122, 100, false);
+        mummy[1] = new Mummy(2580, 122, 150, false);
         mummy[2] = new Mummy(2680, 122, 150, true);
         mummy[3] = new Mummy(2780, 122, 100, true);
         mummy[4] = new Mummy(3360, 778, 100, false);
@@ -98,22 +102,22 @@ public class Level2 extends JPanel implements ActionListener{
         mummy[26] = new Mummy(14300, 778, 100, false);
         mummy[27] = new Mummy(15000, 778, 100, false);
         
-        orbs[0] = new Orbs(2380, 550);
-        orbs[1] = new Orbs(3954, 50);
-        orbs[2] = new Orbs(5696, 800);
-        orbs[3] = new Orbs(7170, 540);
-        orbs[4] = new Orbs(7640, 800);
+        orbs[0] = new Orbs(3840, 80);
+        orbs[1] = new Orbs(6580, 800);
+        orbs[2] = new Orbs(7910, 540);
+        orbs[3] = new Orbs(8510, 540);
+        orbs[4] = new Orbs(9110, 540);
         
         largePlatforms[0] = new Level2LargePlatform(2580, 250);
         largePlatforms[1] = new Level2LargePlatform(5360, 150);
-        largePlatforms[2] = new Level2LargePlatform(6570, 690);
+        largePlatforms[2] = new Level2LargePlatform(6570, 660);
         
         smallPlatforms[0] = new Level2SmallPlatform(3840, 150);
         smallPlatforms[1] = new Level2SmallPlatform(3940, 400);
         smallPlatforms[2] = new Level2SmallPlatform(4040, 650);
         smallPlatforms[3] = new Level2SmallPlatform(5160, 650);
         smallPlatforms[4] = new Level2SmallPlatform(5260, 400);
-        smallPlatforms[5] = new Level2SmallPlatform(6470, 790);
+        smallPlatforms[5] = new Level2SmallPlatform(6470, 760);
         smallPlatforms[6] = new Level2SmallPlatform(7890, 650);
         smallPlatforms[7] = new Level2SmallPlatform(8190, 450);
         smallPlatforms[8] = new Level2SmallPlatform(8490, 650);
@@ -121,15 +125,16 @@ public class Level2 extends JPanel implements ActionListener{
         smallPlatforms[10] = new Level2SmallPlatform(9090, 650);
         smallPlatforms[11] = new Level2SmallPlatform(9390, 450);
         smallPlatforms[12] = new Level2SmallPlatform(12480, 450);
-        smallPlatforms[13] = new Level2SmallPlatform(13040, 790);
-        smallPlatforms[14] = new Level2SmallPlatform(13140, 690);
-        smallPlatforms[15] = new Level2SmallPlatform(13240, 690);
+        smallPlatforms[13] = new Level2SmallPlatform(13040, 760);
+        smallPlatforms[14] = new Level2SmallPlatform(13140, 660);
+        smallPlatforms[15] = new Level2SmallPlatform(13240, 660);
         smallPlatforms[16] = new Level2SmallPlatform(14400, 450);
         smallPlatforms[17] = new Level2SmallPlatform(14600, 650);
         smallPlatforms[18] = new Level2SmallPlatform(200, 650);
         
-        health[0] = new HealthPickup(8850,800);
-        health[1] = new HealthPickup(11950, 140);
+        health[0] = new HealthPickup(200, 580);
+        health[1] = new HealthPickup(5560, 80);
+        health[2] = new HealthPickup(14420, 380);
         
         wall[0] = new Level2Wall(-392, 0);
         wall[1] = new Level2Wall(17280, 0);
@@ -184,7 +189,12 @@ public class Level2 extends JPanel implements ActionListener{
         
         portal.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
         
+        pharaoh.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
+        spear.draw(g2d, player.getX(), (Game.WINDOW_WIDTH/2));
+        
         player.draw(g2d);
+        
         hud.draw(g2d);
         
         g.dispose();
@@ -250,7 +260,8 @@ public class Level2 extends JPanel implements ActionListener{
         }
         
         player.checkCollsision(mummy);
-        
+        player.checkCollsision(spear);
+        player.checkCollision(pharaoh);
         for(int i = 0; i < mummy.length; i++)
         {
             if(mummy[i].checkCollision(ground) == false)
@@ -267,6 +278,11 @@ public class Level2 extends JPanel implements ActionListener{
             mummy[i].checkAttackCollision(player);
         }
         
+        if(pharaoh.checkAttackCollision(player) == true)
+        {
+            portal.setBossIsDefeated(true);
+        }
+        
         if(player.checkCollision(portal) == true)
         {
             game.cutscene3(player.getHealth(), player.getLives(), player.getOrbs());
@@ -276,10 +292,19 @@ public class Level2 extends JPanel implements ActionListener{
     private void updateMove()
     {
         player.doMove();
+        pharaoh.doMove(player.getX());
         for(int i = 0; i < mummy.length; i++)
         {
             mummy[i].doMove();
         }
+        if(pharaoh.getThrowing() == true && pharaoh.getIsAttackingR() == true)
+        {
+            spear = new Spear(pharaoh.getPosition().getX(), 780, true);
+        }else if(pharaoh.getThrowing() == true && pharaoh.getIsAttackingR() == false)
+        {
+            spear = new Spear(pharaoh.getPosition().getX(), 780, false);
+        }
+        spear.doMove();
         scrollingBackground1.updateBackground(player.getX());
         hud.updateHud(player.getHealth(), player.getOrbs());
     }
@@ -355,6 +380,14 @@ public class Level2 extends JPanel implements ActionListener{
             portal.setIsVisible(false);
         }
         
+        if(pharaoh.getPosition().getX() <= player.getX() + 960 && pharaoh.getPosition().getX() + pharaoh.getSpriteWidth() >= player.getX() - 960)
+        {
+            pharaoh.setIsVisible(true);
+        }else
+        {
+            pharaoh.setIsVisible(false);
+        }
+        
     }
     
     private class TAdapter extends KeyAdapter{
@@ -416,6 +449,7 @@ public class Level2 extends JPanel implements ActionListener{
                     break;
                     
                 case MouseEvent.BUTTON3: // ability for right mouse click
+                    player.useSwordRift();
                     player.mummySwordRift(mummy);
                     player.resetOrbs();
                     break;

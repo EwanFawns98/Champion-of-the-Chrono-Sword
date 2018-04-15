@@ -10,26 +10,39 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-public class HealthPickup {
+public class ShockWave {
     
     private Vector position;
+    private Vector displacement;
+    private BufferedImage shockWave;
     private BufferedImage sprite;
     private int spriteWidth;
     private int spriteHeight;
+    private boolean isRight;
     private boolean isCollected;
     private boolean isVisible;
     
-    public HealthPickup(int x, int y)
+    public ShockWave(int x, int y, boolean newIsRight)
     {
         position = new Vector(x, y);
+        displacement = new Vector(0, 0);
+        isRight = newIsRight;
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/shield.png"));
+            shockWave = ImageIO.read(getClass().getResource("/Images/club.png"));
         }catch(Exception ex){
-            System.out.println("Error loading orb sprite");
+            System.out.println("Error loading shockwave sprite");
+        }
+        
+        if(isRight == true){
+            sprite = shockWave.getSubimage(0, 0, 92, 90);
+        }else
+        {
+            sprite = shockWave.getSubimage(92, 0, 92, 90);
         }
         
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
+        
         
         isCollected = false;
         isVisible = true;
@@ -66,9 +79,26 @@ public class HealthPickup {
         isVisible = newIsVisible;
     }
     
+    public void doMove()
+    {
+        move();
+        position.add(displacement);
+    }
+    
+    private void move()
+    {
+        if(isRight == true)
+        {
+            displacement.setX(20);
+        }else
+        {
+            displacement.setX(-20);
+        }
+    }
+    
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        Rectangle orbRect = new Rectangle(position.getX() + 35, position.getY() + 10, spriteWidth - 70, spriteHeight - 20);
         return orbRect;
     }
     
@@ -77,6 +107,15 @@ public class HealthPickup {
         if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
+        }
+        
+    }
+    
+    public void drawForMenu(Graphics2D g2d)
+    {
+        if(isVisible == true && isCollected == false)
+        {
+            g2d.drawImage(sprite, position.getX(), position.getY(), null);
         }
         
     }

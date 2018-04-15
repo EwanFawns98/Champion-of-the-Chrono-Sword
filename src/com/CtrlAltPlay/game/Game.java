@@ -148,34 +148,40 @@ public class Game {
     
     public void cutscene2(int health, int lives, int orbs)
     {
+        level1.stopTimer();
         cutscene2 = new Cutscene2(this, health, lives, orbs);
         cutscene2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(cutscene2);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         cutscene2.requestFocus();
+        cutscene2.startTimer();
         window.setVisible(true);
     }
     
     public void cutscene3(int health, int lives, int orbs)
     {
+        level2.stopTimer();
         cutscene3 = new Cutscene3(this, health, lives, orbs);
         cutscene3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(cutscene3);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         cutscene3.requestFocus();
+        cutscene3.startTimer();
         window.setVisible(true);
     }
     
     public void cutscene4()
     {
+        level3.stopTimer();
         cutscene4 = new Cutscene4(this);
         gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(cutscene4);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         cutscene4.requestFocus();
+        cutscene4.startTimer();
         window.setVisible(true);
     }
     
@@ -206,7 +212,6 @@ public class Game {
         level2 = new Level2(this, health, lives, orbs);
         level2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level2);
-        level1.stopTimer();
         level2.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
@@ -219,7 +224,6 @@ public class Game {
         level3 = new Level3(this, health, lives, orbs);
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level3);
-        level2.stopTimer();
         level3.startTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());

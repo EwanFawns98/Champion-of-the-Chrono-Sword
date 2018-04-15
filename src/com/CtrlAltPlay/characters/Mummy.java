@@ -196,13 +196,13 @@ public class Mummy {
         if(moveRight == true)
         {
             displacement.setX(2);
-            walkR.runBackwards();
             sprite = walkR.getCurrentSprite();
+            walkR.runBackwards();
         }else
         {
             displacement.setX(-2);
-            walkL.run();
             sprite = walkL.getCurrentSprite();
+            walkL.run();
         }
         currentMoveTime += 1;
     }

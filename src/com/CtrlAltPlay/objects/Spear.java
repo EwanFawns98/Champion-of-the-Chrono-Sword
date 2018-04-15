@@ -10,26 +10,40 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-public class Level2Wall {
+public class Spear {
     
     private Vector position;
+    private Vector displacement;
+    private BufferedImage spear;
     private BufferedImage sprite;
     private int spriteWidth;
     private int spriteHeight;
+    private boolean isRight;
+    private boolean isCollected;
     private boolean isVisible;
     
-    public Level2Wall(int x, int y)
+    public Spear(int x, int y, boolean newIsRight)
     {
         position = new Vector(x, y);
+        displacement = new Vector(0, 0);
+        isRight = newIsRight;
         try{
-            sprite = ImageIO.read(getClass().getResource("/Images/wall_2.png"));
+            spear = ImageIO.read(getClass().getResource("/Images/club.png"));
         }catch(Exception ex){
-            System.out.println("Error loading orb sprite");
+            System.out.println("Error loading spear sprite");
         }
         
+        if(isRight == true){
+            sprite = spear.getSubimage(0, 0, 92, 90);
+        }else
+        {
+            sprite = spear.getSubimage(92, 0, 92, 90);
+        }
         spriteWidth = sprite.getWidth();
         spriteHeight = sprite.getHeight();
         
+        
+        isCollected = false;
         isVisible = true;
     }
     
@@ -41,6 +55,14 @@ public class Level2Wall {
     public int getSpriteHeight()
     {
         return spriteHeight;
+    }
+    
+    public boolean getIsCollected(){
+        return isCollected;
+    }
+    
+    public void setIsCollected(boolean newIsCollected){
+        isCollected = newIsCollected;
     }
     
     public Vector getPosition()
@@ -56,17 +78,43 @@ public class Level2Wall {
         isVisible = newIsVisible;
     }
     
+    public void doMove()
+    {
+        move();
+        position.add(displacement);
+    }
+    
+    private void move()
+    {
+        if(isRight == true)
+        {
+            displacement.setX(20);
+        }else
+        {
+            displacement.setX(-20);
+        }
+    }
+    
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
+        Rectangle orbRect = new Rectangle(position.getX() + 35, position.getY() + 10, spriteWidth - 70, spriteHeight - 20);
         return orbRect;
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
-        if(isVisible == true)
+        if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
+        }
+        
+    }
+    
+    public void drawForMenu(Graphics2D g2d)
+    {
+        if(isVisible == true && isCollected == false)
+        {
+            g2d.drawImage(sprite, position.getX(), position.getY(), null);
         }
         
     }
