@@ -1,7 +1,6 @@
 
 package com.CtrlAltPlay.screens;
 
-import com.CtrlAltPlay.characters.Champion;
 import com.CtrlAltPlay.game.Game;
 import com.CtrlAltPlay.sounds.Sounds;
 import java.awt.Color;
@@ -10,8 +9,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -102,7 +99,6 @@ public class Options extends JPanel implements ActionListener{
         }else{
             g2d.setColor(Color.blue);
         }
-        
         g2d.fillRect(1115, 900, 75, 75);
         
         g2d.setColor(Color.blue);

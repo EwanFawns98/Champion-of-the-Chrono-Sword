@@ -8,6 +8,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.CtrlAltPlay.animation.Animation;
+import com.CtrlAltPlay.objects.Level3Platform;
+import com.CtrlAltPlay.objects.Level3Wall;
 import com.CtrlAltPlay.sounds.Sounds;
 import java.util.Random;
 
@@ -26,6 +28,7 @@ public class ShadowKing {
     private int spriteHeight;
     private int health;
     private int attackTimer;
+    private int waitTimer;
     private int invulnerableTimer;
     private boolean isVisible;
     private boolean isAlive;
@@ -43,6 +46,7 @@ public class ShadowKing {
         displacement = new Vector(0, 0);
         health = 9;
         invulnerableTimer = 0;
+        waitTimer = 0;
         try{
             walkingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain walking.png"));
         }catch(Exception ex)
@@ -61,7 +65,7 @@ public class ShadowKing {
         
         spriteWidth = 190;
         spriteHeight = 190;
-        attackTimer = 0;
+        attackTimer = 5;
         
         isAlive = true;
         isVisible = true;
@@ -285,53 +289,52 @@ public class ShadowKing {
     private void attack()
     {
         
-        if(isAttackingL == true)
+        if(isAttackingL == true && attackTimer > 0)
         {
-            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
-            {
                 sprite = attackL.getCurrentSprite();
                 attackL.runBackwards();
+                displacement.setX(-15);
+                showAttackBoxL = true;
                 
-                if(attackTimer >= 60 && attackTimer <= 103)
-                {
-                    showAttackBoxL = true;
-                }
                 
                 if(attackTimer == 60)
                 {
                     Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
                 }
-            }
             
-        }else if(isAttackingR == true)
+            
+        }else if(isAttackingR == true && attackTimer > 0)
         {
-            if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
-            {
+            
                 sprite = attackR.getCurrentSprite();
                 attackR.run();
+                displacement.setX(15);
+                showAttackBoxR = true;
                 
-                if(attackTimer >= 60 && attackTimer <= 103)
-                {
-                    showAttackBoxR = true;
-                }
                 
                 if(attackTimer == 60)
                 {
                     Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
                 }
-            }
+            
         }
         
-        attackTimer++;
-        displacement.setX(0);
         
-        if(attackTimer == 103)
+        
+        if(attackTimer == 0)
         {
-            attackTimer = 0;
-            isAttackingL = false;
-            isAttackingR = false;
+            waitTimer++;
+            displacement.setX(0);
             showAttackBoxL = false;
             showAttackBoxR = false;
+            if(waitTimer == 200)
+            {
+                attackTimer = 5;
+                isAttackingL = false;
+                isAttackingR = false;
+            }
+            
+            
         }
     }
     
@@ -405,6 +408,27 @@ public class ShadowKing {
                 isFalling = true;
                 return false;
             }
+    }
+    
+    public void checkCollision(Level3Wall[] w)
+    {
+        for(int i = 0; i < w.length; i++)
+        {
+            if(getBounds().intersects(w[i].getBounds()))
+            {
+                if(isAttackingR == true)
+                {
+                    isAttackingR = false;
+                    isAttackingL = true;
+                    
+                }else
+                {
+                    isAttackingR = true;
+                    isAttackingL = false;
+                }
+                attackTimer -= 1;
+            }
+        }
     }
     
     public boolean checkAttackCollision(Champion c)

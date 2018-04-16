@@ -169,6 +169,7 @@ public class Level3 extends JPanel implements ActionListener{
         
         shadowKing.checkCollision(ground);
         
+        shadowKing.checkCollision(wall);
         if(shadowKing.checkAttackCollision(player) == true)
         {
             game.cutscene4();

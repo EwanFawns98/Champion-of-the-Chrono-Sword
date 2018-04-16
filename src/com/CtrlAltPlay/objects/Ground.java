@@ -8,8 +8,6 @@ package com.CtrlAltPlay.objects;
 import com.CtrlAltPlay.levels.Vector;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 public class Ground {
     
     private Vector position;
