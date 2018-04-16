@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 public class Ground {
     
     private Vector position;
-    private BufferedImage sprite;
     private int spriteWidth;
     private int spriteHeight;
     private boolean isVisible;
@@ -21,15 +20,6 @@ public class Ground {
     public Ground(int x, int y)
     {
         position = new Vector(x, y);
-        try{
-            sprite = ImageIO.read(getClass().getResource("/Images/Orb placeholder.png"));
-        }catch(Exception ex){
-            System.out.println("Error loading orb sprite");
-        }
-        
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
-        
         isVisible = true;
     }
     
