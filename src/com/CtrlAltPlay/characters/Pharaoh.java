@@ -44,14 +44,14 @@ public class Pharaoh {
         health = 7;
         invulnerableTimer = 0;
         try{
-            walkingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain walking.png"));
+            walkingAnim = ImageIO.read(getClass().getResource("/Images/Pharaoh walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Pharaoh walking animation");
         }
         
         try{
-            attackingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain attacking.png"));
+            attackingAnim = ImageIO.read(getClass().getResource("/Images/Pharaoh attacking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Pharaoh attacking animation");
@@ -78,8 +78,8 @@ public class Pharaoh {
     
     private void initAnimation()
     {
-        walkR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        walkL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
+        walkL = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
+        walkR = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
         attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
         attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
     }
@@ -246,12 +246,12 @@ public class Pharaoh {
         {
             displacement.setX(-8);
             sprite = walkL.getCurrentSprite();
-            walkL.runBackwards();
+            walkL.run();
         }else if(position.getX() + 115 < playerX && isAttackingL == false && isAttackingR == false && isThrowing == false)
         {
             displacement.setX(8);
             sprite = walkR.getCurrentSprite();
-            walkR.run();
+            walkR.runBackwards();
         }else if(isThrowing == true)
         {
             if(isAttackingL == false && isAttackingR == false)
