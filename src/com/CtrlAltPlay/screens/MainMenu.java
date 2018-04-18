@@ -112,7 +112,7 @@ public class MainMenu extends JPanel implements ActionListener{
                 case MouseEvent.BUTTON1:
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
-                        game.startLevel2(5, 3, 0);
+                        game.cutscene1();
                     }
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (400 * Game.yScaleFactor) && e.getY() <= (500 * Game.yScaleFactor))

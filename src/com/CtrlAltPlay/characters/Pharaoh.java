@@ -233,7 +233,7 @@ public class Pharaoh {
         
         if(isThrowing == false && isAttackingL == false && isAttackingR == false)
         {
-            throwDecision = rand.nextInt(200)+1;
+            throwDecision = rand.nextInt(100)+1;
             if(throwDecision == 1)
             {
                 isThrowing = true;

@@ -29,11 +29,15 @@ public class Champion {
     private Vector displacement;
     private BufferedImage spriteSheet;
     private BufferedImage walkingAnim;
+    private BufferedImage swordRiftAnim;
+    private BufferedImage attackAnim;
     private BufferedImage sprite;
     private Animation idleR;
     private Animation idleL;
     private Animation walkingR;
     private Animation walkingL;
+    private Animation swordRiftL;
+    private Animation swordRiftR;
     private int spriteWidth;
     private int spriteHeight;
     private int lives;
@@ -41,6 +45,7 @@ public class Champion {
     private int orbs;
     private int invulnerableTimer;
     private int attackTimer;
+    private int swordRiftTimer;
     private boolean isFacingR;
     private boolean isFacingL;
     private boolean isMovingR;
@@ -51,6 +56,8 @@ public class Champion {
     private boolean isJumping;
     private boolean isAttackingL;
     private boolean isAttackingR;
+    private boolean isUsingSwordRiftR;
+    private boolean isUsingSwordRiftL;
     
     public Champion(int newLevelWidth, int newLevelHeight, int newHealth, int newLives, int newOrbs)
     {
@@ -61,6 +68,7 @@ public class Champion {
         lives = newLives;
         invulnerableTimer = 0;
         attackTimer = 0;
+        swordRiftTimer = 0;
         orbs = newOrbs;
         
         isFalling = false;
@@ -73,17 +81,24 @@ public class Champion {
         hasTakenDamage = false;
         isAttackingL = false;
         isAttackingR = false;
-        
+        isUsingSwordRiftR = false;
+        isUsingSwordRiftL = false;
         try{
             spriteSheet = ImageIO.read(getClass().getResource("/Images/Champion Idle.png"));
         }catch(Exception ex){
-            System.out.println("Error loading player sprite");
+            System.out.println("Error loading idle animation");
         }
         
         try{
             walkingAnim = ImageIO.read(getClass().getResource("/Images/Champion Walking.png"));
         }catch(Exception ex){
-            System.out.println("Error loading player sprite");
+            System.out.println("Error loading walking animation");
+        }
+        
+        try{
+            swordRiftAnim = ImageIO.read(getClass().getResource("/Images/Champ_swordRift.png"));
+        }catch(Exception ex){
+            System.out.println("Error loading sword rift animation");
         }
         
         sprite = spriteSheet.getSubimage(0, 0, 128, 128);
@@ -101,6 +116,8 @@ public class Champion {
         idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight, true);
         walkingR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
         walkingL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, false);
+        swordRiftR = new Animation(10, 4, swordRiftAnim, 1, 1, spriteWidth, 190, true);
+        swordRiftL = new Animation(10, 4, swordRiftAnim, 5, 1, spriteWidth, 190, false);
     }
     
     public boolean getIsMovingR()
@@ -273,22 +290,49 @@ public class Champion {
             }
         }
         
+        if(swordRiftTimer == 0)
+        {
+            isUsingSwordRiftR = false;
+            isUsingSwordRiftL = false;
+        }
         
-        if(isMovingR == false && isMovingL == false && isFacingR == true)
+        if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingR == true)
         {
             sprite = idleR.getCurrentSprite();
             idleR.run();
-        }else if(isMovingR == false && isMovingL == false && isFacingL == true)
+        }else if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingL == true)
         {
             sprite = idleL.getCurrentSprite();
             idleL.runBackwards();
-        }else if(isMovingR == true){
+        }else if(isUsingSwordRiftR == true)
+        {
+            swordRiftTimer++;
+            sprite = swordRiftR.getCurrentSprite();
+            swordRiftR.run();
+            
+            if(swordRiftTimer == 45) 
+            {
+                swordRiftTimer = 0;
+            }
+        }else if(isUsingSwordRiftL == true){
+            swordRiftTimer++;
+            sprite = swordRiftL.getCurrentSprite();
+            swordRiftL.runBackwards();
+            
+            if(swordRiftTimer == 45) 
+            {
+                swordRiftTimer = 0;
+            }
+        }else if(isMovingR == true)
+        {
             sprite = walkingR.getCurrentSprite();
             walkingR.run();
-        }else if(isMovingL == true){
+        }else if(isMovingL == true)
+        {
             sprite = walkingL.getCurrentSprite();
             walkingL.run();
-        }else{
+        }else
+        {
             sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         }
         
@@ -336,13 +380,25 @@ public class Champion {
     public void draw(Graphics2D g2d)
     {
         // used to draw the character on screen
+        if(isUsingSwordRiftR == false && isUsingSwordRiftL == false)
+        {
         g2d.drawImage(sprite, staticX, position.getY(), null);
+        }else
+        {
+            g2d.drawImage(sprite, staticX, position.getY() - 63, null);
+        }
     }
     
     public void drawForMenu(Graphics2D g2d)
     {
         // used to draw the character on screen
+        if(isUsingSwordRiftR == false && isUsingSwordRiftL == false)
+        {
         g2d.drawImage(sprite, position.getX(), position.getY(), null);
+        }else
+        {
+            g2d.drawImage(sprite, position.getX(), position.getY() - 63, null);
+        }
     }
     
     public void attack()
@@ -1057,6 +1113,14 @@ public class Champion {
     {
         if(orbs == 5)
         {
+            if(isFacingR == true)
+            {
+                isUsingSwordRiftR = true;
+            }else if(isFacingL == true)
+            {
+                isUsingSwordRiftL = true;
+            }
+            swordRiftTimer++;
             Sounds.play(getClass().getResourceAsStream("/Sounds/swordrift.wav"), false);
         }
     }
