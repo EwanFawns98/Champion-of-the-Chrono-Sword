@@ -8,7 +8,6 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 import com.CtrlAltPlay.animation.Animation;
-import com.CtrlAltPlay.objects.Level3Platform;
 import com.CtrlAltPlay.objects.Level3Wall;
 import com.CtrlAltPlay.sounds.Sounds;
 import java.util.Random;

@@ -57,9 +57,9 @@ public class Pharaoh {
             System.out.println("Error loading Pharaoh attacking animation");
         }
         
-        sprite = walkingAnim.getSubimage(0, 0, 190, 190);
+        sprite = walkingAnim.getSubimage(0, 0, 240, 190);
         
-        spriteWidth = 190;
+        spriteWidth = 240;
         spriteHeight = 190;
         attackTimer = 0;
         
@@ -80,8 +80,8 @@ public class Pharaoh {
     {
         walkL = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
         walkR = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
-        attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
+        attackL = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
+        attackR = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
     }
     
     public boolean getIsVisible()
@@ -146,19 +146,19 @@ public class Pharaoh {
     
     public Rectangle getBounds()
     {
-        Rectangle bossRect = new Rectangle(position.getX() + 30, position.getY() + 30, spriteWidth - 100, spriteHeight - 60);
+        Rectangle bossRect = new Rectangle(position.getX() + 80, position.getY() + 30, spriteWidth - 150, spriteHeight - 60);
         return bossRect;
     }
     
     public Rectangle getLeftBounds()
     {
-        Rectangle leftBounds = new Rectangle(position.getX() , position.getY() + 30, 50, 150);
+        Rectangle leftBounds = new Rectangle(position.getX() + 50, position.getY() + 30, 50, 150);
         return leftBounds;
     }
     
     public Rectangle getRightBounds()
     {
-        Rectangle rightBounds = new Rectangle(position.getX() + 140, position.getY() + 30, 50, 150);
+        Rectangle rightBounds = new Rectangle(position.getX() + 190, position.getY() + 30, 50, 150);
         return rightBounds;
     }
     
@@ -186,7 +186,6 @@ public class Pharaoh {
     {
         if(isVisible == true && isAlive == true)
         {
-            
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }
         
@@ -242,12 +241,12 @@ public class Pharaoh {
         }
         
         
-        if(position.getX() > playerX + 70 && isAttackingL == false && isAttackingR == false && isThrowing == false)
+        if(position.getX() > playerX + 20 && isAttackingL == false && isAttackingR == false && isThrowing == false)
         {
             displacement.setX(-8);
             sprite = walkL.getCurrentSprite();
             walkL.run();
-        }else if(position.getX() + 115 < playerX && isAttackingL == false && isAttackingR == false && isThrowing == false)
+        }else if(position.getX() + 165 < playerX && isAttackingL == false && isAttackingR == false && isThrowing == false)
         {
             displacement.setX(8);
             sprite = walkR.getCurrentSprite();
@@ -278,7 +277,6 @@ public class Pharaoh {
         }else
         {
             isAttackingR = true;
-            
         }
     }
     
@@ -290,7 +288,7 @@ public class Pharaoh {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackL.getCurrentSprite();
-                attackL.runBackwards();
+                attackL.run();
                 
                 if(attackTimer >= 60 && attackTimer <= 103)
                 {
@@ -308,7 +306,7 @@ public class Pharaoh {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackR.getCurrentSprite();
-                attackR.run();
+                attackR.runBackwards();
                 
                 if(attackTimer >= 60 && attackTimer <= 103)
                 {
@@ -343,7 +341,7 @@ public class Pharaoh {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackL.getCurrentSprite();
-                attackL.runBackwards();
+                attackL.run();
                 
                 if(attackTimer == 60)
                 {
@@ -361,7 +359,7 @@ public class Pharaoh {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackR.getCurrentSprite();
-                attackR.run();
+                attackR.runBackwards();
                 
                 if(attackTimer == 60)
                 {

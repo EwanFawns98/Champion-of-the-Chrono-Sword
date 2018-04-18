@@ -28,19 +28,19 @@ public class Spear {
         displacement = new Vector(0, 0);
         isRight = newIsRight;
         try{
-            spear = ImageIO.read(getClass().getResource("/Images/club.png"));
+            spear = ImageIO.read(getClass().getResource("/Images/Spear.png"));
         }catch(Exception ex){
             System.out.println("Error loading spear sprite");
         }
         
-        if(isRight == true){
-            sprite = spear.getSubimage(0, 0, 92, 90);
+        if(isRight == false){
+            sprite = spear.getSubimage(0, 0, 145, 29);
         }else
         {
-            sprite = spear.getSubimage(92, 0, 92, 90);
+            sprite = spear.getSubimage(145, 0, 145, 29);
         }
-        spriteWidth = sprite.getWidth();
-        spriteHeight = sprite.getHeight();
+        spriteWidth = 145;
+        spriteHeight = 29;
         
         
         isCollected = false;
@@ -97,7 +97,7 @@ public class Spear {
     
     public Rectangle getBounds()
     {
-        Rectangle orbRect = new Rectangle(position.getX() + 35, position.getY() + 10, spriteWidth - 70, spriteHeight - 20);
+        Rectangle orbRect = new Rectangle(position.getX(), position.getY(), spriteWidth, spriteHeight);
         return orbRect;
     }
     

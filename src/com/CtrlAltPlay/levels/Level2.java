@@ -50,7 +50,7 @@ public class Level2 extends JPanel implements ActionListener{
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
         orbs = new Orbs[5];
-        spear = new Spear(-100, -100, false);
+        spear = new Spear(-200, -100, false);
         pharaoh = new Pharaoh(17152, 716);
         mummy = new Mummy[28];
         largePlatforms = new Level2LargePlatform[3];
@@ -299,10 +299,10 @@ public class Level2 extends JPanel implements ActionListener{
         }
         if(pharaoh.getThrowing() == true && pharaoh.getIsAttackingR() == true)
         {
-            spear = new Spear(pharaoh.getPosition().getX(), 780, true);
+            spear = new Spear(pharaoh.getPosition().getX(), 810, true);
         }else if(pharaoh.getThrowing() == true && pharaoh.getIsAttackingR() == false)
         {
-            spear = new Spear(pharaoh.getPosition().getX(), 780, false);
+            spear = new Spear(pharaoh.getPosition().getX(), 810, false);
         }
         spear.doMove();
         scrollingBackground1.updateBackground(player.getX());
