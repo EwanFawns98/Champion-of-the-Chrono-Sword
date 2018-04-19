@@ -40,7 +40,7 @@ public class Cutscene4 extends JPanel implements ActionListener{
             System.out.println("Error loading background image");
         }
         
-        text[0] = "Congradulations champion. You have defeated the shadow king and restored the timelines to";
+        text[0] = "Congratulations champion. You have defeated the shadow king and restored the timelines to";
         text[1] = "their former glory. As the champion travelled back through time, he finds the Kingdom";
         text[2] = "of Titan no longer under seige, returned to normal. The people of Titan have no recollection";
         text[3] = "of the events of the Shadow Kings return as vanquishing the Shadow King in the past had";

@@ -31,6 +31,8 @@ public class Champion {
     private BufferedImage walkingAnim;
     private BufferedImage swordRiftAnim;
     private BufferedImage attackAnim;
+    private BufferedImage attackL;
+    private BufferedImage attackR;
     private BufferedImage sprite;
     private Animation idleR;
     private Animation idleL;
@@ -101,6 +103,12 @@ public class Champion {
             System.out.println("Error loading sword rift animation");
         }
         
+        try{
+            attackAnim = ImageIO.read(getClass().getResource("/Images/Champ_attacking.png"));
+        }catch(Exception ex){
+            System.out.println("Error loading attacking animation");
+        }
+        
         sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         
         spriteWidth = 128;
@@ -118,6 +126,8 @@ public class Champion {
         walkingL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, false);
         swordRiftR = new Animation(10, 4, swordRiftAnim, 1, 1, spriteWidth, 190, true);
         swordRiftL = new Animation(10, 4, swordRiftAnim, 5, 1, spriteWidth, 190, false);
+        attackR = attackAnim.getSubimage(0, 0, 128, 128);
+        attackL = attackAnim.getSubimage(128, 0, 128, 128);
     }
     
     public boolean getIsMovingR()
@@ -279,16 +289,7 @@ public class Champion {
             }
         }
         
-        if(isAttackingL == true || isAttackingR == true)
-        {
-            attackTimer += 1;
-            if(attackTimer == 30)
-            {
-                isAttackingL = false;
-                isAttackingR = false;
-                attackTimer = 0;
-            }
-        }
+        
         
         if(swordRiftTimer == 0)
         {
@@ -296,11 +297,11 @@ public class Champion {
             isUsingSwordRiftL = false;
         }
         
-        if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingR == true)
+        if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingR == true && isAttackingL == false && isAttackingR == false)
         {
             sprite = idleR.getCurrentSprite();
             idleR.run();
-        }else if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingL == true)
+        }else if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingL == true && isAttackingL == false && isAttackingR == false)
         {
             sprite = idleL.getCurrentSprite();
             idleL.runBackwards();
@@ -323,6 +324,12 @@ public class Champion {
             {
                 swordRiftTimer = 0;
             }
+        }else if(isAttackingR == true)
+        {
+            sprite = attackR;
+        }else if(isAttackingL == true)
+        {
+            sprite = attackL;
         }else if(isMovingR == true)
         {
             sprite = walkingR.getCurrentSprite();
@@ -335,7 +342,16 @@ public class Champion {
         {
             sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         }
-        
+        if(isAttackingL == true || isAttackingR == true)
+        {
+            attackTimer += 1;
+            if(attackTimer == 30)
+            {
+                isAttackingL = false;
+                isAttackingR = false;
+                attackTimer = 0;
+            }
+        }
         
         position.add(displacement);
     }

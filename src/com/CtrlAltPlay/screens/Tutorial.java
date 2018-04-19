@@ -109,7 +109,7 @@ public class Tutorial extends JPanel implements ActionListener{
         
         
         g2d.setColor(Color.WHITE);
-        g2d.drawString("picking up objects", 90, 265);
+        g2d.drawString("Picking up objects", 90, 265);
         g2d.drawString("Attacking enemies", 90, 465);
         g2d.drawString("Taking Damage", 100, 665);
         g2d.drawString("Use sword rift on enemies", 30, 865);
