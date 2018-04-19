@@ -13,6 +13,7 @@ import com.CtrlAltPlay.screens.Death;
 import com.CtrlAltPlay.screens.GameOver;
 import com.CtrlAltPlay.screens.MainMenu;
 import com.CtrlAltPlay.screens.Options;
+import com.CtrlAltPlay.screens.Pause;
 import com.CtrlAltPlay.screens.Tutorial;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -23,8 +24,8 @@ public class Game {
     JFrame window;
     public static final int WINDOW_WIDTH = 1920;
     public static final int WINDOW_HEIGHT = 1080;
-    public static double xScaleFactor = 0.70833333; // Used for passing a value into the levels to scale them down for different resolutions
-    public static double yScaleFactor = 0.71111111; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double xScaleFactor = 0.666666666; // Used for passing a value into the levels to scale them down for different resolutions
+    public static double yScaleFactor = 0.9481481481; // Used for passing a value into the levels to scale them down for different resolutions
     public static final String TITLE = "Champion Of the Chrono Sword";
     private Level1 level1;
     private Level2 level2;
@@ -39,6 +40,7 @@ public class Game {
     private Cutscene2 cutscene2;
     private Cutscene3 cutscene3;
     private Cutscene4 cutscene4;
+    private Pause pause;
     public static boolean musicIsPlaying = false;
     public static float gain = 0;
     
@@ -79,10 +81,21 @@ public class Game {
         
     }
     
+    public void Pause(int level)
+    {
+        pause = new Pause(this, level);
+        pause.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
+        window.getContentPane().add(pause);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        pause.requestFocus();
+        window.setVisible(true);
+    }
+    
     public void options()
     {
-        window.getContentPane().add(options);
         mainMenu.stopTimer();
+        window.getContentPane().add(options);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         options.requestFocus();
@@ -225,6 +238,34 @@ public class Game {
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level3);
         level3.startTimer();
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        level3.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void resumeLevel1()
+    {
+        level1.startTimer();
+        window.getContentPane().add(level1);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        level1.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void resumeLevel2(){
+        level2.startTimer();
+        window.getContentPane().add(level2);
+        CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
+        c1.next(window.getContentPane());
+        level2.requestFocus();
+        window.setVisible(true);
+    }
+    
+    public void resumeLevel3(){
+        level3.startTimer();
+        window.getContentPane().add(level3);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
         level3.requestFocus();

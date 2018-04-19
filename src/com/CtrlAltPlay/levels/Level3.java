@@ -276,6 +276,10 @@ public class Level3 extends JPanel implements ActionListener{
                        player.stopX(); 
                     }
                     break;
+                    case KeyEvent.VK_ESCAPE:
+                        timer.stop();
+                        game.Pause(3);
+                        break;
             }
         }
     }

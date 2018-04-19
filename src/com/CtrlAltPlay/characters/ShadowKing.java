@@ -23,6 +23,8 @@ public class ShadowKing {
     private Animation walkL;
     private Animation attackL;
     private Animation attackR;
+    private Animation chargeR;
+    private Animation chargeL;
     private int spriteWidth;
     private int spriteHeight;
     private int health;
@@ -64,7 +66,7 @@ public class ShadowKing {
         
         spriteWidth = 190;
         spriteHeight = 190;
-        attackTimer = 5;
+        attackTimer = 4;
         
         isAlive = true;
         isVisible = true;
@@ -85,6 +87,9 @@ public class ShadowKing {
         walkL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
         attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
         attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
+        chargeR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
+        chargeL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
+        
     }
     
     public boolean getIsVisible()
@@ -287,11 +292,11 @@ public class ShadowKing {
     
     private void attack()
     {
-        
+        Random rand = new Random();
         if(isAttackingL == true && attackTimer > 0)
         {
-                sprite = attackL.getCurrentSprite();
-                attackL.runBackwards();
+                sprite = chargeL.getCurrentSprite();
+                chargeL.runBackwards();
                 displacement.setX(-15);
                 showAttackBoxL = true;
                 
@@ -305,8 +310,8 @@ public class ShadowKing {
         }else if(isAttackingR == true && attackTimer > 0)
         {
             
-                sprite = attackR.getCurrentSprite();
-                attackR.run();
+                sprite = chargeR.getCurrentSprite();
+                chargeR.run();
                 displacement.setX(15);
                 showAttackBoxR = true;
                 
@@ -328,9 +333,10 @@ public class ShadowKing {
             showAttackBoxR = false;
             if(waitTimer == 200)
             {
-                attackTimer = 5;
+                attackTimer = rand.nextInt(4) + 2;
                 isAttackingL = false;
                 isAttackingR = false;
+                waitTimer = 0;
             }
             
             
@@ -413,14 +419,14 @@ public class ShadowKing {
     {
         for(int i = 0; i < w.length; i++)
         {
-            if(getBounds().intersects(w[i].getBounds()))
+            if(getBounds().intersects(w[i].getBounds()) && attackTimer != 0)
             {
                 if(isAttackingR == true)
                 {
                     isAttackingR = false;
                     isAttackingL = true;
                     
-                }else
+                }else if(isAttackingL == true)
                 {
                     isAttackingR = true;
                     isAttackingL = false;

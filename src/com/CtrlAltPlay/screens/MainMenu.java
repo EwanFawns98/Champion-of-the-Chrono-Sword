@@ -54,7 +54,8 @@ public class MainMenu extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
-        Font font = new Font("Arial", Font.PLAIN, 40);
+        Font font = new Font("TRAJAN PRO", Font.PLAIN, 60);
+        Font font2 = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
@@ -66,11 +67,15 @@ public class MainMenu extends JPanel implements ActionListener{
         g2d.fillRect(0, 400, 500, 100);
         g2d.fillRect(0, 600, 500, 100);
         g2d.fillRect(0, 800, 500, 100);
+        g2d.fillRect(0, 1000, 500, 100);
         g2d.setColor(Color.WHITE);
+        g2d.drawString("Champion of the Chrono Sword", 400, 100);
+        g2d.setFont(font2);
         g2d.drawString("Start Game", 150, 265);
         g2d.drawString("Controls", 180, 465);
         g2d.drawString("Tutorial", 180, 665);
         g2d.drawString("Options", 180, 865);
+        g2d.drawString("Exit game", 180, 1065);
         g2d.scale(5, 5);
         player.draw(g2d);
         g.dispose();
@@ -129,6 +134,12 @@ public class MainMenu extends JPanel implements ActionListener{
                     {
                         game.options();
                     }
+                    
+                    if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (1000 * Game.yScaleFactor) && e.getY() <= (1100 * Game.yScaleFactor))
+                    {
+                        System.exit(0);
+                    }
+                    
                     break;
                     
             }
