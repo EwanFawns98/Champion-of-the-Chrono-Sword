@@ -536,7 +536,7 @@ public class Champion {
         }
     }
     
-    public void checkCollsision(Mummy[] m)
+    public void checkCollision(Mummy[] m)
     {
         for(int i = 0; i < m.length; i++){
             if(m[i].getBounds().intersects(getBounds()) && m[i].getIsAlive() == true)
@@ -546,7 +546,7 @@ public class Champion {
         }
     }
     
-    public void checkCollsision(Spear s)
+    public void checkCollision(Spear s)
     {
         if(s.getBounds().intersects(getBounds()) && s.getIsCollected() == false)
         {
@@ -555,7 +555,7 @@ public class Champion {
         }
     }
     
-    public void checkCollsision(ShockWave s)
+    public void checkCollision(ShockWave s)
     {
         if(s.getBounds().intersects(getBounds()) && s.getIsCollected() == false)
         {

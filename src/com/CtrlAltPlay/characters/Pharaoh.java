@@ -297,7 +297,7 @@ public class Pharaoh {
                 
                 if(attackTimer == 60)
                 {
-                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/spear-strike.wav"), false);
                 }
             }
             
@@ -315,7 +315,7 @@ public class Pharaoh {
                 
                 if(attackTimer == 60)
                 {
-                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/spear-strike.wav"), false);
                 }
             }
         }

@@ -28,12 +28,12 @@ public class ShockWave {
         displacement = new Vector(0, 0);
         isRight = newIsRight;
         try{
-            shockWave = ImageIO.read(getClass().getResource("/Images/club.png"));
+            shockWave = ImageIO.read(getClass().getResource("/Images/shockWave.png"));
         }catch(Exception ex){
             System.out.println("Error loading shockwave sprite");
         }
         
-        if(isRight == true){
+        if(isRight == false){
             sprite = shockWave.getSubimage(0, 0, 92, 90);
         }else
         {

@@ -41,7 +41,7 @@ public class Level3 extends JPanel implements ActionListener{
     public Level3(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
-        shadowKing = new ShadowKing(1720, 716);
+        shadowKing = new ShadowKing(1720, 600);
         shockWave = new ShockWave(-100, -100, false);
         smallPlatforms = new Level3Platform[5];
         health = new HealthPickup[2];
@@ -66,7 +66,7 @@ public class Level3 extends JPanel implements ActionListener{
         smallPlatforms[1] = new Level3Platform(600, 450);
         smallPlatforms[2] = new Level3Platform(900, 650);
         smallPlatforms[3] = new Level3Platform(1200, 450);
-        smallPlatforms[4] = new Level3Platform(1500, 690);
+        smallPlatforms[4] = new Level3Platform(1500, 650);
         
         health[0] = new HealthPickup(600, 380);
         health[1] = new HealthPickup(1200, 380);
@@ -166,6 +166,8 @@ public class Level3 extends JPanel implements ActionListener{
         player.checkCollision(health);
         
         player.checkCollision(shadowKing);
+        
+        player.checkCollision(shockWave);
         
         shadowKing.checkCollision(ground);
         

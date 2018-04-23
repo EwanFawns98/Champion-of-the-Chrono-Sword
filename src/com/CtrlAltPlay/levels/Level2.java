@@ -259,8 +259,8 @@ public class Level2 extends JPanel implements ActionListener{
             }
         }
         
-        player.checkCollsision(mummy);
-        player.checkCollsision(spear);
+        player.checkCollision(mummy);
+        player.checkCollision(spear);
         player.checkCollision(pharaoh);
         for(int i = 0; i < mummy.length; i++)
         {

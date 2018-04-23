@@ -18,6 +18,7 @@ public class ShadowKing {
     Vector displacement;
     private BufferedImage walkingAnim;
     private BufferedImage attackingAnim;
+    private BufferedImage chargingAnim;
     private BufferedImage sprite;
     private Animation walkR;
     private Animation walkL;
@@ -49,23 +50,30 @@ public class ShadowKing {
         invulnerableTimer = 0;
         waitTimer = 0;
         try{
-            walkingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain walking.png"));
+            walkingAnim = ImageIO.read(getClass().getResource("/Images/ShadowKing_walking.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Pharaoh walking animation");
         }
         
         try{
-            attackingAnim = ImageIO.read(getClass().getResource("/Images/Chieftain attacking.png"));
+            chargingAnim = ImageIO.read(getClass().getResource("/Images/ShadowKing_charging.png"));
+        }catch(Exception ex)
+        {
+            System.out.println("Error loading Pharaoh walking animation");
+        }
+        
+        try{
+            attackingAnim = ImageIO.read(getClass().getResource("/Images/ShadowKing_shockwave.png"));
         }catch(Exception ex)
         {
             System.out.println("Error loading Pharaoh attacking animation");
         }
         
-        sprite = walkingAnim.getSubimage(0, 0, 190, 190);
+        sprite = walkingAnim.getSubimage(0, 0, 190, 252);
         
         spriteWidth = 190;
-        spriteHeight = 190;
+        spriteHeight = 252;
         attackTimer = 4;
         
         isAlive = true;
@@ -83,12 +91,12 @@ public class ShadowKing {
     
     private void initAnimation()
     {
-        walkR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        walkL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
-        attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
-        chargeR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
-        chargeL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
+        walkR = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, false);
+        walkL = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, true);
+        attackR = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, false);
+        attackL = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, true);
+        chargeR = new Animation(2, 6, chargingAnim, 7, 1, spriteWidth, spriteHeight, false);
+        chargeL = new Animation(2, 6, chargingAnim, 1, 1, spriteWidth, spriteHeight, true);
         
     }
     
@@ -154,19 +162,19 @@ public class ShadowKing {
     
     public Rectangle getBounds()
     {
-        Rectangle bossRect = new Rectangle(position.getX() + 30, position.getY() + 30, spriteWidth - 100, spriteHeight - 60);
+        Rectangle bossRect = new Rectangle(position.getX() + 30, position.getY() + 110, 90, 130);
         return bossRect;
     }
     
     public Rectangle getLeftBounds()
     {
-        Rectangle leftBounds = new Rectangle(position.getX() , position.getY() + 30, 50, 150);
+        Rectangle leftBounds = new Rectangle(position.getX() , position.getY() + 110, 50, 150);
         return leftBounds;
     }
     
     public Rectangle getRightBounds()
     {
-        Rectangle rightBounds = new Rectangle(position.getX() + 140, position.getY() + 30, 50, 150);
+        Rectangle rightBounds = new Rectangle(position.getX() + 140, position.getY() + 110, 50, 150);
         return rightBounds;
     }
     
@@ -194,7 +202,6 @@ public class ShadowKing {
     {
         if(isVisible == true && isAlive == true)
         {
-            
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
         }
         
@@ -296,30 +303,21 @@ public class ShadowKing {
         if(isAttackingL == true && attackTimer > 0)
         {
                 sprite = chargeL.getCurrentSprite();
-                chargeL.runBackwards();
+                chargeL.run();
                 displacement.setX(-15);
                 showAttackBoxL = true;
                 
                 
-                if(attackTimer == 60)
-                {
-                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
-                }
             
             
         }else if(isAttackingR == true && attackTimer > 0)
         {
             
                 sprite = chargeR.getCurrentSprite();
-                chargeR.run();
+                chargeR.runBackwards();
                 displacement.setX(15);
                 showAttackBoxR = true;
                 
-                
-                if(attackTimer == 60)
-                {
-                    Sounds.play(getClass().getResourceAsStream("/Sounds/sword strike.wav"), false);
-                }
             
         }
         
@@ -349,7 +347,7 @@ public class ShadowKing {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackL.getCurrentSprite();
-                attackL.runBackwards();
+                attackL.run();
                 
                 if(attackTimer == 60)
                 {
@@ -367,7 +365,7 @@ public class ShadowKing {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
             {
                 sprite = attackR.getCurrentSprite();
-                attackR.run();
+                attackR.runBackwards();
                 
                 if(attackTimer == 60)
                 {
@@ -423,13 +421,15 @@ public class ShadowKing {
                 {
                     isAttackingR = false;
                     isAttackingL = true;
-                    
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/Charge attack sound.wav"), false);
                 }else if(isAttackingL == true)
                 {
                     isAttackingR = true;
                     isAttackingL = false;
+                    Sounds.play(getClass().getResourceAsStream("/Sounds/Charge attack sound.wav"), false);
                 }
                 attackTimer -= 1;
+                
             }
         }
     }
