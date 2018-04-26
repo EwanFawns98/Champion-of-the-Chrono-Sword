@@ -28,6 +28,7 @@ public class Death extends JPanel{
     private int lives;
     
     public Death(Game theGame, int newLevel, int newLives){
+        //constructer method
         game = theGame;
         level = newLevel;
         lives = newLives;
@@ -36,7 +37,7 @@ public class Death extends JPanel{
     
     private void init()
     {
-        
+        //initialised the background
         try{
             background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
@@ -51,6 +52,7 @@ public class Death extends JPanel{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw everything on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -74,6 +76,7 @@ public class Death extends JPanel{
             switch(e.getKeyCode())
             {
                 case KeyEvent.VK_SPACE:
+                    //used to determine which level you are restarting
                     switch(level)
                     {
                         case 1:
@@ -94,7 +97,7 @@ public class Death extends JPanel{
                     break;
                     
                 case KeyEvent.VK_ESCAPE:
-                    game.startMainMenu();
+                    game.startMainMenu();//used to return to the main menu
                     break;
                     
             }

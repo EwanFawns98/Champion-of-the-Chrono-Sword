@@ -28,6 +28,7 @@ public class MainMenu extends JPanel implements ActionListener{
     int backgroundScroll;
             
     public MainMenu(Game theGame){
+        //constructer method
         game = theGame;
         player = new Champion(260, 130, 5, 3, 0);
         backgroundScroll = 960;
@@ -36,7 +37,7 @@ public class MainMenu extends JPanel implements ActionListener{
     
     private void init()
     {
-        
+        //used to initialise the background
         try{
             background = ImageIO.read(getClass().getResource("/Images/background_1.png"));
         }catch(Exception ex){
@@ -54,6 +55,7 @@ public class MainMenu extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw everything on screen
         Font font = new Font("TRAJAN PRO", Font.PLAIN, 60);
         Font font2 = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
@@ -84,6 +86,7 @@ public class MainMenu extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        //runs off the swing timer every 10ms
         updateMove();
         repaint();
     }
@@ -91,17 +94,20 @@ public class MainMenu extends JPanel implements ActionListener{
     
     public void startTimer()
     {
+        //used to start the swing timer
         timer.start();
     }
     
     public void stopTimer()
     {
+        //used to stop the swing timer
         timer.stop();
     }
     
     
     private void updateMove()
     {
+        //used to update the player for animation and scroll the background
         player.doMove();
         backgroundScroll++;
         scrollingBackground1.updateBackground(backgroundScroll);
@@ -115,6 +121,7 @@ public class MainMenu extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1:
+                    //used for navigaiton between menus
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
                         game.cutscene1();
@@ -137,7 +144,7 @@ public class MainMenu extends JPanel implements ActionListener{
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (1000 * Game.yScaleFactor) && e.getY() <= (1100 * Game.yScaleFactor))
                     {
-                        System.exit(0);
+                        System.exit(0);//used to quit the game
                     }
                     
                     break;

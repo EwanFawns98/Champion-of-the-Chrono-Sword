@@ -21,6 +21,7 @@ public class Orbs {
     
     public Orbs(int x, int y)
     {
+        //constructer method
         position = new Vector(x, y);
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/orb.png"));
@@ -35,6 +36,7 @@ public class Orbs {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -74,6 +76,7 @@ public class Orbs {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -83,6 +86,7 @@ public class Orbs {
     
     public void drawForMenu(Graphics2D g2d)
     {
+        //used to draw for menus
         if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, position.getX(), position.getY(), null);

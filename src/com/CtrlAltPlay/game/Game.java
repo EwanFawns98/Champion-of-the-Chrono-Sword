@@ -42,20 +42,23 @@ public class Game {
     private Cutscene4 cutscene4;
     private Pause pause;
     public static boolean musicIsPlaying = false;
-    public static float gain = 0;
+    public static float gain = 0; // used for the level of the sound
     
     public static void main(String[] args) {
+        //main method
         Game game = new Game();
         game.startMainMenu();
     }
     
     public Game(){
+        //constructer method
         initPanel();
         initScreens();
     }
     
     
     private void initPanel(){
+        //used to initiate the JFrame
         window = new JFrame();
         window.setSize(WINDOW_WIDTH, WINDOW_WIDTH);
         window.setTitle(TITLE);
@@ -68,6 +71,7 @@ public class Game {
     
     public void initScreens()
     {
+        //used to initiate the main menus
         mainMenu = new MainMenu(this);
         mainMenu.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         options = new Options(this);
@@ -83,6 +87,7 @@ public class Game {
     
     public void Pause(int level)
     {
+        //used to create and display the pause screen for levels
         pause = new Pause(this, level);
         pause.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(pause);
@@ -94,6 +99,7 @@ public class Game {
     
     public void options()
     {
+        //used to display the options screen
         mainMenu.stopTimer();
         window.getContentPane().add(options);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -105,6 +111,7 @@ public class Game {
     
     public void tutorial()
     {
+        //used to display the tutorial screen
         window.getContentPane().add(tutorial);
         mainMenu.stopTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -116,6 +123,7 @@ public class Game {
     
     public void controls()
     {
+        //used to display the controls screen
         window.getContentPane().add(controls);
         mainMenu.stopTimer();
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -127,6 +135,7 @@ public class Game {
     
     public void startMainMenu()
     {
+        //used to display the main menu
         window.getContentPane().add(mainMenu);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
@@ -137,6 +146,7 @@ public class Game {
     
     public void deathScreen(int level, int lives)
     {
+        //used to create and display the death screen upon death
         death = new Death(this, level, lives);
         death.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(death);
@@ -148,6 +158,7 @@ public class Game {
     
     public void cutscene1()
     {
+        //used to create and run the first cutscene
         mainMenu.stopTimer();
         cutscene1 = new Cutscene1(this);
         gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -161,6 +172,7 @@ public class Game {
     
     public void cutscene2(int health, int lives, int orbs)
     {
+        //used to create and run the second cutscene
         level1.stopTimer();
         cutscene2 = new Cutscene2(this, health, lives, orbs);
         cutscene2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -174,6 +186,7 @@ public class Game {
     
     public void cutscene3(int health, int lives, int orbs)
     {
+        //used to create and run the third cutscene
         level2.stopTimer();
         cutscene3 = new Cutscene3(this, health, lives, orbs);
         cutscene3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -187,6 +200,7 @@ public class Game {
     
     public void cutscene4()
     {
+        //used to create and run the fourth cutscene
         level3.stopTimer();
         cutscene4 = new Cutscene4(this);
         gameOver.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
@@ -200,6 +214,7 @@ public class Game {
     
     public void gameOverScreen()
     {
+        //used to show the game over screen
         window.getContentPane().add(gameOver);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
         c1.next(window.getContentPane());
@@ -210,6 +225,7 @@ public class Game {
     
     public void startGame(int health, int lives, int orbs)
     {
+        //used to create and display level 1
         level1 = new Level1(this, health, lives, orbs);
         level1.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level1);
@@ -222,6 +238,7 @@ public class Game {
     
     public void startLevel2(int health, int lives, int orbs)
     {
+        //used to create and display level 2
         level2 = new Level2(this, health, lives, orbs);
         level2.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level2);
@@ -234,6 +251,7 @@ public class Game {
     
     public void startLevel3(int health, int lives, int orbs)
     {
+        //used to create and display level 3
         level3 = new Level3(this, health, lives, orbs);
         level3.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
         window.getContentPane().add(level3);
@@ -246,6 +264,7 @@ public class Game {
     
     public void resumeLevel1()
     {
+        //used resume level 1 after pausing
         level1.startTimer();
         window.getContentPane().add(level1);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -254,7 +273,9 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void resumeLevel2(){
+    public void resumeLevel2()
+    {
+        //used resume level 2 after pausing
         level2.startTimer();
         window.getContentPane().add(level2);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();
@@ -263,7 +284,9 @@ public class Game {
         window.setVisible(true);
     }
     
-    public void resumeLevel3(){
+    public void resumeLevel3()
+    {
+        //used resume level 3 after pausing
         level3.startTimer();
         window.getContentPane().add(level3);
         CardLayout c1 = (CardLayout)window.getContentPane().getLayout();

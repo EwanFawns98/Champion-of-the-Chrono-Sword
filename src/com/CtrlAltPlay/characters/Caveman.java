@@ -29,7 +29,7 @@ public class Caveman {
     private boolean isFalling;
     
     public Caveman(int newX, int newY){
-        
+        // constructer method for stationary cavemen
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         moveTime = 0;
@@ -56,7 +56,7 @@ public class Caveman {
     }
     
     public Caveman(int newX, int newY, int newMoveTime, boolean newMoveRight){
-        
+        // overloaded constructor for movement
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         moveTime = newMoveTime;
@@ -83,10 +83,12 @@ public class Caveman {
     
     private void initAnimation()
     {
+        // initialised animations
         walkR = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
         walkL = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight, true);
     }
     
+    //getters/setters
     public boolean getIsVisible()
     {
         return isVisible;
@@ -151,6 +153,7 @@ public class Caveman {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        // draws cavemen based on the position of the player
         if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -160,6 +163,7 @@ public class Caveman {
     
     public void drawForMenus(Graphics2D g2d)
     {
+        // draws cavemen on screen
         if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, position.getX(), position.getY(), null);
@@ -168,6 +172,7 @@ public class Caveman {
     }
     
     private void fall(){
+        // used when caveman is falling
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -178,6 +183,7 @@ public class Caveman {
     
     public void doMove()
     {
+        // update method, determines whether the caveman is falling and is used to update the position
         if(isVisible == true && isAlive == true)
         {
             if(isFalling == true){
@@ -196,6 +202,7 @@ public class Caveman {
     
     private void move()
     {
+        // used to move the caveman left and right. also runs animations
         if(currentMoveTime == moveTime){
             currentMoveTime = 0;
             toggleMoveRight();
@@ -215,6 +222,7 @@ public class Caveman {
         currentMoveTime += 1;
     }
 
+    // collision checks
     public boolean checkCollision(Level1LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++){

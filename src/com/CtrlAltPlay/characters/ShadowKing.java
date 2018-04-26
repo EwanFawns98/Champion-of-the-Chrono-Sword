@@ -41,9 +41,10 @@ public class ShadowKing {
     private boolean showAttackBoxR;
     private boolean isThrowing;
     private boolean throwing;
+    private final int THROW_CHANCE = 100;
     
     public ShadowKing(int newX, int newY){
-        
+        //constructer method
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         health = 9;
@@ -91,6 +92,7 @@ public class ShadowKing {
     
     private void initAnimation()
     {
+        //initialises animation
         walkR = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, false);
         walkL = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, true);
         attackR = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, false);
@@ -100,6 +102,7 @@ public class ShadowKing {
         
     }
     
+    //getters/setters
     public boolean getIsVisible()
     {
         return isVisible;
@@ -199,7 +202,7 @@ public class ShadowKing {
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
-    {
+    {// used to draw the character based on the position of the boss
         if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -208,6 +211,7 @@ public class ShadowKing {
     }
     
     public void fall(){
+        //used to make the character fall
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -218,6 +222,9 @@ public class ShadowKing {
     
     public void doMove(int playerX)
     {
+        //used to update the position of the character
+        
+        //used to determine if the character is falling
         if(isVisible == true && isAlive == true)
         {
             if(isFalling == true)
@@ -238,25 +245,27 @@ public class ShadowKing {
             {
                 invulnerableTimer = 0;
             }
+            //updates the position of the character
             position.add(displacement);
         }
     }
     
     private void move(int playerX)
     {
+        //used to move the character
         int throwDecision;
         Random rand = new Random();
-        
+        //used to determine if the boss is using shockwave attack
         if(isThrowing == false && isAttackingL == false && isAttackingR == false)
         {
-            throwDecision = rand.nextInt(200)+1;
+            throwDecision = rand.nextInt(THROW_CHANCE)+1;
             if(throwDecision == 1)
             {
                 isThrowing = true;
             }
         }
         
-        
+        //used to move the character towards the player and if they get in range or they are using shockwave attack they will stop
         if(position.getX() > playerX + 70 && isAttackingL == false && isAttackingR == false && isThrowing == false)
         {
             displacement.setX(-8);
@@ -285,7 +294,7 @@ public class ShadowKing {
     }
     
     private void checkPosition(int playerX)
-    {
+    {// used to check if the player is in front or behind the boss
         if(position.getX() + 95 > playerX + 64)
         {
             isAttackingL = true;
@@ -298,7 +307,9 @@ public class ShadowKing {
     }
     
     private void attack()
-    {
+    {//charge attack, moves the boss faster in the direction of the player
+        
+        //used to set the ammount of times the player charges off the walls
         Random rand = new Random();
         if(isAttackingL == true && attackTimer > 0)
         {
@@ -322,7 +333,7 @@ public class ShadowKing {
         }
         
         
-        
+        //used to create a delay to allow the player to attack the boss
         if(attackTimer == 0)
         {
             waitTimer++;
@@ -341,7 +352,7 @@ public class ShadowKing {
     
     private void throwSpear()
     {
-        
+        //shockwave attack
         if(isAttackingL == true)
         {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
@@ -398,6 +409,7 @@ public class ShadowKing {
         }
     }
     
+    //collisions between objects and characters
     public boolean checkCollision(Ground g)
     {
             if(getBounds().intersects(g.getBounds()))
@@ -413,6 +425,7 @@ public class ShadowKing {
     
     public void checkCollision(Level3Wall[] w)
     {
+        //used to change the direction of the charge
         for(int i = 0; i < w.length; i++)
         {
             if(getBounds().intersects(w[i].getBounds()) && attackTimer != 0)

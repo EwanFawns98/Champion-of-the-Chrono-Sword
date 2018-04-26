@@ -26,6 +26,7 @@ public class Cutscene1 extends JPanel implements ActionListener{
     Timer timer;
     
     public Cutscene1(Game theGame){
+        //constructer method
         game = theGame;
         text = new String[14];
         init();
@@ -33,7 +34,7 @@ public class Cutscene1 extends JPanel implements ActionListener{
     
     private void init()
     {
-        
+        //used to initialise the background, the text and the text typer. works with constructer
         try{
             background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
@@ -71,6 +72,7 @@ public class Cutscene1 extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw background and text on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -78,6 +80,7 @@ public class Cutscene1 extends JPanel implements ActionListener{
         g2d.setFont(font);
         g2d.drawImage(background, 0, 0, null);
         g2d.setColor(Color.WHITE);
+        //will only draw the characters on screen if the textyper has reached that point
         g2d.drawString(text[0].substring(0, textTyper.getSubStringIndex()[0]), 50, 65);
         g2d.drawString(text[1].substring(0, textTyper.getSubStringIndex()[1]), 50, 115);
         g2d.drawString(text[2].substring(0, textTyper.getSubStringIndex()[2]), 50, 165);
@@ -100,17 +103,20 @@ public class Cutscene1 extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //runs off the swing timer every 10ms
         textTyper.run();
         repaint();
     }
     
     public void startTimer()
     {
+        //used to start the swing timer
         timer.start();
     }
     
     public void stopTimer()
     {
+        //used to stop the swing timer
         timer.stop();
     }
 
@@ -122,7 +128,7 @@ public class Cutscene1 extends JPanel implements ActionListener{
         {
             switch(e.getKeyCode())
             {
-                case KeyEvent.VK_SPACE:
+                case KeyEvent.VK_SPACE://used to get to level 1
                     timer.stop();
                     game.startGame(5, 3, 0);
                     break;

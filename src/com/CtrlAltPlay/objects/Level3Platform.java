@@ -20,6 +20,7 @@ public class Level3Platform {
     
     public Level3Platform(int x, int y)
     {
+        //constructer
         position = new Vector(x, y);
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/small_platform3.png"));
@@ -33,6 +34,7 @@ public class Level3Platform {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -64,6 +66,7 @@ public class Level3Platform {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);

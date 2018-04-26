@@ -46,6 +46,7 @@ public class Pause extends JPanel{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw everything on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -75,6 +76,7 @@ public class Pause extends JPanel{
                 case MouseEvent.BUTTON1:
                     if(e.getX() <= (1200 * Game.xScaleFactor) && e.getX() >= (700 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
+                        //used to determine which level you are on and then it resumes the level
                         if(level == 1)
                         {
                             game.resumeLevel1();
@@ -89,7 +91,7 @@ public class Pause extends JPanel{
                     
                     if(e.getX() <= (1200 * Game.xScaleFactor) && e.getX() >= (700 * Game.xScaleFactor) && e.getY() >= (800 * Game.yScaleFactor) && e.getY() <= (900 * Game.yScaleFactor))
                     {
-                        game.startMainMenu();
+                        game.startMainMenu();//used to return to the main menu
                     }
                     break;
                     

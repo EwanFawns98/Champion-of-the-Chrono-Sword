@@ -63,6 +63,7 @@ public class Champion {
     
     public Champion(int newLevelWidth, int newLevelHeight, int newHealth, int newLives, int newOrbs)
     {
+        //constructor method
         position = new Vector(newLevelWidth/2, newLevelHeight/2);
         staticX = newLevelWidth/2;
         displacement = new Vector(0, 0);
@@ -120,6 +121,7 @@ public class Champion {
     
     private void initAnimations()
     {
+        // used to initialise the animations
         idleR = new Animation(30, 4, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
         idleL = new Animation(30, 4, spriteSheet, 5, 1, spriteWidth, spriteHeight, true);
         walkingR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
@@ -130,8 +132,10 @@ public class Champion {
         attackL = attackAnim.getSubimage(128, 0, 128, 128);
     }
     
+    //getters/setters
     public boolean getIsMovingR()
     {
+        
         return isMovingR;
     }
     
@@ -263,6 +267,7 @@ public class Champion {
     }
     
     public void stopX(){
+        // stops the x displacement of the player
         if(hasTakenDamage == false)
         {
             displacement.setX(0);
@@ -272,6 +277,9 @@ public class Champion {
     }
     
     public void doMove(){
+        //updates the position of the player
+        
+        //determines whether the character is falling or not
         if(isFalling == true){
             fall();
 
@@ -279,6 +287,7 @@ public class Champion {
            this.stopY();
         }
         
+        //works the invulnerable timer
         if(isInvulnerable == true)
         {
             invulnerableTimer += 1;
@@ -290,13 +299,15 @@ public class Champion {
         }
         
         
-        
+        //turns sword rift off
         if(swordRiftTimer == 0)
         {
             isUsingSwordRiftR = false;
             isUsingSwordRiftL = false;
         }
         
+        
+        //selects the animation that runs
         if(isMovingR == false && isMovingL == false && isUsingSwordRiftL == false && isUsingSwordRiftR == false && isFacingR == true && isAttackingL == false && isAttackingR == false)
         {
             sprite = idleR.getCurrentSprite();
@@ -342,6 +353,8 @@ public class Champion {
         {
             sprite = spriteSheet.getSubimage(0, 0, 128, 128);
         }
+        
+        //works the attack timer
         if(isAttackingL == true || isAttackingR == true)
         {
             attackTimer += 1;
@@ -353,11 +366,13 @@ public class Champion {
             }
         }
         
+        //updates the position
         position.add(displacement);
     }
     
     public void move(int direction)
     {
+        //works with key inputs to choose movement
         switch(direction)
         {
             case 1: // jumping
@@ -418,7 +433,7 @@ public class Champion {
     }
     
     public void attack()
-    {
+    { // code of the basic attack
         if(isAttackingL == false && isAttackingR == false)
         {
             if(isFacingL == true)
@@ -436,7 +451,7 @@ public class Champion {
     }
     
     public void jump()
-    {
+    { // method for jumping which only works if you are not falling
         if(isFalling == false)
         {
             isJumping = true;
@@ -446,7 +461,7 @@ public class Champion {
     }
     
     public void takeDamage(int damage)
-    {
+    { // method for taking damage. also knocks you back
         if(isInvulnerable == false && health != 0)
         {
             isJumping = true;
@@ -466,6 +481,7 @@ public class Champion {
     }
     
     private void fall(){
+        // method for falling down. has a terminal velocity of 7
         isJumping = false;
         displacement.addY(1);
         
@@ -475,6 +491,7 @@ public class Champion {
         }
     }
     
+    // bounding boxes
     public Rectangle getBounds()
     {
         Rectangle playerRect = new Rectangle(position.getX() + 25, position.getY() + 20, spriteWidth - 60, spriteHeight - 30);
@@ -511,6 +528,7 @@ public class Champion {
         return playerRect;
     }
     
+    //collisions for objects and characters
     public void checkCollision(Orbs[] o)
     {
         for(int i = 0; i < o.length; i++){
@@ -1126,7 +1144,7 @@ public class Champion {
     
     
     public void useSwordRift()
-    {
+    {// used for the sword rift action
         if(orbs == 5)
         {
             if(isFacingR == true)
@@ -1142,7 +1160,7 @@ public class Champion {
     }
     
     public void cavemenSwordRift(Caveman[] c)
-    {
+    {// used to kill the cavemen should you use sword rift
         for(int i = 0; i < c.length; i++)
         {
             if(c[i].getPosition().getX() <= position.getX() + 960 && c[i].getPosition().getX() + c[i].getSpriteWidth() >= position.getX() - 960)
@@ -1157,7 +1175,7 @@ public class Champion {
     }
     
     public void mummySwordRift(Mummy[] m)
-    {
+    {// used to kill the mummys should you use sword rift
         for(int i = 0; i < m.length; i++)
         {
             if(m[i].getPosition().getX() <= position.getX() + 960 && m[i].getPosition().getX() + m[i].getSpriteWidth() >= position.getX() - 960)
@@ -1172,7 +1190,7 @@ public class Champion {
     }
     
     public void resetOrbs()
-    {
+    { // used to reset the orbs
         if(orbs == 5)
         {
             orbs = 0;

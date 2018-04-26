@@ -36,9 +36,10 @@ public class Pharaoh {
     private boolean showAttackBoxR;
     private boolean isThrowing;
     private boolean throwing;
+    private final int THROW_CHANCE = 100;
     
     public Pharaoh(int newX, int newY){
-        
+        //constructer method
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         health = 7;
@@ -78,12 +79,14 @@ public class Pharaoh {
     
     private void initAnimation()
     {
+        //initialises animations
         walkL = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
         walkR = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
         attackL = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
         attackR = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
     }
     
+    //getters/setters
     public boolean getIsVisible()
     {
         return isVisible;
@@ -183,7 +186,7 @@ public class Pharaoh {
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
-    {
+    {//used to draw the character on screen based on the position of the player
         if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -192,6 +195,7 @@ public class Pharaoh {
     }
     
     public void fall(){
+        //used to make the character fall
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -202,8 +206,10 @@ public class Pharaoh {
     
     public void doMove(int playerX)
     {
+        //used to update the position of the character
         if(isVisible == true && isAlive == true)
         {
+            //used to determine if the character is falling
             if(isFalling == true)
             {
                 fall();
@@ -222,6 +228,7 @@ public class Pharaoh {
             {
                 invulnerableTimer = 0;
             }
+            //update the position
             position.add(displacement);
         }
     }
@@ -231,16 +238,17 @@ public class Pharaoh {
         int throwDecision;
         Random rand = new Random();
         
+        //random chance of the pharaoh throwing his spear
         if(isThrowing == false && isAttackingL == false && isAttackingR == false)
         {
-            throwDecision = rand.nextInt(100)+1;
+            throwDecision = rand.nextInt(THROW_CHANCE)+1;
             if(throwDecision == 1)
             {
                 isThrowing = true;
             }
         }
         
-        
+        //moves the boss towards the player and checks if they are in range or if they are throwing a weapon
         if(position.getX() > playerX + 20 && isAttackingL == false && isAttackingR == false && isThrowing == false)
         {
             displacement.setX(-8);
@@ -270,6 +278,7 @@ public class Pharaoh {
     
     private void checkPosition(int playerX)
     {
+        //checks if the player is to the left or right of the boss
         if(position.getX() + 95 > playerX + 64)
         {
             isAttackingL = true;
@@ -282,7 +291,7 @@ public class Pharaoh {
     
     private void attack()
     {
-        
+        //used for attacking the player. has a delay to allow the player to move out of range
         if(isAttackingL == true)
         {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
@@ -335,7 +344,7 @@ public class Pharaoh {
     
     private void throwSpear()
     {
-        
+        //used to throw the spear at the player
         if(isAttackingL == true)
         {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
@@ -392,6 +401,7 @@ public class Pharaoh {
         }
     }
     
+    //collision checks
     public boolean checkCollision(Ground g)
     {
             if(getBounds().intersects(g.getBounds()))

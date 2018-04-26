@@ -46,6 +46,7 @@ public class Level1 extends JPanel implements ActionListener{
     
     
     public Level1(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
+        //constructer method
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
         orbs = new Orbs[6];
@@ -62,6 +63,7 @@ public class Level1 extends JPanel implements ActionListener{
     
     private void init()
     {
+        //used with constructer to initialise background, objects and enemies
         try{
             background = ImageIO.read(getClass().getResource("/Images/background_1.png"));
         }catch(Exception ex){
@@ -122,7 +124,7 @@ public class Level1 extends JPanel implements ActionListener{
         smallPlatforms[12] = new Level1SmallPlatform(12286, 650);
         smallPlatforms[13] = new Level1SmallPlatform(12636, 650);
         smallPlatforms[14] = new Level1SmallPlatform(11936, 250);
-        smallPlatforms[15] = new Level1SmallPlatform(12286, 450);
+        smallPlatforms[15] = new Level1SmallPlatform(12286, 425);
         smallPlatforms[16] = new Level1SmallPlatform(12636, 250);
         smallPlatforms[17] = new Level1SmallPlatform(13870, 250);
         smallPlatforms[18] = new Level1SmallPlatform(14350, 250);
@@ -147,10 +149,12 @@ public class Level1 extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw things on screen
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
         g2d.scale(Game.xScaleFactor, Game.yScaleFactor);
+        //used for resolutions
         scrollingBackground1.draw(g2d);
         
         
@@ -198,6 +202,7 @@ public class Level1 extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        //runs off the swing timer every 10ms
         checkIsOnScreen();
         checkCollisions();
         updateMove();
@@ -207,16 +212,19 @@ public class Level1 extends JPanel implements ActionListener{
     
     public void startTimer()
     {
+        //used to start the swing timer
         timer.start();
     }
     
     public void stopTimer()
     {
+        //used to stop the swing timer
         timer.stop();
     }
     
     private void checkIsDead()
     {
+        //used to check if the player is dead and if they are they will be transferred to either the death or game over screen based on lives
         if(player.getHealth() == 0 && player.getLives() > 0)
         {
             timer.stop();
@@ -230,6 +238,7 @@ public class Level1 extends JPanel implements ActionListener{
     
     private void checkCollisions()
     {
+        //contains all collisions
         player.checkCollision(orbs);
         
         player.checkHeadCollision(largePlatforms);
@@ -288,6 +297,7 @@ public class Level1 extends JPanel implements ActionListener{
     
     private void updateMove()
     {
+        //updates characters, objects, background and ui
         player.doMove();
         for(int i = 0; i < cavemen.length; i++)
         {
@@ -300,7 +310,7 @@ public class Level1 extends JPanel implements ActionListener{
     }
 
     private void checkIsOnScreen() {
-        
+        //checks to see if objects and characters are in sight of the player and if they are they will be drawn. Saves on memory
         for(int i = 0; i < largePlatforms.length; i++)
         {
             if(largePlatforms[i].getPosition().getX() <= player.getX() + 960 && largePlatforms[i].getPosition().getX() + 300 >= player.getX() - 960){
@@ -427,7 +437,7 @@ public class Level1 extends JPanel implements ActionListener{
                     }
                     break;
                     
-                case KeyEvent.VK_ESCAPE:
+                case KeyEvent.VK_ESCAPE: // pause
                     timer.stop();
                     game.Pause(1);
                     break;

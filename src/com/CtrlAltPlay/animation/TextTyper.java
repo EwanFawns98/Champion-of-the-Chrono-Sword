@@ -4,7 +4,7 @@ package com.CtrlAltPlay.animation;
 
 public class TextTyper {
     
-    private int speed; // Used to set the speed of the text typing
+    private int speed; 
     private int index;
     private String[] text;
     private int[] totalChars;
@@ -13,6 +13,7 @@ public class TextTyper {
     
     public TextTyper(int newSpeed, String[] newText)
     {
+        // constructer method
         speed = newSpeed;
         text = newText;
         totalChars = new int[text.length];
@@ -43,7 +44,7 @@ public class TextTyper {
     
     private void nextLetter()
     {
-        
+        // used to move to the next letter in the text. It also goes to the next text if it runs out of characters
         subString[currentStringIndex]++;
         
         if(subString[currentStringIndex] == totalChars[currentStringIndex])
@@ -58,6 +59,7 @@ public class TextTyper {
     
     public int[] getSubStringIndex()
     {
+        // used to get the substring index for drawing
         return subString;
     }
 }

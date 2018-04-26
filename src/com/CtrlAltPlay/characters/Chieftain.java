@@ -36,7 +36,7 @@ public class Chieftain {
     
     
     public Chieftain(int newX, int newY){
-        
+        // constructer method
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         health = 5;
@@ -74,12 +74,14 @@ public class Chieftain {
     
     private void initAnimation()
     {
+        //initialises the animations
         walkR = new Animation(4, 6, walkingAnim, 1, 1, spriteWidth, spriteHeight, false);
         walkL = new Animation(4, 6, walkingAnim, 7, 1, spriteWidth, spriteHeight, true);
         attackR = new Animation(20, 4, attackingAnim, 1, 1, spriteWidth, spriteHeight, false);
         attackL = new Animation(20, 4, attackingAnim, 5, 1, spriteWidth, spriteHeight, true);
     }
     
+    //getters/setters
     public boolean getIsVisible()
     {
         return isVisible;
@@ -155,7 +157,7 @@ public class Chieftain {
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
-    {
+    { // used to draw on screen based on the position of the player
         if(isVisible == true && isAlive == true)
         {
             
@@ -165,6 +167,7 @@ public class Chieftain {
     }
     
     public void fall(){
+        //used to make the character fall
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -175,6 +178,9 @@ public class Chieftain {
     
     public void doMove(int playerX)
     {
+        //used to update the position of the character
+        
+        //used to determine if the character is falling
         if(isVisible == true && isAlive == true)
         {
             if(isFalling == true)
@@ -186,6 +192,8 @@ public class Chieftain {
             }
             
             move(playerX);
+            
+            //used to run and reset the invulnerable timer 
             if(invulnerableTimer > 0)
             {
                 invulnerableTimer++;
@@ -195,12 +203,14 @@ public class Chieftain {
             {
                 invulnerableTimer = 0;
             }
+            //updates the position
             position.add(displacement);
         }
     }
     
     private void move(int playerX)
     {
+        // used to move the boss towards the player and attack when they are in a certain range
             if(position.getX() > playerX + 70 && isAttackingL == false && isAttackingR == false)
             {
                 displacement.setX(-8);
@@ -222,7 +232,7 @@ public class Chieftain {
     }
     
     private void checkPosition(int playerX)
-    {
+    {// used to check if the player is to the left or right of the boss
         if(position.getX() + 95 > playerX + 64)
         {
             isAttackingL = true;
@@ -236,7 +246,7 @@ public class Chieftain {
     
     private void attack(int playerX)
     {
-        
+        //used to attack either left or right. there is a delay to allow the player to move out of the attack range
         if(isAttackingL == true)
         {
             if(attackTimer >= 0 && attackTimer <= 40 || attackTimer >= 60 && attackTimer <= 103)
@@ -287,6 +297,7 @@ public class Chieftain {
         }
     }
     
+    //collisions between objects and characters
     public boolean checkCollision(Ground g)
     {
             if(getBounds().intersects(g.getBounds()))

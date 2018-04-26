@@ -43,6 +43,7 @@ public class Tutorial extends JPanel implements ActionListener{
     private boolean isOnSwordRift;
             
     public Tutorial(Game theGame){
+        //constructer method
         game = theGame;
         ground = new Ground(0, 653);
         moveChamp = new Champion(1500, 1080, 5, 3, 0);
@@ -56,7 +57,7 @@ public class Tutorial extends JPanel implements ActionListener{
     
     private void init()
     {
-        
+        //initiates states and animation timers
         try{
             background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
@@ -91,6 +92,7 @@ public class Tutorial extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw things on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         Font fontSmall = new Font("Arial", Font.PLAIN, 25);
         super.paintComponent(g);
@@ -117,6 +119,7 @@ public class Tutorial extends JPanel implements ActionListener{
         
         
         g2d.setFont(fontSmall);
+        //things will be drawn based on whether their state is true
         if(isOnPickup == true)
         {
             moveChamp.drawForMenu(g2d);
@@ -153,6 +156,7 @@ public class Tutorial extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        //runs off the swing timer every 10ms
         checkCollision();
         updateMove();
         resetAnimations();
@@ -161,6 +165,7 @@ public class Tutorial extends JPanel implements ActionListener{
     
     private void checkCollision()
     {
+        //contains all collisions
         damageChamp.checkCollision(ground);
         damageChamp.checkCollsision(caveman);
         moveChamp.checkCollision(orb);
@@ -168,17 +173,20 @@ public class Tutorial extends JPanel implements ActionListener{
     
     public void startTimer()
     {
+        //used to start the swing timer
         timer.start();
     }
     
     public void stopTimer()
     {
+        //used to stop the swing timer
         timer.stop();
     }
     
     
     private void updateMove()
     {
+        //used to update the animations that are playing on screen
         if(isOnPickup == true)
         {
             moveChamp.move(3);
@@ -228,7 +236,7 @@ public class Tutorial extends JPanel implements ActionListener{
     
     private void resetAnimations()
     {
-        
+        //used to reset the animations upon the timers reaching a certain point
         if(moveTimer == 125)
         {
             orb[0].setIsCollected(false);
@@ -263,6 +271,7 @@ public class Tutorial extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e){
             switch(e.getButton()){
                 case MouseEvent.BUTTON1:
+                    //used to select which animation is playing
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (200 * Game.yScaleFactor) && e.getY() <= (300 * Game.yScaleFactor))
                     {
                         isOnPickup = true;
@@ -297,6 +306,7 @@ public class Tutorial extends JPanel implements ActionListener{
                     
                     if(e.getX() <= (500 * Game.xScaleFactor) && e.getX() >= (0 * Game.xScaleFactor) && e.getY() >= (1000 * Game.yScaleFactor) && e.getY() <= (1100 * Game.yScaleFactor))
                     {
+                        //used to go back to the main menu
                         game.startMainMenu();
                         timer.stop();
                     }

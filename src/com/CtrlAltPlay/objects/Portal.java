@@ -21,6 +21,7 @@ public class Portal {
     
     public Portal(int x, int y)
     {
+        //constructer method
         position = new Vector(x, y);
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/portal.png"));
@@ -35,6 +36,7 @@ public class Portal {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -74,6 +76,7 @@ public class Portal {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true && bossIsDefeated == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);

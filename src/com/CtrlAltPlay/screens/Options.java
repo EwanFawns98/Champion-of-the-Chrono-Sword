@@ -32,6 +32,7 @@ public class Options extends JPanel implements ActionListener{
     
     private void init()
     {
+        // works with the constructor
         sound = 5;
         onResolution = false;
         try{
@@ -44,12 +45,12 @@ public class Options extends JPanel implements ActionListener{
         setDoubleBuffered(true);
         addMouseListener(new MAdapter());
         timer = new Timer(10, this);
-        //Sounds.play(getClass().getResourceAsStream("/Sounds/music.wav"), true);
     }
     
     @Override
     public void paintComponent(Graphics g)
     {
+        // draws everything on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -148,6 +149,7 @@ public class Options extends JPanel implements ActionListener{
         public void mousePressed(MouseEvent e)
         {
             switch(e.getButton()){
+                // mouse events for buttons such as the resolution buttons and the sound
                 case MouseEvent.BUTTON1:
                     if(e.getX() <= (1250 * Game.xScaleFactor) && e.getX() >= (750 * Game.xScaleFactor) && e.getY() >= (230 * Game.yScaleFactor) && e.getY() <= (270 * Game.yScaleFactor))
                     {

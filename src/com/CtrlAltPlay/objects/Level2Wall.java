@@ -20,6 +20,7 @@ public class Level2Wall {
     
     public Level2Wall(int x, int y)
     {
+        //constructers
         position = new Vector(x, y);
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/wall_2.png"));
@@ -33,6 +34,7 @@ public class Level2Wall {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -64,6 +66,7 @@ public class Level2Wall {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);

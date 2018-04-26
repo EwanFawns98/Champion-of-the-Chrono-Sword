@@ -15,8 +15,9 @@ public class HUD {
     private BufferedImage shield;
     private BufferedImage orb;
     private BufferedImage championSprite;
+    
     public HUD(int newHealth, int newOrb, int newLives){
-        
+        //constructer method
         health = newHealth;
         orbs = newOrb;
         lives = newLives;
@@ -47,12 +48,14 @@ public class HUD {
     
     public void updateHud(int newHealth, int newOrb)
     {
+        //used to update the hud in the level
         health = newHealth;
         orbs = newOrb;
     }
     
     public void draw(Graphics2D g2d)
     {
+        //used to draw the hud elements on screen
         Font font = new Font("Ariel", Font.PLAIN, 50);
         g2d.setFont(font);
         g2d.setColor(Color.black);

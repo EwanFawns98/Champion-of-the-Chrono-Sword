@@ -21,7 +21,6 @@ public class Sounds{
         public static synchronized void play(InputStream soundResource, boolean isMusic){
             new Thread(new Runnable(){
                 
-                
                 @Override
                 public void run(){
                     try{
@@ -29,9 +28,10 @@ public class Sounds{
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundResource);
                         clip.open(ais);
                         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                        gainControl.setValue(Game.gain);
+                        gainControl.setValue(Game.gain);//used to control the volume
                         clip.start();
                         
+                        //used to loop if it is music
                         if(isMusic == true){
                             clip.loop(Clip.LOOP_CONTINUOUSLY);
                         }

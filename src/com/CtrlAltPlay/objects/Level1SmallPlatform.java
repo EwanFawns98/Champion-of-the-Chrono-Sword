@@ -20,6 +20,7 @@ public class Level1SmallPlatform {
     
     public Level1SmallPlatform(int x, int y)
     {
+        //constructer
         position = new Vector(x, y);
         try{
             sprite = ImageIO.read(getClass().getResource("/Images/small_platform1.png"));
@@ -33,6 +34,7 @@ public class Level1SmallPlatform {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -64,6 +66,7 @@ public class Level1SmallPlatform {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);

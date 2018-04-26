@@ -13,6 +13,7 @@ public class Background {
     
     public Background(BufferedImage newBackground, int newStartX)
     {
+        //constructer method
         background1 = newBackground;
         startX = newStartX;
         backgroundWidth = newBackground.getWidth();

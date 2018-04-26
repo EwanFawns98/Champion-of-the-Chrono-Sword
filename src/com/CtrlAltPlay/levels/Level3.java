@@ -39,6 +39,7 @@ public class Level3 extends JPanel implements ActionListener{
     private HUD hud;
     
     public Level3(Game theGame, int newHealth, int newLives, int newPlayerOrbs){
+        //constructor method
         game = theGame;
         player = new Champion(Game.WINDOW_WIDTH, 1500, newHealth, newLives, newPlayerOrbs);
         shadowKing = new ShadowKing(1720, 600);
@@ -52,6 +53,7 @@ public class Level3 extends JPanel implements ActionListener{
     
     private void init()
     {
+        //used with constructer to initialise background, objects and enemies
         try{
             background = ImageIO.read(getClass().getResource("/Images/background_3.png"));
         }catch(Exception ex){
@@ -84,6 +86,7 @@ public class Level3 extends JPanel implements ActionListener{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw things on screen
         super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
@@ -117,6 +120,7 @@ public class Level3 extends JPanel implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent ae) 
     {
+        //runs off the swing timer every 10ms
         checkIsOnScreen();
         checkCollisions();
         updateMove();
@@ -126,16 +130,19 @@ public class Level3 extends JPanel implements ActionListener{
     
     public void startTimer()
     {
+        // used to start the swing timer
         timer.start();
     }
     
     public void stopTimer()
     {
+        //used to stop the swing timer
         timer.stop();
     }
     
     private void checkIsDead()
     {
+        //used to check if the player is dead and if they are they will be transferred to either the death or game over screen based on lives
         if(player.getHealth() == 0 && player.getLives() > 0)
         {
             timer.stop();
@@ -149,7 +156,7 @@ public class Level3 extends JPanel implements ActionListener{
     
     private void checkCollisions()
     {
-        
+        //contains all collisions
         player.checkHeadCollision(smallPlatforms);
         player.checkRightCollision(wall);
         player.checkLeftCollision(wall);
@@ -180,6 +187,7 @@ public class Level3 extends JPanel implements ActionListener{
     
     private void updateMove()
     {
+        //updates characters, objects, background and ui
         player.doMove();
         shadowKing.doMove(player.getX());
         if(shadowKing.getThrowing() == true && shadowKing.getIsAttackingR() == true)
@@ -194,13 +202,13 @@ public class Level3 extends JPanel implements ActionListener{
         hud.updateHud(player.getHealth(), player.getOrbs());
     }
 
-    private void checkIsOnScreen() {
-        
-
-        
+    private void checkIsOnScreen() 
+    {
+        //checks to see if objects and characters are in sight of the player and if they are they will be drawn. Saves on memory
         for(int i = 0; i < smallPlatforms.length; i++)
         {
-            if(smallPlatforms[i].getPosition().getX() <= player.getX() + 960 && smallPlatforms[i].getPosition().getX() + 100 >= player.getX() - 960){
+            if(smallPlatforms[i].getPosition().getX() <= player.getX() + 960 && smallPlatforms[i].getPosition().getX() + 100 >= player.getX() - 960)
+            {
                 smallPlatforms[i].setIsVisible(true);
             }else
             {
@@ -210,7 +218,8 @@ public class Level3 extends JPanel implements ActionListener{
         
         for(int i = 0; i < health.length; i++)
         {
-            if(health[i].getPosition().getX() <= player.getX() + 960 && health[i].getPosition().getX() + 100 >= player.getX() - 960){
+            if(health[i].getPosition().getX() <= player.getX() + 960 && health[i].getPosition().getX() + 100 >= player.getX() - 960)
+            {
                 health[i].setIsVisible(true);
             }else
             {
@@ -280,7 +289,7 @@ public class Level3 extends JPanel implements ActionListener{
                     break;
                     case KeyEvent.VK_ESCAPE:
                         timer.stop();
-                        game.Pause(3);
+                        game.Pause(3); // pause
                         break;
             }
         }

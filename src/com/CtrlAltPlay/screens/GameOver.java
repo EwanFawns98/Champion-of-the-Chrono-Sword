@@ -18,13 +18,14 @@ public class GameOver extends JPanel{
     private BufferedImage background;
     
     public GameOver(Game theGame){
+        //constructer method
         game = theGame;
         init();
     }
     
     private void init()
     {
-        
+        //used to initialise the backgorund
         try{
             background = ImageIO.read(getClass().getResource("/Images/blackBackground.png"));
         }catch(Exception ex){
@@ -39,6 +40,7 @@ public class GameOver extends JPanel{
     @Override
     public void paintComponent(Graphics g)
     {
+        //used to draw everything on screen
         Font font = new Font("Arial", Font.PLAIN, 40);
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
@@ -61,7 +63,7 @@ public class GameOver extends JPanel{
             switch(e.getKeyCode())
             {
                 case KeyEvent.VK_SPACE:
-                    game.startMainMenu();
+                    game.startMainMenu();//used to return to the main menu
                     break;
                     
             }

@@ -24,6 +24,7 @@ public class Spear {
     
     public Spear(int x, int y, boolean newIsRight)
     {
+        //constructer method
         position = new Vector(x, y);
         displacement = new Vector(0, 0);
         isRight = newIsRight;
@@ -47,6 +48,7 @@ public class Spear {
         isVisible = true;
     }
     
+    //getters/setters
     public int getSpriteWidth()
     {
         return spriteWidth;
@@ -80,12 +82,14 @@ public class Spear {
     
     public void doMove()
     {
+        //used to update the position of the spear
         move();
         position.add(displacement);
     }
     
     private void move()
     {
+        //used to move the spear depending on whether it is shot right or left
         if(isRight == true)
         {
             displacement.setX(20);
@@ -103,6 +107,7 @@ public class Spear {
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
     {
+        //used to draw on screen
         if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -112,6 +117,7 @@ public class Spear {
     
     public void drawForMenu(Graphics2D g2d)
     {
+        //used to draw for menus
         if(isVisible == true && isCollected == false)
         {
             g2d.drawImage(sprite, position.getX(), position.getY(), null);

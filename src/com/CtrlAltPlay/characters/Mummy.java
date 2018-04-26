@@ -23,14 +23,14 @@ public class Mummy {
     private int spriteWidth;
     private int spriteHeight;
     private int currentMoveTime;
-    private int moveTime; // the ammount of time the enemy moves in a certain direction
-    private boolean moveRight; // determines whether the enemy is moving right or left
+    private int moveTime; 
+    private boolean moveRight; 
     private boolean isVisible;
     private boolean isAlive;
     private boolean isFalling;
     
     public Mummy(int newX, int newY){
-        
+        //constructor method for stationary enemies
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         moveTime = 0;
@@ -57,7 +57,7 @@ public class Mummy {
     }
     
     public Mummy(int newX, int newY, int newMoveTime, boolean newMoveRight){
-        
+        //overloaded constructor for moving mummys
         position = new Vector(newX, newY);
         displacement = new Vector(0, 0);
         moveTime = newMoveTime;
@@ -84,10 +84,12 @@ public class Mummy {
     
     private void initAnimation()
     {
+        //used to initialise the animations
         walkL = new Animation(6, 6, spriteSheet, 1, 1, spriteWidth, spriteHeight, false);
         walkR = new Animation(6, 6, spriteSheet, 7, 1, spriteWidth, spriteHeight, true);
     }
     
+    //getters/setters
     public boolean getIsVisible()
     {
         return isVisible;
@@ -110,6 +112,7 @@ public class Mummy {
     
     public void toggleMoveRight()
     {
+        //toggles the moveRight variable to true or false
         if(moveRight == true)
         {
             moveRight = false;
@@ -151,7 +154,7 @@ public class Mummy {
     }
     
     public void draw(Graphics2D g2d, int playerX, int screenPosition)
-    {
+    { //used to draw the mummys based on the position of the character
         if(isVisible == true && isAlive == true)
         {
             g2d.drawImage(sprite, (position.getX() - (playerX - screenPosition)), position.getY(), null);
@@ -160,6 +163,7 @@ public class Mummy {
     }
     
     private void fall(){
+        //used to make the mummy fall
         displacement.addY(1);
         
         if(displacement.getY() > 7)
@@ -170,6 +174,9 @@ public class Mummy {
     
     public void doMove()
     {
+        //used to update the position
+        
+        //used to determine if the character is falling
         if(isVisible == true && isAlive == true)
         {
             if(isFalling == true){
@@ -182,12 +189,14 @@ public class Mummy {
             {
             move();
             }
+            //updates the position of the mummy
             position.add(displacement);
         }
     }
     
     public void move()
     {
+        // used to move the mummy and toggle the moveright variable
         if(currentMoveTime == moveTime){
             currentMoveTime = 0;
             toggleMoveRight();
@@ -207,6 +216,7 @@ public class Mummy {
         currentMoveTime += 1;
     }
 
+    //collisions between character and objects
     public boolean checkCollision(Level2LargePlatform[] l)
     {
         for(int i = 0; i < l.length; i++){
